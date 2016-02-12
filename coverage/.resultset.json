@@ -1,38 +1,9 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/dsfaulkenberry/aggressive-epsilon/app/controllers/reservations_controller.rb": [
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/controllers/item_types_controller.rb": [
         1,
         1,
-        null,
-        1,
-        2,
-        null,
-        null,
-        1,
-        2,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null,
-        1,
-        null,
-        1,
-        2,
         null,
         null
       ],
@@ -41,12 +12,40 @@
         1,
         null
       ],
-      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/reservation.rb": [
-        1,
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/controllers/reservations_controller.rb": [
         1,
         1,
         null,
+        1,
         null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/app.rb": [
+        1,
+        1,
+        null,
+        1,
         null,
         null
       ],
@@ -72,26 +71,27 @@
         1,
         null
       ],
-      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/app.rb": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
       "/Users/dsfaulkenberry/aggressive-epsilon/app/models/permission.rb": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/reservation.rb": [
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null
       ]
     },
-    "timestamp": 1455308398
+    "timestamp": 1455309524
   }
 }
