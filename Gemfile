@@ -15,7 +15,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-passenger', require: false
 end
- 
+
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
