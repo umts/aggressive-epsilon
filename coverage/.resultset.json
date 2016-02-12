@@ -1,0 +1,66 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/app.rb": [
+        1,
+        1,
+        null,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/item.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/item_type.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/permission.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/models/reservation.rb": [
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/dsfaulkenberry/aggressive-epsilon/app/controllers/application_controller.rb": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1455304201
+  }
+}
