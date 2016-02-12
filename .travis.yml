@@ -1,5 +1,6 @@
 language: ruby
 rvm: 2.3.0
+env: "CODECLIMATE_REPO_TOKEN=aab14603969a0d5d34e73ee8ebd14f585cb9ec546786401de1842f3d09a63ae7"
 before_script:
   - mysql -e 'create database aggressive_epsilon_test'
   - cp config/database.yml.example config/database.yml
