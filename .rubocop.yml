@@ -7,6 +7,10 @@ AllCops:
     - 'config/**/*'
     - 'db/**/*'
     - 'vendor/**/*'
+
+# Don't tell me not to use lower precedence operators.
+Style/AndOr:
+  Enabled: false
  
 # Don't worry about documentation for now.
 # In particular, this fails for things like
