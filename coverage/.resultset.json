@@ -1,12 +1,10 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/dsfaulkenberry/aggressive-epsilon/app/helpers/application_helper.rb": [
-        1,
-        null
-      ],
       "/Users/dsfaulkenberry/aggressive-epsilon/app/models/app.rb": [
         1,
+        1,
+        null,
         1,
         null,
         null
@@ -61,6 +59,6 @@
         0
       ]
     },
-    "timestamp": 1455304225
+    "timestamp": 1455305981
   }
 }
