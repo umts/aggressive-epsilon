@@ -54,4 +54,52 @@ describe ReservationsController do
       end
     end
   end
+
+  describe 'PUT #update' do
+    let :reservation do
+      create :reservation,
+             start_datetime: 1.week.ago.to_datetime,
+             end_datetime: Time.zone.today.to_datetime
+    end
+    let(:new_start_time) { Time.zone.tomorrow.to_datetime }
+    let(:changes) { { start_time: new_start_time.iso8601 } }
+    let(:submit) { put :update, id: reservation.id, reservation: changes }
+    context 'change applied successfully' do
+      before :each do
+        expect_any_instance_of(Reservation)
+          .to receive(:update)
+          .with(start_datetime: new_start_time)
+          .and_return true
+      end
+      it 'calls update on the item with the interpolated times' do
+        submit
+      end
+      it 'has an OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+      it 'has an empty response body' do
+        submit
+        expect(response.body).to be_empty
+      end
+    end
+    context 'change not applied successfully' do
+      let(:error_messages) { ['Start time must be before end time'] }
+      before :each do
+        expect_any_instance_of(Reservation)
+          .to receive(:update)
+          .with(start_datetime: new_start_time)
+          .and_call_original
+      end
+      it 'has an unprocessable entity status' do
+        submit
+        expect(response).to have_http_status :unprocessable_entity
+      end
+      it 'responds with an object containing the reservation errors' do
+        submit
+        json = JSON.parse response.body
+        expect(json).to eql 'errors' => error_messages
+      end
+    end
+  end
 end

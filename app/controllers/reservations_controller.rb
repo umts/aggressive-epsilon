@@ -23,6 +23,12 @@ class ReservationsController < ApplicationController
   end
 
   def update
+    params.require(:reservation).permit(:start_time, :end_time)
+    if @reservation.update interpolated_changes
+      render nothing: true, status: :ok
+    else render json: { errors: @reservation.errors.full_messages },
+                status: :unprocessable_entity
+    end
   end
 
   def update_item
@@ -32,5 +38,17 @@ class ReservationsController < ApplicationController
 
   def find_reservation
     @reservation = Reservation.find params.require(:id)
+  end
+
+  def interpolated_changes
+    changes = {}
+    reservation = params[:reservation]
+    if reservation[:start_time].present?
+      changes[:start_datetime] = DateTime.iso8601 reservation[:start_time]
+    end
+    if reservation[:end_time].present?
+      changes[:end_datetime] = DateTime.iso8601 reservation[:end_time]
+    end
+    changes
   end
 end
