@@ -16,6 +16,7 @@ Lightweight Rails JSON API for dealing with item reservations.
       "items": [{"name": "Macintosh"},
                 {"name": "Granny Smith"}]}]
   ```
+
   ---
 
 + `POST /reservations`
@@ -41,6 +42,7 @@ Lightweight Rails JSON API for dealing with item reservations.
    ```
 
    If a reservation is not available, a blank response body is returned with a status of 422 (unprocessable entity).
+
    ---
 
 + `PUT /reservations/:id`
