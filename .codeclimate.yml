@@ -1,2 +1,11 @@
+engines:
+  brakeman:
+    enabled: true
+  duplication:
+    enabled: true
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
 exclude_paths:
   - coverage/**/*
