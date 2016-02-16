@@ -9,8 +9,8 @@ describe ReservationsController do
     let :submit do
       post :create,
            item_type: item_type.name,
-           start_datetime: start_datetime.iso8601,
-           end_datetime: end_datetime.iso8601
+           start_time: start_datetime.iso8601,
+           end_time: end_datetime.iso8601
     end
     context 'with available item' do
       let(:reservation) { create :reservation, item: item }

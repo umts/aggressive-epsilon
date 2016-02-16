@@ -24,8 +24,8 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    ```json
     {"item_type": "Apples",
-     "start_datetime": "2016-02-16T15:30:00-05:00",
-     "end_datetime": "2016-02-17T09:45:00-05:00"}
+     "start_time": "2016-02-16T15:30:00-05:00",
+     "end_time": "2016-02-17T09:45:00-05:00"}
    ```
 
    If a reservation with those parameters is available, an object containing the ID of the newly created reservation is returned.
