@@ -32,11 +32,11 @@ class ReservationsController < ApplicationController
   end
 
   def update_item
-    data = params.require(:data)
-    if @reservation.item.update data
+    if @reservation.item.update params.require(:data)
       render nothing: true, status: :ok
     else render json: { errors: @reservation.item.errors.full_messages },
                 status: :unprocessable_entity
+    end
   end
 
   private
