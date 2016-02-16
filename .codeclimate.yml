@@ -12,6 +12,7 @@ engines:
     enabled: true
 exclude_paths:
 - coverage/**/*
+- db/**/*
 ratings:
   paths:
   - app/**/*.rb
