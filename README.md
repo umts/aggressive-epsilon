@@ -70,7 +70,7 @@ Lightweight Rails JSON API for dealing with item reservations.
    ```
    ---
 
-+  > POST /reservations/:id/update_item
++ `POST /reservations/:id/update_item`
 
    This endpoint allows you to update any of the metadata belonging to the item reserved in a particular reservation.
    At present, this is a destructive update - the existing metadata will be replaced with the given metadata.
