@@ -9,4 +9,8 @@ class Item < ActiveRecord::Base
             presence: true
 
   validates :name, uniqueness: true
+
+  def reserve! start_datetime, end_datetime
+    # TODO
+  end
 end

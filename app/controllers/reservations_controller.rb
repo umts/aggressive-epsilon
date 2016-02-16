@@ -2,6 +2,15 @@ class ReservationsController < ApplicationController
   before_action :find_reservation, only: %i(destroy show update update_item)
 
   def create
+    item_type = ItemType.find_by name: params.require(:item_type)
+    start_datetime = DateTime.parse params.require(:start_datetime)
+    end_datetime = DateTime.parse params.require(:end_datetime)
+    item = item_type.find_available start_datetime, end_datetime
+    if item
+      reservation = item.reserve! start_datetime, end_datetime
+      render json: reservation, only: :id
+    else render nothing: true, status: :unprocessable_entity
+    end
   end
 
   def destroy
