@@ -10,7 +10,7 @@ class Item < ActiveRecord::Base
 
   validates :name, uniqueness: true
 
-  def reserve! start_datetime, end_datetime
+  def reserve!(start_datetime, end_datetime)
     # TODO
   end
 end

@@ -3,8 +3,8 @@ class ReservationsController < ApplicationController
 
   def create
     item_type = ItemType.find_by name: params.require(:item_type)
-    start_datetime = DateTime.parse params.require(:start_datetime)
-    end_datetime = DateTime.parse params.require(:end_datetime)
+    start_datetime = DateTime.iso8601 params.require(:start_datetime)
+    end_datetime = DateTime.iso8601 params.require(:end_datetime)
     item = item_type.find_available start_datetime, end_datetime
     if item
       reservation = item.reserve! start_datetime, end_datetime

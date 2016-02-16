@@ -4,7 +4,7 @@ class ItemType < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
-  def find_available start_datetime, end_datetime
+  def find_available(start_datetime, end_datetime)
     # TODO
   end
 end
