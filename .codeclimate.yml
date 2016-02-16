@@ -9,3 +9,7 @@ engines:
     enabled: true
 exclude_paths:
   - coverage/**/*
+ratings:
+  paths:
+  - app/**/*.rb
+  - spec/**/*.rb
