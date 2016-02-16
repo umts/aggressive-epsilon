@@ -16,7 +16,7 @@ Lightweight Rails JSON API for dealing with item reservations.
                 {"name": "Granny Smith"}]}]
   ```
 
-+ 'POST /reservations'
++ `POST /reservations`
 
    This endpoint accepts the name of an item type, an ISO 8601 start time, and an ISO 8601 end time.
 
