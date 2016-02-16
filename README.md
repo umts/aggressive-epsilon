@@ -81,7 +81,7 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    ```json
    POST /reservations/100/update_item
-   {"data": {"mileage": 65536}}
+   {"data": {"color": "orange"}}
    ```
 
    If the change has been successfully applied, a blank response body is returned with a status of 200.
