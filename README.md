@@ -69,3 +69,28 @@ Lightweight Rails JSON API for dealing with item reservations.
    {"errors": ["Start time must be before end time"]}
    ```
    ---
+
++  > POST /reservations/:id/update_item
+
+   This endpoint allows you to update any of the metadata belonging to the item reserved in a particular reservation.
+   At present, this is a destructive update - the existing metadata will be replaced with the given metadata.
+
+   The metadata should be in a `data` parameter.
+
+   Example request:
+
+   ```json
+   POST /reservations/100/update_item
+   {"data": {"mileage": 65536}}
+   ```
+
+   If the change has been successfully applied, a blank response body is returned with a status of 200.
+   If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
+
+   Example failure response:
+
+   ```json
+   {"errors": ["Apples can't be orange"]}
+   ```
+
+   ---
