@@ -17,6 +17,5 @@
 /tmp
 
 # Ignore all of coverage, except .last_run.json.
-/coverage/index.html
-/coverage/assets/*
-/coverage/.resultset.*
+/coverage/
+!/coverage/.last_run.json
