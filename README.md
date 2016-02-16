@@ -37,4 +37,4 @@ Lightweight Rails JSON API for dealing with item reservations.
      {"id": 100}
    ```
 
-   If a reservation is not available, a blank response body is returned with a status of 522 (unprocessable entity).
+   If a reservation is not available, a blank response body is returned with a status of 422 (unprocessable entity).
