@@ -15,3 +15,8 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore all of coverage, except .last_run.json.
+coverage/index.html
+coverage/assets/*
+coverage/.resultset.*
