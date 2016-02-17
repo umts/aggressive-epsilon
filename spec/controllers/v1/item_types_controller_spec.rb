@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe V1::ItemTypesController do
   describe 'GET #index' do
+    before(:each) { authenticate! }
     let(:submit) { get :index }
     it 'renders all item types' do
       apples = create :item_type, name: 'Apples', allowed_keys: [:flavor]

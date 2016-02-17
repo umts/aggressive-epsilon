@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe V1::ReservationsController do
+  before(:each) { authenticate! }
   describe 'POST #create' do
     let(:item_type) { create :item_type }
     let(:item) { create :item, item_type: item_type }

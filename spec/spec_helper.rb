@@ -22,7 +22,7 @@ RSpec.configure do |config|
   end
 end
 
-def authenticate!(service: (create :service))
+def authenticate!(service: create(:service))
   request.headers['Authorization'] = "Token token=#{service.api_key}"
 end
 
