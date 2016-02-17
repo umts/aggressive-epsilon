@@ -16,6 +16,7 @@ Lightweight Rails JSON API for dealing with item reservations.
   ```json
   GET /item_types
     [{"name": "Apples",
+      "allowed_keys": ["flavor"],
       "items": [{"name": "Macintosh"},
                 {"name": "Granny Smith"}]}]
   ```
