@@ -52,7 +52,8 @@ Lightweight Rails JSON API for dealing with item reservations.
    {"id": 100,
     "start_time": "2016-02-16T15:30:00-05:00",
     "end_time": "2016-02-17T09:45:00-05:00",
-    "item_type": "Apples"}
+    "item_type": "Apples",
+    "item": "Granny Smith"}
    ```
 
    If a reservation is not available, a blank response body is returned with a status of 422 (unprocessable entity).
@@ -86,14 +87,15 @@ Lightweight Rails JSON API for dealing with item reservations.
 
 + `GET /reservations/:id`
  
-  This endpoint allows you to doublecheck the start and end times of any reservation which you have created.
+  This endpoint allows you to doublecheck the attributes of any reservation which you have created.
 
   Example response:
   ```json
   {"id": 100,
    "start_time": "2016-02-16T15:30:00-05:00",
    "end_time": "2016-02-17T09:45:00-05:00",
-   "item_type": "Apples"}
+   "item_type": "Apples",
+   "item": "Granny Smith"}
   ```
 
   If the requested reservation could not be found, a blank response body is returned with a 404 status.

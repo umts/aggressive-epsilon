@@ -16,7 +16,8 @@ class Reservation < ActiveRecord::Base
     { id: id,
       start_time: start_datetime.iso8601,
       end_time: end_datetime.iso8601,
-      item_type: item_type.name }.to_json
+      item_type: item_type.name,
+      item: item.name }.to_json
   end
 
   private
