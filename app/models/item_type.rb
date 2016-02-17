@@ -1,5 +1,6 @@
 class ItemType < ActiveRecord::Base
   has_many :items
+  has_many :reservations, through: :items
   has_many :permissions
 
   serialize :allowed_keys, Array

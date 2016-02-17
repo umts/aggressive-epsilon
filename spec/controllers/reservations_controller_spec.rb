@@ -92,6 +92,12 @@ describe ReservationsController do
         expect(json['start_time']).to eql reservation.start_datetime.iso8601
         expect(json['end_time']).to eql reservation.end_datetime.iso8601
       end
+      it 'includes the item type name' do
+        submit
+        json = JSON.parse response.body
+        expect(json.keys).to include 'item_type'
+        expect(json['item_type']).to eql reservation.item_type.name
+      end
     end
     context 'reservation not found' do
       let(:submit) { get :show, id: 0 }

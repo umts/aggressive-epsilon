@@ -1,5 +1,6 @@
 class Reservation < ActiveRecord::Base
   belongs_to :item
+  delegate :item_type, to: :item
   validates :item,
             :start_datetime,
             :end_datetime,
