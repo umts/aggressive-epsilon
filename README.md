@@ -78,7 +78,7 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    This endpoint allows you to update any of the metadata belonging to the item reserved in a particular reservation.
    At present, this is a destructive update - the existing metadata will be replaced with the given metadata.
-   Items only have certain keys which you're allowed to edit.
+   You can only specify metadata attributes which are in the `allowed_keys` of the item's type.
 
    The metadata should be in a `data` parameter.
 
