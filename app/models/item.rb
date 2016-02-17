@@ -3,11 +3,9 @@ class Item < ActiveRecord::Base
   has_many :reservations
 
   serialize :data, Hash
-  serialize :allowed_keys, Array
 
   validates :item_type,
             :name,
-            :allowed_keys,
             presence: true
 
   validates :name, uniqueness: true
@@ -20,7 +18,7 @@ class Item < ActiveRecord::Base
   private
 
   def data_allowed_keys
-    disallowed_keys = data.keys - allowed_keys
+    disallowed_keys = data.keys - item_type.allowed_keys
     if disallowed_keys.present?
       errors.add :base,
                  "Disallowed #{'key'.pluralize disallowed_keys.count}: " +

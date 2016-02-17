@@ -104,7 +104,8 @@ describe ReservationsController do
   end
 
   describe 'POST #update_item' do
-    let(:item) { create :item, allowed_keys: [:mileage] }
+    let(:item_type) { create :item_type, allowed_keys: [:mileage] }
+    let(:item) { create :item, item_type: item_type }
     let(:reservation) { create :reservation, item: item }
     let(:changes) { { color: 'orange' } }
     let(:submit) { post :update_item, id: reservation.id, data: changes }
