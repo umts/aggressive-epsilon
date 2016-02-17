@@ -2,14 +2,12 @@ require 'rails_helper'
 
 describe Item do
   describe 'available_between' do
-    let(:start_datetime) { Date.yesterday.to_datetime }
-    let(:end_datetime) { Date.tomorrow.to_datetime }
-    let(:call) { Item.available_between start_datetime, end_datetime }
+    let(:call) { Item.available_between default_start_time, default_end_time }
     let!(:item) { create :item }
     it 'calls Reservation.during' do
       expect(Reservation)
         .to receive(:during)
-        .with(start_datetime, end_datetime)
+        .with(default_start_time, default_end_time)
         .and_return Reservation.none
       call
     end
@@ -19,10 +17,8 @@ describe Item do
   end
 
   describe 'reserve!' do
-    let(:start_datetime) { Date.yesterday.to_datetime }
-    let(:end_datetime) { Date.tomorrow.to_datetime }
     let(:item) { create :item }
-    let(:call) { item.reserve! start_datetime, end_datetime }
+    let(:call) { item.reserve! default_start_time, default_end_time }
     it 'creates a reservation for the item' do
       expect { call }.to change { Reservation.count }.by 1
       reservation = Reservation.last

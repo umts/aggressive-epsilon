@@ -4,24 +4,22 @@ describe V1::ReservationsController do
   describe 'POST #create' do
     let(:item_type) { create :item_type }
     let(:item) { create :item, item_type: item_type }
-    let(:start_datetime) { Date.yesterday.to_datetime }
-    let(:end_datetime) { Date.tomorrow.to_datetime }
     let :submit do
       post :create,
            item_type: item_type.name,
-           start_time: start_datetime.iso8601,
-           end_time: end_datetime.iso8601
+           start_time: default_start_time.iso8601,
+           end_time: default_end_time.iso8601
     end
     context 'with available item' do
       let(:reservation) { create :reservation, item: item }
       before :each do
         expect_any_instance_of(ItemType)
           .to receive(:find_available)
-          .with(start_datetime, end_datetime)
+          .with(default_start_time, default_end_time)
           .and_return item
         expect_any_instance_of(Item)
           .to receive(:reserve!)
-          .with(start_datetime, end_datetime)
+          .with(default_start_time, default_end_time)
           .and_return reservation
       end
       it 'calls #reserve! on the item' do
@@ -41,7 +39,7 @@ describe V1::ReservationsController do
       before :each do
         expect_any_instance_of(ItemType)
           .to receive(:find_available)
-          .with(start_datetime, end_datetime)
+          .with(default_start_time, default_end_time)
           .and_return nil
       end
       it 'has an unprocessable entity status' do
@@ -109,21 +107,15 @@ describe V1::ReservationsController do
   end
 
   describe 'GET #index' do
-    let(:start_datetime) { Date.yesterday.to_datetime }
-    let(:end_datetime) { Date.tomorrow.to_datetime }
     let :submit do
       get :index, item_type: item_type.name,
-                  start_time: start_datetime.iso8601,
-                  end_time: end_datetime.iso8601
+                  start_time: default_start_time.iso8601,
+                  end_time: default_end_time.iso8601
     end
     context 'item type found' do
       let(:item_type) { create :item_type }
       let(:item) { create :item, item_type: item_type }
-      let! :reservation do
-        create :reservation, item: item,
-                             start_datetime: 2.days.ago.to_datetime,
-                             end_datetime: 2.days.since.to_datetime
-      end
+      let!(:reservation) { create :reservation, item: item }
       it 'includes the ISO 8601 start and end times of the reservation' do
         submit
         json = JSON.parse response.body

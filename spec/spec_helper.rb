@@ -21,3 +21,11 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 end
+
+def default_start_time
+  Date.yesterday.to_datetime
+end
+
+def default_end_time
+  Date.tomorrow.to_datetime
+end
