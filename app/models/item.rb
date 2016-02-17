@@ -12,9 +12,13 @@ class Item < ActiveRecord::Base
   validate :data_allowed_keys
 
   scope :available_between, lambda { |start_datetime, end_datetime|
+    where.not id: reserved_during(start_datetime, end_datetime).pluck(:id)
+  }
+
+  scope :reserved_during, lambda { |start_datetime, end_datetime|
     reserved_ids = Reservation.during(start_datetime, end_datetime)
                    .pluck :item_id
-    where.not id: reserved_ids
+    where id: reserved_ids
   }
 
   def reserve!(start_datetime, end_datetime)

@@ -108,6 +108,39 @@ describe ReservationsController do
     end
   end
 
+  describe 'GET #index' do
+    let(:start_datetime) { Date.yesterday.to_datetime }
+    let(:end_datetime) { Date.tomorrow.to_datetime }
+    let :submit do
+      get :index, item_type: item_type.name,
+                  start_time: start_datetime.iso8601,
+                  end_time: end_datetime.iso8601
+    end
+    context 'item type found' do
+      let(:item_type) { create :item_type }
+      let(:item) { create :item, item_type: item_type }
+      let! :reservation do
+        create :reservation, item: item,
+                             start_datetime: 2.days.ago.to_datetime,
+                             end_datetime: 2.days.since.to_datetime
+      end
+      it 'includes the ISO 8601 start and end times of the reservation' do
+        submit
+        json = JSON.parse response.body
+        expect(json).to include
+        { 'start_time' => reservation.start_datetime.iso8601,
+          'end_time' => reservation.end_datetime.iso8601 }
+      end
+    end
+    context 'item type not found' do
+      let(:item_type) { double name: 'Apples' }
+      it 'has a not found status' do
+        submit
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
   describe 'PUT #update' do
     let :reservation do
       create :reservation,
