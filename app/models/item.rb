@@ -22,7 +22,7 @@ class Item < ActiveRecord::Base
   def data_allowed
     disallowed_keys = data.keys - allowed_keys
     if disallowed_keys.present?
-      errors.add :base, "Disallowed keys #{disallowed_keys}"
+      errors.add :base, "Disallowed #{'key'.pluralize disallowed_keys.count}: #{disallowed_keys.join(', ')}"
     end
   end
 end

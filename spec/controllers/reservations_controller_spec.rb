@@ -71,7 +71,7 @@ describe ReservationsController do
           .with(start_datetime: new_start_time)
           .and_return true
       end
-      it 'calls update on the item with the interpolated times' do
+      it 'calls #update on the reservation with the interpolated times' do
         submit
       end
       it 'has an OK status' do
@@ -91,6 +91,44 @@ describe ReservationsController do
           .with(start_datetime: new_start_time)
           .and_call_original
       end
+      it 'has an unprocessable entity status' do
+        submit
+        expect(response).to have_http_status :unprocessable_entity
+      end
+      it 'responds with an object containing the reservation errors' do
+        submit
+        json = JSON.parse response.body
+        expect(json).to eql 'errors' => error_messages
+      end
+    end
+  end
+
+  describe 'POST #update_item' do
+    let(:item) { create :item, allowed_keys: [:mileage] }
+    let(:reservation) { create :reservation, item: item }
+    let(:changes) { { color: 'orange' } }
+    let(:submit) { post :update_item, id: reservation.id, data: changes }
+    context 'change applied successfully' do
+      before :each do
+        expect_any_instance_of(Item)
+          .to receive(:update)
+          .with(data: changes.stringify_keys)
+          .and_return true
+      end
+      it 'calls #update on the item with the changes' do
+        submit
+      end
+      it 'has an OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+      it 'has an empty response body' do
+        submit
+        expect(response.body).to be_empty
+      end
+    end
+    context 'change not applied successfully' do
+      let(:error_messages) { [ 'Disallowed key: color' ] }
       it 'has an unprocessable entity status' do
         submit
         expect(response).to have_http_status :unprocessable_entity
