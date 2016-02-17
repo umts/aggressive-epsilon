@@ -12,7 +12,7 @@ class Reservation < ActiveRecord::Base
           end_datetime, start_datetime
   }
 
-  def to_json(**options)
+  def to_json(_)
     { id: id,
       start_time: start_datetime.iso8601,
       end_time: end_datetime.iso8601,
