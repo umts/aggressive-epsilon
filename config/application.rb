@@ -4,6 +4,7 @@ Bundler.require(*Rails.groups)
 
 module AggressiveEpsilon
   class Application < Rails::Application
+    config.api_only = true
     config.encoding = 'utf-8'
     config.time_zone = 'Eastern Time (US & Canada)'
     config.autoload_paths << Rails.root.join('lib')
