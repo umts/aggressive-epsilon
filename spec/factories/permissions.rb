@@ -3,6 +3,6 @@ FactoryGirl.define do
     read false
     write false
     item_type
-    app
+    service
   end
 end

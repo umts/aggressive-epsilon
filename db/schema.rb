@@ -11,15 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217023913) do
-
-  create_table "apps", force: :cascade do |t|
-    t.string   "api_key",    limit: 255
-    t.string   "name",       limit: 255
-    t.string   "url",        limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
+ActiveRecord::Schema.define(version: 20160217152722) do
 
   create_table "item_types", force: :cascade do |t|
     t.string   "name",         limit: 255
@@ -40,7 +32,7 @@ ActiveRecord::Schema.define(version: 20160217023913) do
     t.boolean  "read",                   default: false
     t.boolean  "write",                  default: false
     t.integer  "item_type_id", limit: 4
-    t.integer  "app_id",       limit: 4
+    t.integer  "service_id",       limit: 4
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
   end
@@ -51,6 +43,14 @@ ActiveRecord::Schema.define(version: 20160217023913) do
     t.integer  "item_id",        limit: 4
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string   "api_key",    limit: 255
+    t.string   "name",       limit: 255
+    t.string   "url",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
 end

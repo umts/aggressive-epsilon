@@ -1,4 +1,4 @@
-class App < ActiveRecord::Base
+class Service < ActiveRecord::Base
   has_many :permissions
 
   validates :api_key, :name, :url,
