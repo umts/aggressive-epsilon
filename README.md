@@ -6,7 +6,10 @@ Lightweight Rails JSON API for dealing with item reservations.
 
 + `GET /item_types`
 
-  This endpoint returns a collection of types of items which can be reserved. Each item type object has a name, as well as a list of item objects. Each item object has a name.
+  This endpoint returns a collection of types of items which can be reserved.
+  Each item type object has a name, as well as a list of item objects and their names.
+  Each item type object also has an `allowed_keys` field, which lists the keys
+  which the items' metadata may contain. See `update_item` for details.
 
   Example response:
 
