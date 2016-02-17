@@ -18,10 +18,9 @@ Lightweight Rails JSON API for dealing with item reservations.
   Each item type object also has an `allowed_keys` field, which lists the keys
   which the items' metadata may contain. See `update_item` for details.
 
-  Example response:
+  A **response** will look like:
 
   ```json
-  GET /item_types
     [{"name": "Apples",
       "allowed_keys": ["flavor"],
       "items": [{"name": "Macintosh"},
@@ -34,7 +33,7 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    This endpoint accepts the name of an item type, an ISO 8601 start time, and an ISO 8601 end time.
 
-   Example request:
+   For instance, your **request** might look like:
 
    ```json
    POST /reservations
@@ -46,7 +45,7 @@ Lightweight Rails JSON API for dealing with item reservations.
    If a reservation with those parameters is available, an object containing the ID of the newly created reservation is returned.
    This ID will be necessary for referencing the reservation later.
 
-   Example success response:
+   A **success response** will look like:
 
    ```json
    {"id": 100}
@@ -64,7 +63,7 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    The start or end times should be in a `reservation` parameter, and should be in ISO 8601 format.
 
-   Example request:
+   For instance, your **request** might look like:
 
    ```json
    PUT /reservations/100
@@ -74,7 +73,7 @@ Lightweight Rails JSON API for dealing with item reservations.
    If the change has been successfully applied, a blank response body is returned with a status of 200.
    If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
 
-   Example failure response:
+   A **failure response** will look like:
 
    ```json
    {"errors": ["Start time must be before end time"]}
@@ -85,7 +84,7 @@ Lightweight Rails JSON API for dealing with item reservations.
  
   This endpoint allows you to doublecheck the start and end times of any reservation which you have created.
 
-  Example response:
+  A **response** will look like:
   ```json
   GET /reservations/100
   {"start_time": "2016-02-17T12:00:00-05:00", "end_time": "2016-12-17T17:00:00-05:00"}
@@ -111,7 +110,7 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    The metadata should be in a `data` parameter.
 
-   Example request:
+   For instance, your **request** might look like:
 
    ```json
    POST /reservations/100/update_item
@@ -121,7 +120,7 @@ Lightweight Rails JSON API for dealing with item reservations.
    If the change has been successfully applied, a blank response body is returned with a status of 200.
    If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
 
-   Example failure response:
+   A **failure response** will look like:
 
    ```json
    {"errors": ["Disallowed key: color"]}
@@ -136,7 +135,7 @@ Lightweight Rails JSON API for dealing with item reservations.
    Each reservation will list the start and end times in ISO 8601 format.
    If the requsted item type does not exist, the endpoint will return a blank response body and a 404.
 
-   Example request:
+   For instance, your **request** might look like:
    
    ```json
    GET /reservations
@@ -145,7 +144,7 @@ Lightweight Rails JSON API for dealing with item reservations.
     "item_type": "Apples"}
    ```
 
-   Example response:
+   A **response** will look like:
 
    ```json
    [{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
