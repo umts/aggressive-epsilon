@@ -22,6 +22,8 @@ class ReservationsController < ApplicationController
   end
 
   def show
+    render json: { start_time: @reservation.start_datetime.iso8601,
+                   end_time: @reservation.end_datetime.iso8601 }
   end
 
   def update

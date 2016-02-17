@@ -74,6 +74,20 @@ Lightweight Rails JSON API for dealing with item reservations.
    ```
    ---
 
++ `GET /reservations/:id`
+ 
+  This endpoint allows you to doublecheck the start and end times of any reservation which you have created.
+
+  Example response:
+  ```json
+  GET /reservations/100
+  {"start_time": "2016-02-17T12:00:00-05:00", "end_time": "2016-12-17T17:00:00-05:00"}
+  ```
+
+  If the requested reservation could not be found, a blank response body is returned with a 404 status.
+
+  ---
+
 + `DELETE /reservations/:id`
 
   This endpoint allowed you to delete any reservation which you have created.

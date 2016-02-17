@@ -77,6 +77,31 @@ describe ReservationsController do
     end
   end
 
+  describe 'GET #show' do
+    context 'reservation found' do
+      let(:reservation) { create :reservation }
+      let(:submit) { get :show, id: reservation.id }
+      it 'has an OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+      it 'includes the ISO 8601 start and end times' do
+        submit
+        json = JSON.parse response.body
+        expect(json.keys).to include 'start_time', 'end_time'
+        expect(json['start_time']).to eql reservation.start_datetime.iso8601
+        expect(json['end_time']).to eql reservation.end_datetime.iso8601
+      end
+    end
+    context 'reservation not found' do
+      let(:submit) { get :show, id: 0 }
+      it 'has a not found status' do
+        submit
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
   describe 'PUT #update' do
     let :reservation do
       create :reservation,
