@@ -128,7 +128,7 @@ describe ReservationsController do
       end
     end
     context 'change not applied successfully' do
-      let(:error_messages) { [ 'Disallowed key: color' ] }
+      let(:error_messages) { ['Disallowed key: color'] }
       it 'has an unprocessable entity status' do
         submit
         expect(response).to have_http_status :unprocessable_entity

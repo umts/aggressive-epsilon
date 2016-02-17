@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
             presence: true
 
   validates :name, uniqueness: true
-  validate :data_allowed
+  validate :data_allowed_keys
 
   def reserve!(start_datetime, end_datetime)
     # TODO
@@ -19,10 +19,12 @@ class Item < ActiveRecord::Base
 
   private
 
-  def data_allowed
+  def data_allowed_keys
     disallowed_keys = data.keys - allowed_keys
     if disallowed_keys.present?
-      errors.add :base, "Disallowed #{'key'.pluralize disallowed_keys.count}: #{disallowed_keys.join(', ')}"
+      errors.add :base,
+                 "Disallowed #{'key'.pluralize disallowed_keys.count}: " +
+                 disallowed_keys.join(', ')
     end
   end
 end
