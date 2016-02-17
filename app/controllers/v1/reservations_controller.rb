@@ -9,7 +9,7 @@ module V1
       item = item_type.find_available start_datetime, end_datetime
       if item.present?
         reservation = item.reserve! start_datetime, end_datetime
-        render json: reservation, only: :id
+      render json: reservation
       else render nothing: true, status: :unprocessable_entity
       end
     end
@@ -36,9 +36,7 @@ module V1
     end
 
     def show
-      render json: { start_time: @reservation.start_datetime.iso8601,
-                     end_time: @reservation.end_datetime.iso8601,
-                     item_type: @reservation.item_type.name }
+      render json: @reservation
     end
 
     def update

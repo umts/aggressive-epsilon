@@ -29,10 +29,9 @@ describe V1::ReservationsController do
         submit
         expect(response).to have_http_status :ok
       end
-      it 'responds with an object containing the reservation ID' do
+      it 'responds with the created reservation' do
         submit
-        json = JSON.parse response.body
-        expect(json).to eql 'id' => reservation.id
+        expect(response.body).to eql reservation.to_json
       end
     end
     context 'with no available item' do
@@ -83,18 +82,9 @@ describe V1::ReservationsController do
         submit
         expect(response).to have_http_status :ok
       end
-      it 'includes the ISO 8601 start and end times' do
+      it 'responds with the found reservation' do
         submit
-        json = JSON.parse response.body
-        expect(json.keys).to include 'start_time', 'end_time'
-        expect(json['start_time']).to eql reservation.start_datetime.iso8601
-        expect(json['end_time']).to eql reservation.end_datetime.iso8601
-      end
-      it 'includes the item type name' do
-        submit
-        json = JSON.parse response.body
-        expect(json.keys).to include 'item_type'
-        expect(json['item_type']).to eql reservation.item_type.name
+        expect(response.body).to eql reservation.to_json
       end
     end
     context 'reservation not found' do

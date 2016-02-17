@@ -38,18 +38,21 @@ Lightweight Rails JSON API for dealing with item reservations.
 
    ```json
    POST /reservations
-    {"item_type": "Apples",
-     "start_time": "2016-02-16T15:30:00-05:00",
-     "end_time": "2016-02-17T09:45:00-05:00"}
+     {"item_type": "Apples",
+      "start_time": "2016-02-16T15:30:00-05:00",
+      "end_time": "2016-02-17T09:45:00-05:00"}
    ```
 
-   If a reservation with those parameters is available, an object containing the ID of the newly created reservation is returned.
+   If a reservation with those parameters is available, the attributes of the newly created reservation is returned.
    This ID will be necessary for referencing the reservation later.
 
    Example success response:
 
    ```json
-   {"id": 100}
+   {"id": 100,
+    "start_time": "2016-02-16T15:30:00-05:00",
+    "end_time": "2016-02-17T09:45:00-05:00",
+    "item_type": "Apples"}
    ```
 
    If a reservation is not available, a blank response body is returned with a status of 422 (unprocessable entity).
@@ -87,8 +90,10 @@ Lightweight Rails JSON API for dealing with item reservations.
 
   Example response:
   ```json
-  GET /reservations/100
-  {"start_time": "2016-02-17T12:00:00-05:00", "end_time": "2016-12-17T17:00:00-05:00"}
+  {"id": 100,
+   "start_time": "2016-02-16T15:30:00-05:00",
+   "end_time": "2016-02-17T09:45:00-05:00",
+   "item_type": "Apples"}
   ```
 
   If the requested reservation could not be found, a blank response body is returned with a 404 status.
