@@ -55,6 +55,28 @@ describe ReservationsController do
     end
   end
 
+  describe 'DELETE #destroy' do
+    context 'reservation found' do
+      let(:reservation) { create :reservation }
+      let(:submit) { delete :destroy, id: reservation.id }
+      it 'deletes the reservation' do
+        submit
+        expect(Reservation.count).to be 0
+      end
+      it 'has on OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+    end
+    context 'reservation not found' do
+      let(:submit) { delete :destroy, id: 0 }
+      it 'has a not found status' do
+        submit
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
   describe 'PUT #update' do
     let :reservation do
       create :reservation,

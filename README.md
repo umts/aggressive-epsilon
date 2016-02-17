@@ -74,6 +74,14 @@ Lightweight Rails JSON API for dealing with item reservations.
    ```
    ---
 
++ `DELETE /reservations/:id`
+
+  This endpoint allowed you to delete any reservation which you have created.
+  If the reservation has been successfully deleted, a blank response body is returned with a status of 200.
+  If the reservation could not be found, a 404 will be returned.
+
+  ---
+
 + `POST /reservations/:id/update_item`
 
    This endpoint allows you to update any of the metadata belonging to the item reserved in a particular reservation.

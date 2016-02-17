@@ -14,6 +14,8 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
+    @reservation.destroy
+    render nothing: true, status: :ok
   end
 
   def index
@@ -42,7 +44,8 @@ class ReservationsController < ApplicationController
   private
 
   def find_reservation
-    @reservation = Reservation.find params.require(:id)
+    @reservation = Reservation.find_by id: params.require(:id)
+    render nothing: true, status: :not_found unless @reservation.present?
   end
 
   def datetime_interpolated_changes
