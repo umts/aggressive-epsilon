@@ -2,6 +2,11 @@
 
 Lightweight Rails JSON API for dealing with item reservations.
 
+[![Build Status](https://travis-ci.org/umts/aggressive-epsilon.svg?branch=master)](https://travis-ci.org/umts/aggressive-epsilon)
+[![Test Coverage](https://codeclimate.com/github/umts/aggressive-epsilon/badges/coverage.svg)](https://codeclimate.com/github/umts/aggressive-epsilon/coverage)
+[![Code Climate](https://codeclimate.com/github/umts/aggressive-epsilon/badges/gpa.svg)](https://codeclimate.com/github/umts/aggressive-epsilon)
+[![Issue Count](https://codeclimate.com/github/umts/aggressive-epsilon/badges/issue_count.svg)](https://codeclimate.com/github/umts/aggressive-epsilon)
+
 ## Endpoints
 
 + `GET /item_types`
