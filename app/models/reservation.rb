@@ -6,6 +6,16 @@ class Reservation < ActiveRecord::Base
             presence: true
   validate :start_time_before_end_time
 
+  scope :during, lambda { |start_datetime, end_datetime|
+    ranges = [start_datetime, end_datetime] * 3
+    # Find all reservations which ARE in the range
+    where(<<-query, *ranges)
+      (start_datetime between ? and ?) OR
+      (end_datetime between ? and ?) OR
+      (start_datetime <= ? and end_datetime >= ?)
+    query
+  }
+
   private
 
   def start_time_before_end_time

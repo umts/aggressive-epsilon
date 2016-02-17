@@ -7,7 +7,8 @@ class ItemType < ActiveRecord::Base
   validates :name, :allowed_keys, presence: true
   validates :name, uniqueness: true
 
+  # Randomly picks an item from the available items.
   def find_available(start_datetime, end_datetime)
-    # TODO
+    items.available_between(start_datetime, end_datetime).sample
   end
 end
