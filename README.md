@@ -9,6 +9,8 @@ Lightweight Rails JSON API for dealing with item reservations.
 
 ## Endpoints
 
+**The API is currently at version 1. All endpoints listed here are in the format `base_uri/v1/endpoint_uri`.**
+
 + `GET /item_types`
 
   This endpoint returns a collection of types of items which can be reserved.

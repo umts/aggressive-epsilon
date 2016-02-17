@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ItemTypesController do
+describe V1::ItemTypesController do
   describe 'GET #index' do
     let(:submit) { get :index }
     it 'renders all item types' do
