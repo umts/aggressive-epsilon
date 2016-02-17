@@ -22,6 +22,14 @@ RSpec.configure do |config|
   end
 end
 
+def authenticate!(service: (create :service))
+  request.headers['Authorization'] = "Token token=#{service.api_key}"
+end
+
+def deauthenticate!
+  request.headers['Authorization'] = nil
+end
+
 def default_start_time
   Date.yesterday.to_datetime
 end

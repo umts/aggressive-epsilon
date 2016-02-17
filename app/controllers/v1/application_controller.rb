@@ -14,7 +14,7 @@ module V1
 
     def set_service
       @service = authenticate_with_http_token do |token, _options|
-        Service.find_by api_token: token
+        Service.find_by api_key: token
       end
       render nothing: true, status: :unauthorized unless @service.present?
     end
