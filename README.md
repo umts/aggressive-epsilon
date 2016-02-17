@@ -121,3 +121,26 @@ Lightweight Rails JSON API for dealing with item reservations.
    ```
 
    ---
+
++ `GET /reservations`
+   
+   This endpoint returns all of the reservations for a particular item type in a given time range.
+   The `start_time` and `end_time` arguments must be in ISO 8601 format.
+   Each reservation will list the start and end times in ISO 8601 format.
+   If the requsted item type does not exist, the endpoint will return a blank response body and a 404.
+
+   Example request:
+   
+   ```json
+   GET /reservations
+   {"start_time": "2016-02-10T12:00:00-05:00",
+    "end_time": "2016-02-17T12:00:00-05:00",
+    "item_type": "Apples"}
+   ```
+
+   Example response:
+
+   ```json
+   [{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
+    {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]
+   ```
