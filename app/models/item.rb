@@ -18,7 +18,9 @@ class Item < ActiveRecord::Base
   }
 
   def reserve!(start_datetime, end_datetime)
-    # TODO
+    Reservation.create item_id: id,
+                       start_datetime: start_datetime,
+                       end_datetime: end_datetime
   end
 
   private
