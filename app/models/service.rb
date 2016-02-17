@@ -5,5 +5,4 @@ class Service < ActiveRecord::Base
             presence: true, uniqueness: true
 
   before_validation -> { self.api_key = SecureRandom.hex }, on: :create
-
 end
