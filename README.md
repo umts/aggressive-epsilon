@@ -11,6 +11,8 @@ Lightweight Rails JSON API for dealing with item reservations.
 
 ## Customer service endpoints
 
+These endpoints are structured so that customer service interfaces need not be concerned with IDs of objects other than reservations.
+
 + `GET /item_types`
 
   This endpoint returns a collection of types of items which can be reserved.
