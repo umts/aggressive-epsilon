@@ -158,7 +158,7 @@ Lightweight Rails JSON API for dealing with item reservations.
     {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]
    ```
 
-## Customer service endpoints
+## Administration / management endpoints
 
 + `GET /item_types/:id`
   
