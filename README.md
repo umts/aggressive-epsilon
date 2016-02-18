@@ -33,7 +33,8 @@ These endpoints are structured so that customer service interfaces need not be c
 
 + `POST /reservations`
 
-   This endpoint accepts the name of an item type, an ISO 8601 start time, and an ISO 8601 end time.
+   This endpoint allows you to request reservations.
+   It expects the name of an item type, an ISO 8601 start time, and an ISO 8601 end time.
 
    For instance, your **request** might look like:
 
@@ -191,7 +192,7 @@ These endpoints are structured so that customer service interfaces need not be c
   ```
   
   If the change has been successfully applied, a blank response body is returned with a status of 200.
-   If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
+  If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
 
    A **failure response** will look like:
 
@@ -205,5 +206,35 @@ These endpoints are structured so that customer service interfaces need not be c
 
   This endpoint allows you to delete an item type and its items.
   If the item type has been successfully deleted, a blank response body is returned with a status of 200.
+  
+  ---
+  
++ `POST /item_types`
+
+  This endpoint allows you to create an item type given a particular name.
+  You may optionally specify what metadata keys you want other endpoints to be able to configure about items of this type, which should be an array.
+  
+  For example, your **request** might look like:
+  
+  ```json
+  {"name": "Leather couches", "allowed_keys": ["texture", "length"]}
+  ```
+  
+  If successful, the newly created item type will be returned to you, including its ID.
+  
+  A **success response** will look like:
+  
+  ```json
+  {"id": 101, "name": "Leather couches", "allowed_keys": ["texture", "length"],
+   "items": []}
+  ```
+  
+  If there was an error, a list of errors will be returned with a status of 422 (unprocessable entity).
+  
+  A **failure response** will look like:
+  
+  ```json
+  {"errors": ["Name can't be blank"]}
+  ```
   
   ---
