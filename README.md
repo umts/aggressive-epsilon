@@ -172,3 +172,25 @@ Lightweight Rails JSON API for dealing with item reservations.
      "items": [{"id": 400, "name": "Macintosh"},
                {"id": 401, "name": "Granny Smith"}]}
   ```
+  ---
+  
++ `PUT /item_types/:id`
+
+  This endpoint allows you to change the name of an item type.
+  Item type changes should be in an `item_type` parameter.
+  
+  Your **request** might look like:
+  ```json
+  PUT /item_types/100
+  {"item_type": {"name": "Red/Green Fruit"}}
+  ```
+  
+  If the change has been successfully applied, a blank response body is returned with a status of 200.
+   If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
+
+   A **failure response** will look like:
+
+   ```json
+   {"errors": ["Name can't be blank"]}
+   ```
+   ---
