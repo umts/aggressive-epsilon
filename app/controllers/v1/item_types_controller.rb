@@ -2,6 +2,16 @@ module V1
   class ItemTypesController < ApplicationController
     before_action :find_item_type, only: %i(destroy show update)
 
+    def create
+      item_type = ItemType.new params.permit(:name, allowed_keys: [])
+      if item_type.save
+        render json: item_type, except: [:created_at, :updated_at],
+               include: :items # there won't be any
+      else render json: { errors: item_type.errors.full_messages },
+                  status: :unprocessable_entity
+      end
+    end
+
     def destroy
       @item_type.destroy
       render nothing: true
@@ -18,7 +28,7 @@ module V1
     end
 
     def update
-      changes = params.require(:item_type).permit :name
+      changes = params.require(:item_type).permit :allowed_keys, :name
       if @item_type.update changes then render nothing: true
       else render json: { errors: @item_type.errors.full_messages },
                   status: :unprocessable_entity

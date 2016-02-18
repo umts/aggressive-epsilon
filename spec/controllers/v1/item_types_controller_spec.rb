@@ -2,6 +2,40 @@ require 'rails_helper'
 
 describe V1::ItemTypesController do
   before(:each) { authenticate! }
+  describe 'POST #create' do
+    let(:submit) { post :create, name: name, allowed_keys: allowed_keys }
+    let(:allowed_keys) { %w(color length) }
+    context 'item type created successfully' do
+      let(:name) { 'Buses' }
+      it 'has an OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+      it 'returns the created item type' do
+        submit
+        json = JSON.parse response.body
+        expect(json).to eql(
+          'id' => ItemType.last.id,
+          'name' => 'Buses',
+          'allowed_keys' => allowed_keys,
+          'items' => [])
+      end
+    end
+    context 'error creating item type' do
+      let(:name) { ' ' }
+      let(:error_messages) { ["Name can't be blank"] }
+      it 'has an unprocessable entity status' do
+        submit
+        expect(response).to have_http_status :unprocessable_entity
+      end
+      it 'returns the errors of the item type' do
+        submit
+        json = JSON.parse response.body
+        expect(json).to eql 'errors' => error_messages
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let(:submit) { delete :destroy, id: item_type.id }
     context 'item type found' do

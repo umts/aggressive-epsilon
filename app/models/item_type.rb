@@ -5,7 +5,7 @@ class ItemType < ActiveRecord::Base
 
   serialize :allowed_keys, Array
 
-  validates :name, :allowed_keys, presence: true
+  validates :name, presence: true
   validates :name, uniqueness: true
 
   # Randomly picks an item from the available items.
