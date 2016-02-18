@@ -201,7 +201,7 @@ These endpoints are structured so that customer service interfaces need not be c
    
    ---
    
-   + `DELETE /item_types/:id`
++ `DELETE /item_types/:id`
 
   This endpoint allows you to delete an item type and its items.
   If the item type has been successfully deleted, a blank response body is returned with a status of 200.
