@@ -21,7 +21,7 @@ Lightweight Rails JSON API for dealing with item reservations.
   A **response** will look like:
 
   ```json
-    [{"name": "Apples",
+    [{"id": 100, "name": "Apples",
       "allowed_keys": ["flavor"],
       "items": [{"name": "Macintosh"},
                 {"name": "Granny Smith"}]}]
@@ -163,11 +163,12 @@ Lightweight Rails JSON API for dealing with item reservations.
 + `GET /item_types/:id`
   
   This endpoint lists the properties of an item type and of its items.
+  Unlike `/item_types/`, this endpoint lists the ID of each item.
 
   A **response** will look like:
   ```json
-    {"name": "Apples",
+    {"id": 100, "name": "Apples",
      "allowed_keys": ["flavor"],
-     "items": [{"name": "Macintosh"},
-               {"name": "Granny Smith"}]}
+     "items": [{"id": 400, "name": "Macintosh"},
+               {"id": 401, "name": "Granny Smith"}]}
   ```
