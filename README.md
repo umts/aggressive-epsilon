@@ -103,7 +103,7 @@ Lightweight Rails JSON API for dealing with item reservations.
 
 + `DELETE /reservations/:id`
 
-  This endpoint allowed you to delete any reservation which you have created.
+  This endpoint allows you to delete any reservation which you have created.
   If the reservation has been successfully deleted, a blank response body is returned with a status of 200.
   If the reservation could not be found, a 404 will be returned.
 
@@ -157,6 +157,8 @@ Lightweight Rails JSON API for dealing with item reservations.
    [{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
     {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]
    ```
+   
+   ---
 
 ## Administration / management endpoints
 
@@ -172,6 +174,7 @@ Lightweight Rails JSON API for dealing with item reservations.
      "items": [{"id": 400, "name": "Macintosh"},
                {"id": 401, "name": "Granny Smith"}]}
   ```
+  
   ---
   
 + `PUT /item_types/:id`
@@ -193,4 +196,12 @@ Lightweight Rails JSON API for dealing with item reservations.
    ```json
    {"errors": ["Name can't be blank"]}
    ```
+   
    ---
+   
+   + `DELETE /item_types/:id`
+
+  This endpoint allows you to delete an item type and its items.
+  If the item type has been successfully deleted, a blank response body is returned with a status of 200.
+  
+  ---
