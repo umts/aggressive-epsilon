@@ -1,8 +1,35 @@
 require 'rails_helper'
 
 describe V1::ItemTypesController do
+  before(:each) { authenticate! }
+  describe 'DELETE #destroy' do
+    let(:submit) { delete :destroy, id: item_type.id }
+    context 'item type found' do
+      let(:item_type) { create :item_type }
+      it 'deletes the item type' do
+        submit
+        expect(ItemType.count).to be 0
+      end
+      it 'deletes any items belonging to the item type' do
+        create :item, item_type: item_type
+        submit
+        expect(Item.count).to be 0
+      end
+      it 'has on OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+    end
+    context 'item type not found' do
+      let(:item_type) { double id: 0 }
+      it 'has a not found status' do
+        submit
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
   describe 'GET #index' do
-    before(:each) { authenticate! }
     let(:item_type) { create :item_type }
     let!(:item_1) { create :item, item_type: item_type }
     let!(:item_2) { create :item, item_type: item_type }
@@ -20,7 +47,6 @@ describe V1::ItemTypesController do
   end
 
   describe 'GET #show' do
-    before(:each) { authenticate! }
     let(:submit) { get :show, id: item_type.id }
     context 'item type found' do
       let(:item_type) { create :item_type }
@@ -49,7 +75,6 @@ describe V1::ItemTypesController do
   end
 
   describe 'PUT #update' do
-    before(:each) { authenticate! }
     let(:changes) { { name: 'A new name' } }
     let(:submit) { put :update, id: item_type.id, item_type: changes }
     context 'item type found' do

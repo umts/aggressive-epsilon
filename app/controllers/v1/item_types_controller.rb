@@ -2,6 +2,11 @@ module V1
   class ItemTypesController < ApplicationController
     before_action :find_item_type, only: %i(destroy show update)
 
+    def destroy
+      @item_type.destroy
+      render nothing: true
+    end
+
     def index
       render json: ItemType.order(:name), except: [:created_at, :updated_at],
              include: { items: { only: :name } }

@@ -1,7 +1,7 @@
 class ItemType < ActiveRecord::Base
-  has_many :items
+  has_many :items, dependent: :destroy
   has_many :reservations, through: :items
-  has_many :permissions
+  has_many :permissions, dependent: :destroy
 
   serialize :allowed_keys, Array
 
