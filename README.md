@@ -7,9 +7,9 @@ Lightweight Rails JSON API for dealing with item reservations.
 [![Code Climate](https://codeclimate.com/github/umts/aggressive-epsilon/badges/gpa.svg)](https://codeclimate.com/github/umts/aggressive-epsilon)
 [![Issue Count](https://codeclimate.com/github/umts/aggressive-epsilon/badges/issue_count.svg)](https://codeclimate.com/github/umts/aggressive-epsilon)
 
-## Endpoints
+**This API is currently at version 1. All endpoints listed here are in the format `base_uri/v1/endpoint_uri`.**
 
-**The API is currently at version 1. All endpoints listed here are in the format `base_uri/v1/endpoint_uri`.**
+## Customer service endpoints
 
 + `GET /item_types`
 
@@ -157,3 +157,17 @@ Lightweight Rails JSON API for dealing with item reservations.
    [{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
     {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]
    ```
+
+## Customer service endpoints
+
++ `GET /item_types/:id`
+  
+  This endpoint lists the properties of an item type and of its items.
+
+  A **response** will look like:
+  ```json
+    {"name": "Apples",
+     "allowed_keys": ["flavor"],
+     "items": [{"name": "Macintosh"},
+               {"name": "Granny Smith"}]}
+  ```
