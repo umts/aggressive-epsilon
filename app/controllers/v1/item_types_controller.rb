@@ -12,6 +12,14 @@ module V1
              include: { items: { only: [:id, :name] } }
     end
 
+    def update
+      changes = params.require(:item_type).permit :name
+      if @item_type.update changes then render nothing: true
+      else render json: { errors: @item_type.errors.full_messages },
+                  status: :unprocessable_entity
+      end
+    end
+
     private
 
     def find_item_type
