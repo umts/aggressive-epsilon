@@ -30,7 +30,7 @@ class Item < ActiveRecord::Base
   private
 
   def data_allowed_keys
-    disallowed_keys = data.keys - item_type.allowed_keys
+    disallowed_keys = data.keys.map(&:to_sym) - item_type.allowed_keys
     if disallowed_keys.present?
       errors.add :base,
                  "Disallowed #{'key'.pluralize disallowed_keys.count}: " +
