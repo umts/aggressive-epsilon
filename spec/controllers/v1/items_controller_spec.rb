@@ -99,18 +99,29 @@ describe V1::ItemsController do
     let(:submit) { get :show, id: item.id }
     context 'item found' do
       let(:item) { create :item }
-      it 'includes item attributes' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to eql(
-          'id' => item.id,
-          'name' => item.name,
-          'item_type_id' => item.item_type_id,
-          'data' => item.data)
+      context 'read access to item type' do
+        before(:each) { authenticate_with_access_to :read, item.item_type }
+        it 'includes item attributes' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to eql(
+            'id' => item.id,
+            'name' => item.name,
+            'item_type_id' => item.item_type_id,
+            'data' => item.data)
+        end
+      end
+      context 'no read access to item type' do
+        before(:each) { authenticate! }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'item not found' do
       let(:item) { double id: 0 }
+      before(:each) { authenticate! }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
