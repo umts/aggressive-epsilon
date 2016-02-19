@@ -136,7 +136,11 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
     rake (10.5.0)
-    rspec-core (3.4.2)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.3)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -181,6 +185,9 @@ GEM
     timecop (0.8.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    umts-custom-cops (0.2.1)
+      rspec (~> 3.0)
+      rubocop (= 0.37.2)
     unicode-display_width (0.3.1)
 
 PLATFORMS
@@ -205,6 +212,7 @@ DEPENDENCIES
   rubocop
   simplecov
   timecop
+  umts-custom-cops
 
 BUNDLED WITH
    1.11.2

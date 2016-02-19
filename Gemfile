@@ -26,4 +26,5 @@ group :development, :test do
   gem 'rubocop'
   gem 'simplecov'
   gem 'timecop'
+  gem 'umts-custom-cops'
 end
