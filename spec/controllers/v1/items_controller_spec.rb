@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe V1::ItemsController do
-  before(:each) { authenticate! }
   describe 'POST #create' do
     let(:item_type) { create :item_type }
     let(:submit) do
@@ -43,17 +42,28 @@ describe V1::ItemsController do
     let(:submit) { delete :destroy, id: item.id }
     context 'item found' do
       let(:item) { create :item }
-      it 'deletes the item' do
-        submit
-        expect(Item.count).to be 0
+      context 'write access to item type' do
+        before(:each) { authenticate_with_access_to :write, item.item_type }
+        it 'deletes the item' do
+          submit
+          expect(Item.count).to be 0
+        end
+        it 'has on OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
       end
-      it 'has on OK status' do
-        submit
-        expect(response).to have_http_status :ok
+      context 'no write access to item type' do
+        before(:each) { authenticate_with_access_to :read, item.item_type }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'item not found' do
       let(:item) { double id: 0 }
+      before(:each) { authenticate! }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
