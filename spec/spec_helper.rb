@@ -35,6 +35,7 @@ def authenticate_with_access_to(access_type, item_type)
   attrs[:write] = true if access_type == :write
   create :permission, attrs
   authenticate! service: service
+  service
 end
 
 def deauthenticate!

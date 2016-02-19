@@ -4,6 +4,6 @@ class Permission < ActiveRecord::Base
 
   validates :write, inclusion: { in: [true, false] }
 
-  validates :item_type, :service,
-            presence: true, uniqueness: true
+  validates :item_type, :service, presence: true
+  validates :item_type, uniqueness: { scope: :service }
 end

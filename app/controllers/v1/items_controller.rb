@@ -37,7 +37,7 @@ module V1
       changes = params.require(:item).permit :name,
                                              :item_type_id,
                                              data: metadata_keys
-      check_for_item_type_change!
+      deny_access! and return if moving_item_to_unauthorized_type?
       if @item.update changes then render nothing: true
       else render json: { errors: @item.errors.full_messages },
                   status: :unprocessable_entity
@@ -46,10 +46,10 @@ module V1
 
     private
 
-    def check_for_item_type_change!
-      if params[:item].has_key? :item_type_id
+    def moving_item_to_unauthorized_type?
+      if params[:item].key? :item_type_id
         new_item_type = ItemType.find_by id: params[:item][:item_type_id]
-        deny_access! and return unless @service.can_write_to? new_item_type
+        return true unless @service.can_write_to? new_item_type
       end
     end
 
