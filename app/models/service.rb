@@ -13,8 +13,8 @@ class Service < ActiveRecord::Base
 
   # When called generically (service.can_write?), this checks whether the
   # service has write permissions to ANY item type (**not** to all item types).
-  def can_write?(item_type = ItemType.all)
+  def can_write_to?(item_type = ItemType.all)
     permissions.find_by(item_type: item_type, write: true).present?
   end
-  alias able_to_write? can_write?
+  alias able_to_write_to? can_write_to?
 end

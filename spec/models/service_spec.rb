@@ -33,7 +33,7 @@ describe Service do
     let(:item_type) { create :item_type }
     context 'no permission from service to item type' do
       it 'returns false' do
-        expect(service).not_to be_able_to_write item_type
+        expect(service).not_to be_able_to_write_to item_type
       end
     end
     context 'normal permission from service to item type' do
@@ -41,7 +41,7 @@ describe Service do
         create :permission, service: service, item_type: item_type
       end
       it 'returns true' do
-        expect(service).not_to be_able_to_write item_type
+        expect(service).not_to be_able_to_write_to item_type
       end
     end
     context 'write permission from service to item type' do
@@ -50,7 +50,7 @@ describe Service do
                             write: true
       end
       it 'returns true' do
-        expect(service).to be_able_to_write item_type
+        expect(service).to be_able_to_write_to item_type
       end
     end
   end

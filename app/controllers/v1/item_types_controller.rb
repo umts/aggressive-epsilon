@@ -3,7 +3,7 @@ module V1
     before_action :find_item_type, only: %i(destroy show update)
 
     def create
-      deny_access! and return unless @service.can_write?
+      deny_access! and return unless @service.can_write_to? # any
       item_type = ItemType.new params.permit(:name, allowed_keys: [])
       if item_type.save
         render json: item_type, except: [:created_at, :updated_at],
@@ -14,7 +14,7 @@ module V1
     end
 
     def destroy
-      deny_access! and return unless @service.can_write? @item_type
+      deny_access! and return unless @service.can_write_to? @item_type
       @item_type.destroy
       render nothing: true
     end
@@ -31,7 +31,7 @@ module V1
     end
 
     def update
-      deny_access! and return unless @service.can_write? @item_type
+      deny_access! and return unless @service.can_write_to? @item_type
       changes = params.require(:item_type).permit :allowed_keys, :name
       if @item_type.update changes then render nothing: true
       else render json: { errors: @item_type.errors.full_messages },
