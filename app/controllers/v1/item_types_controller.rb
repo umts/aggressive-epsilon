@@ -13,6 +13,7 @@ module V1
     end
 
     def destroy
+      deny_access! and return unless @service.can_write? @item_type
       @item_type.destroy
       render nothing: true
     end
@@ -23,6 +24,7 @@ module V1
     end
 
     def show
+      deny_access! and return unless @service.can_read? @item_type
       render json: @item_type, except: [:created_at, :updated_at],
              include: { items: { only: [:id, :name] } }
     end
@@ -40,7 +42,6 @@ module V1
     def find_item_type
       @item_type = ItemType.find_by id: params.require(:id)
       render nothing: true, status: :not_found and return if @item_type.blank?
-      deny_access! unless @service.can_read? @item_type
     end
   end
 end

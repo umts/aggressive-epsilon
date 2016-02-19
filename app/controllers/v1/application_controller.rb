@@ -14,8 +14,8 @@ module V1
 
     def deny_access!(message = nil)
       if message.present?
-        render json: { message: message }, status: :unauthorized and return
-      else render nothing: true, status: :unauthorized and return
+        render json: { message: message }, status: :unauthorized
+      else render nothing: true, status: :unauthorized
       end
     end
 
@@ -23,7 +23,7 @@ module V1
       @service = authenticate_with_http_token do |token, _options|
         Service.find_by api_key: token
       end
-      deny_access! unless @service.present?
+      deny_access! and return unless @service.present?
     end
   end
 end

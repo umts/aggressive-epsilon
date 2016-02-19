@@ -39,22 +39,33 @@ describe V1::ItemTypesController do
     let(:submit) { delete :destroy, id: item_type.id }
     context 'item type found' do
       let(:item_type) { create :item_type }
-      it 'deletes the item type' do
-        submit
-        expect(ItemType.count).to be 0
+      context 'write access' do
+        before(:each) { authenticate_with_access_to :write, item_type }
+        it 'deletes the item type' do
+          submit
+          expect(ItemType.count).to be 0
+        end
+        it 'deletes any items belonging to the item type' do
+          create :item, item_type: item_type
+          submit
+          expect(Item.count).to be 0
+        end
+        it 'has on OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
       end
-      it 'deletes any items belonging to the item type' do
-        create :item, item_type: item_type
-        submit
-        expect(Item.count).to be 0
-      end
-      it 'has on OK status' do
-        submit
-        expect(response).to have_http_status :ok
+      context 'read access' do
+        before(:each) { authenticate_with_access_to :read, item_type }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'item type not found' do
       let(:item_type) { double id: 0 }
+      before(:each) { authenticate! }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
