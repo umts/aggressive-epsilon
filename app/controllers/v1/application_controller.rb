@@ -12,11 +12,18 @@ module V1
       request.session_options[:skip] = true
     end
 
+    def deny_access!(message = nil)
+      if message.present?
+        render json: { message: message }, status: :unauthorized and return
+      else render nothing: true, status: :unauthorized and return
+      end
+    end
+
     def set_service
       @service = authenticate_with_http_token do |token, _options|
         Service.find_by api_key: token
       end
-      render nothing: true, status: :unauthorized unless @service.present?
+      deny_access! unless @service.present?
     end
   end
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe V1::ItemTypesController do
-  before(:each) { authenticate! }
   describe 'POST #create' do
     let(:submit) { post :create, name: name, allowed_keys: allowed_keys }
     let(:allowed_keys) { %w(color length) }

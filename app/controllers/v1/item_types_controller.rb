@@ -39,7 +39,8 @@ module V1
 
     def find_item_type
       @item_type = ItemType.find_by id: params.require(:id)
-      render nothing: true, status: :not_found unless @item_type.present?
+      render nothing: true, status: :not_found and return if @item_type.blank?
+      deny_access! unless @service.can_read? @item_type
     end
   end
 end
