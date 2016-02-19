@@ -74,14 +74,24 @@ describe V1::ItemsController do
   describe 'GET #index' do
     let(:item) { create :item }
     let(:submit) { get :index, item_type_id: item.item_type_id }
-    it 'renders all items' do
-      submit
-      json = JSON.parse response.body
-      expect(json).to eql [{
-        'id' => item.id,
-        'name' => item.name,
-        'item_type_id' => item.item_type_id,
-        'data' => item.data }]
+    context 'read access to item type' do
+      before(:each) { authenticate_with_access_to :read, item.item_type }
+      it 'renders all items' do
+        submit
+        json = JSON.parse response.body
+        expect(json).to eql [{
+          'id' => item.id,
+          'name' => item.name,
+          'item_type_id' => item.item_type_id,
+          'data' => item.data }]
+      end
+    end
+    context 'no read access to item type' do
+      before(:each) { authenticate! }
+      it 'has an unauthorized status' do
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
     end
   end
 
