@@ -168,6 +168,7 @@ These endpoints are structured so that customer service interfaces need not be c
 + `GET /item_types/:id`
   
   This endpoint lists the properties of an item type and of its items.
+  You must have read access to the item type.
   Unlike `/item_types/`, this endpoint lists the ID of each item.
 
   A **response** will look like:
@@ -182,7 +183,7 @@ These endpoints are structured so that customer service interfaces need not be c
   
 + `PUT /item_types/:id`
 
-  This endpoint allows you to change the name of an item type.
+  This endpoint allows you to change the name or allowed metadata keys of an item type to which you have write access.
   Item type changes should be in an `item_type` parameter.
   
   Your **request** might look like:
@@ -204,7 +205,7 @@ These endpoints are structured so that customer service interfaces need not be c
    
 + `DELETE /item_types/:id`
 
-  This endpoint allows you to delete an item type and its items.
+  This endpoint allows you to delete an item type and its items, if you have write access to it.
   If the item type has been successfully deleted, a blank response body is returned with a status of 200.
   
   ---
@@ -212,6 +213,7 @@ These endpoints are structured so that customer service interfaces need not be c
 + `POST /item_types`
 
   This endpoint allows you to create an item type given a particular name.
+  In order to create a new item type, you must have write access to at least one other item type.
   You may optionally specify what metadata keys you want other endpoints to be able to configure about items of this type, which should be an array.
   
   For example, your **request** might look like:
@@ -238,3 +240,90 @@ These endpoints are structured so that customer service interfaces need not be c
   ```
   
   ---
+
++ `POST /items`
+
+  This endpoint allows you to create a new item of a given type. You must specify the type, and should specify the name.
+  You can also set its metadata, providing that your metadata keys are in its type's allowed keys.
+  You must have write access to the item's type.
+  The attributes of the newly created item, including its ID, will be returned to you if everything went well.
+  If there is an error in creating your item, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
+
+  For example, your **request** might look like this:
+
+  ```json
+  POST /items
+  {"name": "Awesome new couch", "item_type_id": 101}
+  ```
+
+  A **success response** will look like:
+
+  ```json
+  {"id": 300, "name": "Awesome new couch", "item_type_id": 101, "data": {}}
+  ```
+
+  A **failure response** will look like:
+
+  ```json
+  {"errors": ["Name can't be blank"]}
+  ```
+
+  ---
+
++ `GET /items`
+
+  This endpoint allows you to view all of the items in a type, provided you have read access to that item type.
+
+  For example, your **request** might look like:
+
+  ```json
+  GET /items
+  {"item_type_id": 101}
+  ```
+
+  A **response** will look like:
+
+  ```json
+  {[{"id": 300, "name": "Awesome new couch", "item_type_id": 101, "data": {}},
+    {"id": 301, "name": "Cool leather futon", "item_type_id": 101, "data": {"texture": "leather"}}]}
+  ```
+
+  ---
+
++ `GET /items/:id`
+
+  This endpoint allows you to view the attributes of an item, provided you have read access to its type.
+
+  A **response** will look like:
+
+  ```json
+  {"id": 300, "name": "Awesome new couch", "item_type_id": 101, "data": {}}
+  ```
+  
+  ---
+
++ `PUT /items/:id`
+  
+  This endpoint allows you to update the attributes of an item. You must have write access to its type.
+  To move an item from one type to another, you must have write access to both types.
+  Item changes should be in an `item` parameter.
+  If successful, a blank response will be returned with a status of 200.
+  IF there is an error applying your changes, a list of errors will be returned with a status of 422 (unprocessable entity).
+
+  For example, your **request** might look like:
+
+  ```json
+  PUT /items/301
+  {"name": "Cool pleather futon", data: {"awesomeness": "factor 10"}}
+  ```
+
+  A **failure response** will look like:
+
+  ```json
+  {"errors": ["Disallowed key: awesomeness"]}
+  ```
+
++ `DELETE /items/:id`
+
+  This endpoint allows you to delete an item. You must have write access to its type.
+  A blank response body with a status of 200 will be returned.
