@@ -31,8 +31,9 @@ def authenticate_with_access_to(access_type, item_type)
   unless %i(read write).include? access_type
     raise 'Valid access types are read and write'
   end
-  create :permission, service: service, item_type: item_type,
-                      access_type => true
+  attrs = { service: service, item_type: item_type }
+  attrs[:write] = true if access_type == :write
+  create :permission, attrs
   authenticate! service: service
 end
 
