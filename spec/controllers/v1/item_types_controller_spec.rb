@@ -85,6 +85,7 @@ describe V1::ItemTypesController do
   end
 
   describe 'GET #index' do
+    before(:each) { authenticate! }
     let(:item_type) { create :item_type }
     let!(:item_1) { create :item, item_type: item_type }
     let!(:item_2) { create :item, item_type: item_type }
@@ -107,23 +108,32 @@ describe V1::ItemTypesController do
       let(:item_type) { create :item_type }
       let!(:item_1) { create :item, item_type: item_type }
       let!(:item_2) { create :item, item_type: item_type }
-      before(:each) { authenticate_with_access_to :read, item_type }
-      it 'includes item type and item attributes' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to eql(
-          'id' => item_type.id,
-          'name' => item_type.name,
-          'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-          'items' => [{ 'id' => item_1.id,
-                        'name' => item_1.name },
-                      { 'id' => item_2.id,
-                        'name' => item_2.name }])
+      context 'read access to item type' do
+        before(:each) { authenticate_with_access_to :read, item_type }
+        it 'includes item type and item attributes' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to eql(
+            'id' => item_type.id,
+            'name' => item_type.name,
+            'allowed_keys' => item_type.allowed_keys.map(&:to_s),
+            'items' => [{ 'id' => item_1.id,
+                          'name' => item_1.name },
+                        { 'id' => item_2.id,
+                          'name' => item_2.name }])
+        end
+      end
+      context 'no read access to item type' do
+        before(:each) { authenticate! }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'item type not found' do
-      let(:item_type) { double id: 0 }
       before(:each) { authenticate! }
+      let(:item_type) { double id: 0 }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
