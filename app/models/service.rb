@@ -7,10 +7,13 @@ class Service < ActiveRecord::Base
   before_validation -> { self.api_key = SecureRandom.hex }, on: :create
 
   def can_read?(item_type)
-    permissions.find_by(item_type: item_type, read: true).present?
+    can_write? item_type ||
+      permissions.find_by(item_type: item_type, read: true).present?
   end
 
-  def can_write?(item_type)
+  # When called generically (service.can_write?), this checks whether the
+  # service has any write permissions.
+  def can_write?(item_type = ItemType.all)
     permissions.find_by(item_type: item_type, write: true).present?
   end
 end

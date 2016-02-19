@@ -3,6 +3,7 @@ module V1
     before_action :find_item_type, only: %i(destroy show update)
 
     def create
+      deny_access! and return unless @service.can_write?
       item_type = ItemType.new params.permit(:name, allowed_keys: [])
       if item_type.save
         render json: item_type, except: [:created_at, :updated_at],

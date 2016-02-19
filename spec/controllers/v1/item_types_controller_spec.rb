@@ -3,34 +3,45 @@ require 'rails_helper'
 describe V1::ItemTypesController do
   describe 'POST #create' do
     let(:submit) { post :create, name: name, allowed_keys: allowed_keys }
+    let(:name) { 'Buses' }
     let(:allowed_keys) { %w(color length) }
-    context 'item type created successfully' do
-      let(:name) { 'Buses' }
-      it 'has an OK status' do
-        submit
-        expect(response).to have_http_status :ok
+    let(:other_item_type) { create :item_type }
+    context 'write access to another item_type' do
+      before(:each) { authenticate_with_access_to :write, other_item_type }
+      context 'item type created successfully' do
+        it 'has an OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
+        it 'returns the created item type' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to eql(
+            'id' => ItemType.last.id,
+            'name' => 'Buses',
+            'allowed_keys' => allowed_keys,
+            'items' => [])
+        end
       end
-      it 'returns the created item type' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to eql(
-          'id' => ItemType.last.id,
-          'name' => 'Buses',
-          'allowed_keys' => allowed_keys,
-          'items' => [])
+      context 'error creating item type' do
+        let(:name) { ' ' }
+        let(:error_messages) { ["Name can't be blank"] }
+        it 'has an unprocessable entity status' do
+          submit
+          expect(response).to have_http_status :unprocessable_entity
+        end
+        it 'returns the errors of the item type' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to eql 'errors' => error_messages
+        end
       end
     end
-    context 'error creating item type' do
-      let(:name) { ' ' }
-      let(:error_messages) { ["Name can't be blank"] }
-      it 'has an unprocessable entity status' do
+    context 'read access to another item_type' do
+      before(:each) { authenticate_with_access_to :read, other_item_type }
+      it 'has an unauthorized status' do
         submit
-        expect(response).to have_http_status :unprocessable_entity
-      end
-      it 'returns the errors of the item type' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to eql 'errors' => error_messages
+        expect(response).to have_http_status :unauthorized
       end
     end
   end
