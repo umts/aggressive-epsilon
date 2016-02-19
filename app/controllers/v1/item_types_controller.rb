@@ -30,6 +30,7 @@ module V1
     end
 
     def update
+      deny_access! and return unless @service.can_write? @item_type
       changes = params.require(:item_type).permit :allowed_keys, :name
       if @item_type.update changes then render nothing: true
       else render json: { errors: @item_type.errors.full_messages },
