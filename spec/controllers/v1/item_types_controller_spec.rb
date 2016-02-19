@@ -85,6 +85,7 @@ describe V1::ItemTypesController do
       let(:item_type) { create :item_type }
       let!(:item_1) { create :item, item_type: item_type }
       let!(:item_2) { create :item, item_type: item_type }
+      before(:each) { authenticate_with_access_to :read, item_type }
       it 'includes item type and item attributes' do
         submit
         json = JSON.parse response.body
@@ -100,6 +101,7 @@ describe V1::ItemTypesController do
     end
     context 'item type not found' do
       let(:item_type) { double id: 0 }
+      before(:each) { authenticate! }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
