@@ -24,6 +24,7 @@ end
 
 def authenticate!(service: create(:service))
   request.headers['Authorization'] = "Token token=#{service.api_key}"
+  service
 end
 
 def authenticate_with_access_to(access_type, item_type)

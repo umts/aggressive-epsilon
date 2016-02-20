@@ -21,10 +21,11 @@ class Item < ActiveRecord::Base
     where id: reserved_ids
   }
 
-  def reserve!(start_datetime, end_datetime)
+  def reserve!(from:, to:, creator:)
     Reservation.create item_id: id,
-                       start_datetime: start_datetime,
-                       end_datetime: end_datetime
+                       start_datetime: from,
+                       end_datetime: to,
+                       creator: creator
   end
 
   private

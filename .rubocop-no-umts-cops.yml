@@ -2,6 +2,7 @@ Rails:
   Enabled: true
 
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
@@ -16,6 +17,10 @@ Style/AndOr:
 # In particular, this fails for things like
 # controller files, which seems unnecessary.
 Style/Documentation:
+  Enabled: false
+
+# I just don't understand this one, frankly.
+Style/FrozenStringLiteralComment:
   Enabled: false
  
 # Relax complexity testing to codeclimate standards (roughly).

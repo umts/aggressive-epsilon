@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe V1::ReservationsController do
-  before(:each) { authenticate! }
+  let!(:creator) { authenticate! }
   describe 'POST #create' do
     let(:item_type) { create :item_type }
     let(:item) { create :item, item_type: item_type }
@@ -20,7 +20,9 @@ describe V1::ReservationsController do
           .and_return item
         expect_any_instance_of(Item)
           .to receive(:reserve!)
-          .with(default_start_time, default_end_time)
+          .with(from: default_start_time,
+                to: default_end_time,
+                creator: creator)
           .and_return reservation
       end
       it 'calls #reserve! on the item' do
@@ -75,28 +77,6 @@ describe V1::ReservationsController do
     end
   end
 
-  describe 'GET #show' do
-    context 'reservation found' do
-      let(:reservation) { create :reservation }
-      let(:submit) { get :show, id: reservation.id }
-      it 'has an OK status' do
-        submit
-        expect(response).to have_http_status :ok
-      end
-      it 'responds with the found reservation' do
-        submit
-        expect(response.body).to eql reservation.to_json
-      end
-    end
-    context 'reservation not found' do
-      let(:submit) { get :show, id: 0 }
-      it 'has a not found status' do
-        submit
-        expect(response).to have_http_status :not_found
-      end
-    end
-  end
-
   describe 'GET #index' do
     let :submit do
       get :index, item_type: item_type.name,
@@ -117,6 +97,28 @@ describe V1::ReservationsController do
     end
     context 'item type not found' do
       let(:item_type) { double name: 'Apples' }
+      it 'has a not found status' do
+        submit
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
+  describe 'GET #show' do
+    context 'reservation found' do
+      let(:reservation) { create :reservation }
+      let(:submit) { get :show, id: reservation.id }
+      it 'has an OK status' do
+        submit
+        expect(response).to have_http_status :ok
+      end
+      it 'responds with the found reservation' do
+        submit
+        expect(response.body).to eql reservation.to_json
+      end
+    end
+    context 'reservation not found' do
+      let(:submit) { get :show, id: 0 }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found

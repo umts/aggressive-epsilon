@@ -1,9 +1,11 @@
 class Reservation < ActiveRecord::Base
   belongs_to :item
+  belongs_to :creator, class_name: Service
   delegate :item_type, to: :item
   validates :item,
             :start_datetime,
             :end_datetime,
+            :creator,
             presence: true
   validate :start_time_before_end_time
 
