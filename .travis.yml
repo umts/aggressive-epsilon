@@ -6,7 +6,7 @@ before_script:
   - cp config/database.yml.example config/database.yml
 script:
   - bundle exec rake db:reset
-  - bundle exec rake travis
+  - rspec
 notifications:
   email:
     on_success: never
