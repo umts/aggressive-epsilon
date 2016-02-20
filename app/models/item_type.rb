@@ -10,6 +10,8 @@ class ItemType < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
 
+  default_scope -> { order :name }
+
   # Randomly picks an item from the available items.
   def find_available(start_datetime, end_datetime)
     items.available_between(start_datetime, end_datetime).sample

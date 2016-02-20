@@ -16,6 +16,7 @@ These endpoints are structured so that customer service interfaces need not be c
 + `GET /item_types`
 
   This endpoint returns a collection of types of items which can be reserved.
+  Only items to which your service has been granted read access will be listed.
   Each item type object has a name, as well as a list of item objects and their names.
   Each item type object also has an `allowed_keys` field, which lists the keys
   which the items' metadata may contain. See `update_item` for details.

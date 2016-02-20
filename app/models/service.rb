@@ -17,4 +17,13 @@ class Service < ActiveRecord::Base
     permissions.find_by(item_type: item_type, write: true).present?
   end
   alias able_to_write_to? can_write_to?
+
+
+  def readable_item_types
+    ItemType.joins(:permissions).where permissions: { service_id: id }
+  end
+
+  def writeable_item_types
+    readable_item_types.where permissions: { write: true }
+  end
 end

@@ -85,13 +85,15 @@ describe V1::ItemTypesController do
   end
 
   describe 'GET #index' do
-    before(:each) { authenticate! }
+    let(:submit) { get :index }
     let(:item_type) { create :item_type }
     let!(:item_1) { create :item, item_type: item_type }
     let!(:item_2) { create :item, item_type: item_type }
-    let(:submit) { get :index }
-    it 'renders all item types' do
+    before(:each) { authenticate_with_access_to :read, item_type }
+    let!(:inaccessible_item_type) { create :item_type }
+    it 'renders all read-accessible item types' do
       submit
+      expect(response.body).not_to include inaccessible_item_type.name
       json = JSON.parse response.body
       expect(json).to eql(
         [{ 'id' => item_type.id,
