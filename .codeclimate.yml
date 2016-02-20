@@ -6,6 +6,8 @@ engines:
     config:
       languages: 
       - ruby
+    exclude_paths:
+    - spec/**/*
   fixme:
     enabled: true
   rubocop:
