@@ -130,14 +130,19 @@ describe V1::ReservationsController do
              start_datetime: 1.week.ago.to_datetime,
              end_datetime: Time.zone.today.to_datetime
     end
-    let(:new_start_time) { Time.zone.tomorrow.to_datetime }
-    let(:changes) { { start_time: new_start_time.iso8601 } }
+    let(:new_start_time) { default_end_time }
+    let(:new_end_time) { default_start_time }
+    let :changes do
+      { start_time: new_start_time.iso8601,
+        end_time: new_end_time.iso8601 }
+    end
     let(:submit) { put :update, id: reservation.id, reservation: changes }
     context 'change applied successfully' do
       before :each do
         expect_any_instance_of(Reservation)
           .to receive(:update)
-          .with(start_datetime: new_start_time)
+          .with(start_datetime: new_start_time,
+                end_datetime: new_end_time)
           .and_return true
       end
       it 'calls #update on the reservation with the interpolated times' do
@@ -157,7 +162,8 @@ describe V1::ReservationsController do
       before :each do
         expect_any_instance_of(Reservation)
           .to receive(:update)
-          .with(start_datetime: new_start_time)
+          .with(start_datetime: new_start_time,
+                end_datetime: new_end_time)
           .and_call_original
       end
       it 'has an unprocessable entity status' do

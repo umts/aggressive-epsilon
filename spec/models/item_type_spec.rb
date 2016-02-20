@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 describe ItemType do
+  describe 'creation' do
+    it 'converts allowed keys to symbols' do
+      item_type = build :item_type, allowed_keys: %w(color)
+      item_type.save
+      expect(item_type.allowed_keys).to eql %i(color)
+    end
+  end
+
   describe 'find_available' do
     let(:item_type) { create :item_type }
     let(:call) { item_type.find_available default_start_time, default_end_time }

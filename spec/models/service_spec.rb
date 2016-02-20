@@ -54,4 +54,16 @@ describe Service do
       end
     end
   end
+
+  describe 'readable_item_types' do
+    let(:service) { create :service }
+    let(:item_type) { create :item_type }
+    it 'returns an item type with an existing permission with the service' do
+      create :permission, service: service, item_type: item_type
+      expect(service.readable_item_types).to include item_type
+    end
+    it 'does not return an item type without with an existing permission' do
+      expect(service.readable_item_types).not_to include item_type
+    end
+  end
 end

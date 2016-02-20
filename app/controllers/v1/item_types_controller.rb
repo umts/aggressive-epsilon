@@ -20,7 +20,8 @@ module V1
     end
 
     def index
-      render json: @service.readable_item_types, except: [:created_at, :updated_at],
+      render json: @service.readable_item_types,
+             except: [:created_at, :updated_at],
              include: { items: { only: :name } }
     end
 

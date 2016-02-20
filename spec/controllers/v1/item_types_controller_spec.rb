@@ -17,7 +17,7 @@ describe V1::ItemTypesController do
           submit
           json = JSON.parse response.body
           expect(json).to eql(
-            'id' => ItemType.last.id,
+            'id' => other_item_type.id + 1,
             'name' => 'Buses',
             'allowed_keys' => allowed_keys,
             'items' => [])

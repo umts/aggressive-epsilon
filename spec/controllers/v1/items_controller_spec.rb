@@ -200,6 +200,12 @@ describe V1::ItemsController do
               submit
               expect(response).to have_http_status :unauthorized
             end
+            it 'has a message explaining the failure' do
+              message = 'You do not have write access to the new item type'
+              submit
+              json = JSON.parse response.body
+              expect(json).to eql 'message' => message
+            end
           end
         end
       end
