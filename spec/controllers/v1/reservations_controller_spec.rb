@@ -87,15 +87,26 @@ describe V1::ReservationsController do
       let(:item_type) { create :item_type }
       let(:item) { create :item, item_type: item_type }
       let!(:reservation) { create :reservation, item: item }
-      it 'includes the ISO 8601 start and end times of the reservation' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to include
-        { 'start_time' => reservation.start_datetime.iso8601,
-          'end_time' => reservation.end_datetime.iso8601 }
+      context 'read access to item type' do
+        before(:each) { authenticate_with_access_to :read, item_type }
+        it 'includes the ISO 8601 start and end times of the reservation' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to include
+          { 'start_time' => reservation.start_datetime.iso8601,
+            'end_time' => reservation.end_datetime.iso8601 }
+        end
+      end
+      context 'no read access to item type' do
+        before(:each) { authenticate! }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'item type not found' do
+      before(:each) { authenticate! }
       let(:item_type) { double name: 'Apples' }
       it 'has a not found status' do
         submit

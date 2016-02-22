@@ -58,9 +58,11 @@ module V1
     private
 
     def find_item_type
-      deny_access! and return unless @service.can_read? @reservation.item_type
       @item_type = ItemType.find_by name: params.require(:item_type)
-      render nothing: true, status: :not_found unless @item_type.present?
+      unless @item_type.present?
+        render nothing: true, status: :not_found and return
+      end
+      deny_access! and return unless @service.can_read? @item_type
     end
 
     def find_reservation
