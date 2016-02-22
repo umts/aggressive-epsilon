@@ -230,38 +230,49 @@ describe V1::ReservationsController do
   describe 'POST #update_item' do
     let(:item_type) { create :item_type, allowed_keys: [:mileage] }
     let(:item) { create :item, item_type: item_type }
-    let(:reservation) { create :reservation, item: item }
+    let(:reservation) { create :reservation, item: item, creator: service }
     let(:changes) { { color: 'orange' } }
     let(:submit) { post :update_item, id: reservation.id, data: changes }
-    context 'change applied successfully' do
-      before :each do
-        expect_any_instance_of(Item)
-          .to receive(:update)
-          .with(data: changes.stringify_keys)
-          .and_return true
+    context 'as creator of reservation' do
+      let(:service) { authenticate! }
+      context 'change applied successfully' do
+        before :each do
+          expect_any_instance_of(Item)
+            .to receive(:update)
+            .with(data: changes.stringify_keys)
+            .and_return true
+        end
+        it 'calls #update on the item with the changes' do
+          submit
+        end
+        it 'has an OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
+        it 'has an empty response body' do
+          submit
+          expect(response.body).to be_empty
+        end
       end
-      it 'calls #update on the item with the changes' do
-        submit
-      end
-      it 'has an OK status' do
-        submit
-        expect(response).to have_http_status :ok
-      end
-      it 'has an empty response body' do
-        submit
-        expect(response.body).to be_empty
+      context 'change not applied successfully' do
+        let(:error_messages) { ['Disallowed key: color'] }
+        it 'has an unprocessable entity status' do
+          submit
+          expect(response).to have_http_status :unprocessable_entity
+        end
+        it 'responds with an object containing the reservation errors' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to eql 'errors' => error_messages
+        end
       end
     end
-    context 'change not applied successfully' do
-      let(:error_messages) { ['Disallowed key: color'] }
-      it 'has an unprocessable entity status' do
+    context 'as an unrelated service' do
+      let(:service) { create :service }
+      before(:each) { authenticate! }
+      it 'has an unauthorized status' do
         submit
-        expect(response).to have_http_status :unprocessable_entity
-      end
-      it 'responds with an object containing the reservation errors' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to eql 'errors' => error_messages
+        expect(response).to have_http_status :unauthorized
       end
     end
   end
