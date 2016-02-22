@@ -1,6 +1,7 @@
 module V1
   class ReservationsController < ApplicationController
     before_action :find_reservation, only: %i(destroy show update update_item)
+    before_action :find_item_type, only: :index
 
     def create
       item_type = ItemType.find_by name: params.require(:item_type)
@@ -22,20 +23,15 @@ module V1
     end
 
     def index
-      deny_access! and return unless @service.can_read? @reservation.item_type
-      item_type = ItemType.find_by name: params.require(:item_type)
-      if item_type.present?
-        start_datetime = DateTime.iso8601 params.require(:start_time)
-        end_datetime = DateTime.iso8601 params.require(:end_time)
-        reservations = item_type.reservations
-                                .during start_datetime, end_datetime
-        reservations = reservations.map do |reservation|
-          { start_time: reservation.start_datetime.iso8601,
-            end_time: reservation.end_datetime.iso8601 }
-        end
-        render json: reservations
-      else render nothing: true, status: :not_found
+      start_datetime = DateTime.iso8601 params.require(:start_time)
+      end_datetime = DateTime.iso8601 params.require(:end_time)
+      reservations = @item_type.reservations
+                               .during start_datetime, end_datetime
+      reservations = reservations.map do |reservation|
+        { start_time: reservation.start_datetime.iso8601,
+          end_time: reservation.end_datetime.iso8601 }
       end
+      render json: reservations
     end
 
     def show
@@ -60,6 +56,12 @@ module V1
     end
 
     private
+
+    def find_item_type
+      deny_access! and return unless @service.can_read? @reservation.item_type
+      @item_type = ItemType.find_by name: params.require(:item_type)
+      render nothing: true, status: :not_found unless @item_type.present?
+    end
 
     def find_reservation
       @reservation = Reservation.find_by id: params.require(:id)
