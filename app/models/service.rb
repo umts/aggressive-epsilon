@@ -7,7 +7,7 @@ class Service < ActiveRecord::Base
   before_validation -> { self.api_key = SecureRandom.hex }, on: :create
 
   def can_edit?(reservation)
-    created? reservation || can_write_to? reservation.item_type
+    created?(reservation) || can_write_to?(reservation.item_type)
   end
   alias able_to_edit? can_edit?
 
