@@ -129,19 +129,31 @@ describe V1::ReservationsController do
 
   describe 'GET #show' do
     context 'reservation found' do
-      let(:reservation) { create :reservation }
+      let(:reservation) { create :reservation, creator: service }
       let(:submit) { get :show, id: reservation.id }
-      it 'has an OK status' do
-        submit
-        expect(response).to have_http_status :ok
+      context 'as creator of reservation' do
+        let(:service) { authenticate! }
+        it 'has an OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
+        it 'responds with the found reservation' do
+          submit
+          expect(response.body).to eql reservation.to_json
+        end
       end
-      it 'responds with the found reservation' do
-        submit
-        expect(response.body).to eql reservation.to_json
+      context 'as an unrelated service' do
+        let(:service) { create :service }
+        before(:each) { authenticate! }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'reservation not found' do
       let(:submit) { get :show, id: 0 }
+      before(:each) { authenticate! }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
