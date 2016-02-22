@@ -9,10 +9,12 @@ class Item < ActiveRecord::Base
             presence: true
 
   validates :name, uniqueness: true
+  validates :reservable, inclusion: { in: [true, false] }
   validate :data_allowed_keys
 
   scope :available_between, lambda { |start_datetime, end_datetime|
-    where.not id: reserved_during(start_datetime, end_datetime).pluck(:id)
+    where(reservable: true)
+      .where.not id: reserved_during(start_datetime, end_datetime).pluck(:id)
   }
 
   scope :reserved_during, lambda { |start_datetime, end_datetime|

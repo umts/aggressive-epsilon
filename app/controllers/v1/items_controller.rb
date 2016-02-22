@@ -5,7 +5,7 @@ module V1
     def create
       item_type = ItemType.find_by id: params.require(:item_type_id)
       deny_access! and return unless @service.can_write_to? item_type
-      item = Item.new params.permit(:name, :item_type_id, data: {})
+      item = Item.new params.permit(:name, :item_type_id, :reservable, data: {})
       if item.save
         render json: item, except: %i(created_at updated_at)
       else render json: { errors: item.errors.full_messages },
@@ -36,6 +36,7 @@ module V1
       metadata_keys = params[:item][:data].try(:keys)
       changes = params.require(:item).permit :name,
                                              :item_type_id,
+                                             :reservable,
                                              data: metadata_keys
       if moving_item_to_unauthorized_type?
         deny_access! 'You do not have write access to the new item type'

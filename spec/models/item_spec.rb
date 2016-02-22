@@ -4,6 +4,7 @@ describe Item do
   describe 'available_between' do
     let(:call) { Item.available_between default_start_time, default_end_time }
     let!(:item) { create :item }
+    let!(:unreservable_item) { create :item, reservable: false }
     it 'calls Reservation.during' do
       expect(Reservation)
         .to receive(:during)
@@ -13,6 +14,9 @@ describe Item do
     end
     it 'includes an item with no reservations' do
       expect(call).to include item
+    end
+    it 'excludes items which are not reservable' do
+      expect(call).not_to include unreservable_item
     end
   end
 

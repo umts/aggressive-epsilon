@@ -5,7 +5,8 @@ describe V1::ItemsController do
     let(:item_type) { create :item_type }
     let(:submit) do
       post :create, name: name,
-                    item_type_id: item_type.id
+                    item_type_id: item_type.id,
+                    reservable: true
     end
     let(:name) { 'Gillig' }
     context 'write access to item type' do
@@ -21,6 +22,7 @@ describe V1::ItemsController do
           expect(json).to eql(
             'id' => Item.last.id,
             'name' => 'Gillig',
+            'reservable' => true,
             'item_type_id' => item_type.id,
             'data' => {})
         end
@@ -92,6 +94,7 @@ describe V1::ItemsController do
         expect(json).to eql [{
           'id' => item.id,
           'name' => item.name,
+          'reservable' => item.reservable,
           'item_type_id' => item.item_type_id,
           'data' => item.data }]
       end
@@ -117,6 +120,7 @@ describe V1::ItemsController do
           expect(json).to eql(
             'id' => item.id,
             'name' => item.name,
+            'reservable' => item.reservable,
             'item_type_id' => item.item_type_id,
             'data' => item.data)
         end
@@ -140,7 +144,7 @@ describe V1::ItemsController do
   end
 
   describe 'PUT #update' do
-    let(:changes) { { data: { color: 'green' } } }
+    let(:changes) { { reservable: false } }
     let(:submit) { put :update, id: item.id, item: changes }
     context 'item found' do
       let(:item_type) { create :item_type, allowed_keys: [:color] }
