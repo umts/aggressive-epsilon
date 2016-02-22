@@ -57,19 +57,31 @@ describe V1::ReservationsController do
 
   describe 'DELETE #destroy' do
     context 'reservation found' do
-      let(:reservation) { create :reservation }
+      let(:reservation) { create :reservation, creator: service }
       let(:submit) { delete :destroy, id: reservation.id }
-      it 'deletes the reservation' do
-        submit
-        expect(Reservation.count).to be 0
+      context 'as creator of reservation' do
+        let(:service) { authenticate! }
+        it 'has on OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
+        it 'deletes the reservation' do
+          submit
+          expect(Reservation.count).to be 0
+        end
       end
-      it 'has on OK status' do
-        submit
-        expect(response).to have_http_status :ok
+      context 'as an unrelated service' do
+        let(:service) { create :service }
+        before(:each) { authenticate! }
+        it 'has an unauthorized status' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
       end
     end
     context 'reservation not found' do
       let(:submit) { delete :destroy, id: 0 }
+      before(:each) { authenticate! }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found

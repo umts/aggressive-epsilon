@@ -67,7 +67,9 @@ module V1
 
     def find_reservation
       @reservation = Reservation.find_by id: params.require(:id)
-      render nothing: true, status: :not_found unless @reservation.present?
+      unless @reservation.present?
+        render nothing: true, status: :not_found and return
+      end
       deny_access! and return unless @service.can_edit? @reservation
     end
 
