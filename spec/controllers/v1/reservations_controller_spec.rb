@@ -165,7 +165,8 @@ describe V1::ReservationsController do
     let :reservation do
       create :reservation,
              start_datetime: 1.week.ago.to_datetime,
-             end_datetime: Time.zone.today.to_datetime
+             end_datetime: Time.zone.today.to_datetime,
+             creator: service
     end
     let(:new_start_time) { default_end_time }
     let(:new_end_time) { default_start_time }
@@ -174,43 +175,54 @@ describe V1::ReservationsController do
         end_time: new_end_time.iso8601 }
     end
     let(:submit) { put :update, id: reservation.id, reservation: changes }
-    context 'change applied successfully' do
-      before :each do
-        expect_any_instance_of(Reservation)
-          .to receive(:update)
-          .with(start_datetime: new_start_time,
-                end_datetime: new_end_time)
-          .and_return true
+    context 'as creator of reservation' do
+      let(:service) { authenticate! }
+      context 'change applied successfully' do
+        before :each do
+          expect_any_instance_of(Reservation)
+            .to receive(:update)
+            .with(start_datetime: new_start_time,
+                  end_datetime: new_end_time)
+            .and_return true
+        end
+        it 'calls #update on the reservation with the interpolated times' do
+          submit
+        end
+        it 'has an OK status' do
+          submit
+          expect(response).to have_http_status :ok
+        end
+        it 'has an empty response body' do
+          submit
+          expect(response.body).to be_empty
+        end
       end
-      it 'calls #update on the reservation with the interpolated times' do
-        submit
-      end
-      it 'has an OK status' do
-        submit
-        expect(response).to have_http_status :ok
-      end
-      it 'has an empty response body' do
-        submit
-        expect(response.body).to be_empty
+      context 'change not applied successfully' do
+        let(:error_messages) { ['Start time must be before end time'] }
+        before :each do
+          expect_any_instance_of(Reservation)
+            .to receive(:update)
+            .with(start_datetime: new_start_time,
+                  end_datetime: new_end_time)
+            .and_call_original
+        end
+        it 'has an unprocessable entity status' do
+          submit
+          expect(response).to have_http_status :unprocessable_entity
+        end
+        it 'responds with an object containing the reservation errors' do
+          submit
+          json = JSON.parse response.body
+          expect(json).to eql 'errors' => error_messages
+        end
       end
     end
-    context 'change not applied successfully' do
-      let(:error_messages) { ['Start time must be before end time'] }
-      before :each do
-        expect_any_instance_of(Reservation)
-          .to receive(:update)
-          .with(start_datetime: new_start_time,
-                end_datetime: new_end_time)
-          .and_call_original
-      end
-      it 'has an unprocessable entity status' do
+    context 'as unrelated service' do
+      let(:service) { create :service }
+      before(:each) { authenticate! }
+      it 'has an unauthorized status' do
         submit
-        expect(response).to have_http_status :unprocessable_entity
-      end
-      it 'responds with an object containing the reservation errors' do
-        submit
-        json = JSON.parse response.body
-        expect(json).to eql 'errors' => error_messages
+        expect(response).to have_http_status :unauthorized
       end
     end
   end
