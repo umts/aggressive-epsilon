@@ -104,15 +104,12 @@ have write access to the type of item which is reserved.
    "item": "Granny Smith"}
   ```
 
-  If the requested reservation could not be found, a blank response body is returned with a 404 status.
-
   ---
 
 + `DELETE /reservations/:id`
 
   This endpoint allows you to delete any reservation which you have created.
   If the reservation has been successfully deleted, a blank response body is returned with a status of 200.
-  If the reservation could not be found, a 404 will be returned.
 
   ---
 
@@ -148,7 +145,6 @@ have write access to the type of item which is reserved.
    You must have read access to the given item type.
    The `start_time` and `end_time` arguments must be in ISO 8601 format.
    Each reservation will list the start and end times in ISO 8601 format.
-   If the requsted item type does not exist, the endpoint will return a blank response body and a 404.
 
    For instance, your **request** might look like:
    
