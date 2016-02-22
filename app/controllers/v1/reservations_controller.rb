@@ -41,7 +41,7 @@ module V1
     def update
       params.require(:reservation).permit(:start_time, :end_time)
       if @reservation.update datetime_interpolated_changes
-        render nothing: true
+        render json: @reservation
       else render json: { errors: @reservation.errors.full_messages },
                   status: :unprocessable_entity
       end

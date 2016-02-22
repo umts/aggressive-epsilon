@@ -192,9 +192,9 @@ describe V1::ReservationsController do
           submit
           expect(response).to have_http_status :ok
         end
-        it 'has an empty response body' do
+        it 'responds with the new attributes' do
           submit
-          expect(response.body).to be_empty
+          expect(response.body).to eql reservation.to_json
         end
       end
       context 'change not applied successfully' do

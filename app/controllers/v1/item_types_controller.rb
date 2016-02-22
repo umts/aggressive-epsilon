@@ -6,7 +6,7 @@ module V1
       deny_access! and return unless @service.can_write_to? # any
       item_type = ItemType.new params.permit(:name, allowed_keys: [])
       if item_type.save
-        render json: item_type, except: [:created_at, :updated_at],
+        render json: item_type, except: %i(created_at updated_at),
                include: :items # there won't be any
       else render json: { errors: item_type.errors.full_messages },
                   status: :unprocessable_entity
@@ -21,20 +21,21 @@ module V1
 
     def index
       render json: @service.readable_item_types,
-             except: [:created_at, :updated_at],
+             except: %i(created_at updated_at),
              include: { items: { only: :name } }
     end
 
     def show
       deny_access! and return unless @service.can_read? @item_type
-      render json: @item_type, except: [:created_at, :updated_at],
+      render json: @item_type, except: %i(created_at updated_at),
              include: { items: { only: [:id, :name] } }
     end
 
     def update
       deny_access! and return unless @service.can_write_to? @item_type
       changes = params.require(:item_type).permit :allowed_keys, :name
-      if @item_type.update changes then render nothing: true
+      if @item_type.update changes
+        render json: @item_type, except: %i(created_at updated_at)
       else render json: { errors: @item_type.errors.full_messages },
                   status: :unprocessable_entity
       end

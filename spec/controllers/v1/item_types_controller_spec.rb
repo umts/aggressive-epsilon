@@ -162,9 +162,11 @@ describe V1::ItemTypesController do
             submit
             expect(response).to have_http_status :ok
           end
-          it 'has an empty response body' do
+          it 'responds with the new attributes' do
             submit
-            expect(response.body).to be_empty
+            expect(response.body).to eql(
+              item_type.reload.to_json(except: %i(created_at updated_at))
+            )
           end
         end
         context 'change not applied successfully' do

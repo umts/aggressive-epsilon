@@ -42,7 +42,8 @@ module V1
         deny_access! 'You do not have write access to the new item type'
         return
       end
-      if @item.update changes then render nothing: true
+      if @item.update changes
+        render json: @item, except: %i(created_at updated_at)
       else render json: { errors: @item.errors.full_messages },
                   status: :unprocessable_entity
       end

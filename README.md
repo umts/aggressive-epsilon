@@ -81,7 +81,7 @@ have write access to the type of item which is reserved.
    {"reservation": {"start_time": "2016-02-16T18:00:00-05:00"}}
    ```
 
-   If the change has been successfully applied, a blank response body is returned with a status of 200.
+   If the change has been successfully applied, the new attributes will be returned.
    If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
 
    A **failure response** will look like:
@@ -193,7 +193,7 @@ have write access to the type of item which is reserved.
   {"item_type": {"name": "Red/Green Fruit"}}
   ```
   
-  If the change has been successfully applied, a blank response body is returned with a status of 200.
+  If the change has been successfully applied, the new attributes will be returned.
   If there was an error in applying the change, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
 
    A **failure response** will look like:
@@ -308,7 +308,7 @@ have write access to the type of item which is reserved.
   This endpoint allows you to update the attributes of an item. You must have write access to its type.
   To move an item from one type to another, you must have write access to both types.
   Item changes should be in an `item` parameter.
-  If successful, a blank response will be returned with a status of 200.
+  If successful, the new attributes will be returned.
   IF there is an error applying your changes, a list of errors will be returned with a status of 422 (unprocessable entity).
 
   For example, your **request** might look like:
