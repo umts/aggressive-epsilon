@@ -22,6 +22,7 @@ module V1
     end
 
     def index
+      deny_access! and return unless @service.can_read? @reservation.item_type
       item_type = ItemType.find_by name: params.require(:item_type)
       if item_type.present?
         start_datetime = DateTime.iso8601 params.require(:start_time)
@@ -63,6 +64,7 @@ module V1
     def find_reservation
       @reservation = Reservation.find_by id: params.require(:id)
       render nothing: true, status: :not_found unless @reservation.present?
+      deny_access! and return unless @service.can_edit? @reservation
     end
 
     def datetime_interpolated_changes

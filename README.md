@@ -13,6 +13,9 @@ Lightweight Rails JSON API for dealing with item reservations.
 
 These endpoints are structured so that customer service interfaces need not be concerned with IDs of objects other than reservations.
 
+In general, reservations can only be edited by the customer service interface which created them, or by management interfaces which
+have write access to the type of item which is reserved.
+
 + `GET /item_types`
 
   This endpoint returns a collection of types of items which can be reserved.
@@ -142,6 +145,7 @@ These endpoints are structured so that customer service interfaces need not be c
 + `GET /reservations`
    
    This endpoint returns all of the reservations for a particular item type in a given time range.
+   You must have read access to the given item type.
    The `start_time` and `end_time` arguments must be in ISO 8601 format.
    Each reservation will list the start and end times in ISO 8601 format.
    If the requsted item type does not exist, the endpoint will return a blank response body and a 404.

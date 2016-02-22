@@ -6,6 +6,11 @@ class Service < ActiveRecord::Base
 
   before_validation -> { self.api_key = SecureRandom.hex }, on: :create
 
+  def can_edit?(reservation)
+    created? reservation || can_write_to? reservation.item_type
+  end
+  alias able_to_edit? can_edit?
+
   def can_read?(item_type)
     permissions.find_by(item_type: item_type).present?
   end
@@ -17,6 +22,10 @@ class Service < ActiveRecord::Base
     permissions.find_by(item_type: item_type, write: true).present?
   end
   alias able_to_write_to? can_write_to?
+
+  def created?(reservation)
+    reservation.creator == self
+  end
 
   def readable_item_types
     ItemType.joins(:permissions).where permissions: { service_id: id }
