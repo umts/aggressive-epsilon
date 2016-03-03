@@ -5,9 +5,10 @@ class ItemType < ActiveRecord::Base
 
   serialize :allowed_keys, Array
   before_validation -> { self.allowed_keys = allowed_keys.map(&:to_sym) }
-
-  validates :name, presence: true
-  validates :name, uniqueness: true
+  before_validation -> { self.uuid = SecureRandom.uuid}, on: :create
+  
+  validates :name, :uuid, presence: true
+  validates :name, :uuid, uniqueness: true
 
   default_scope -> { order :name }
 

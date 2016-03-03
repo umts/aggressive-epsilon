@@ -7,6 +7,10 @@ describe ItemType do
       item_type.save
       expect(item_type.allowed_keys).to eql %i(color)
     end
+    it 'generates a uuid' do
+      item_type = create :item_type
+      expect(item_type.uuid).not_to be nil
+    end
   end
 
   describe 'find_available' do
