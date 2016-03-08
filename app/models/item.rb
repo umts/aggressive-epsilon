@@ -3,12 +3,15 @@ class Item < ActiveRecord::Base
   has_many :reservations
 
   serialize :data, Hash
+  
+  before_validation -> {self.uuid = SecureRandom.uuid}, on: :create
 
   validates :item_type,
             :name,
+            :uuid,
             presence: true
 
-  validates :name, uniqueness: true
+  validates :name, :uuid, uniqueness: true
   validates :reservable, inclusion: { in: [true, false] }
   validate :data_allowed_keys
 

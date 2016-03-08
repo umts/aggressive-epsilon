@@ -1,6 +1,8 @@
 module V1
   class ItemsController < ApplicationController
     before_action :find_item, only: %i(destroy show update)
+    
+    
 
     def create
       item_type = ItemType.find_by id: params.require(:item_type_id)
