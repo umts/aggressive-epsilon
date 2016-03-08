@@ -33,6 +33,20 @@ class Item < ActiveRecord::Base
                        creator: creator
   end
 
+  def to_json(*_)
+    external_attributes.to_json
+  end
+  
+  def external_attributes
+    {
+      uuid: uuid,
+      name: name,
+      reservable: reservable?,
+      item_type_uuid: item_type.uuid,
+      data: data
+      }
+  end
+  
   private
 
   def data_allowed_keys
