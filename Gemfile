@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'factory_girl_rails'
 gem 'mysql'
 gem 'rails'
+gem 'pg', '~> 0.18.4'
 
 group :production do
   gem 'exception_notification'
