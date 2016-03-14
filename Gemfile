@@ -5,6 +5,7 @@ gem 'rails'
 gem 'pg', '~> 0.18.4'
 
 group :production do
+  gem 'rails_12factor'
   gem 'exception_notification'
 end
 
