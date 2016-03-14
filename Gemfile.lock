@@ -91,7 +91,6 @@ GEM
     minitest (5.8.4)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    mysql (2.9.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
@@ -206,7 +205,6 @@ DEPENDENCIES
   exception_notification
   factory_girl_rails
   mocha
-  mysql
   pg (~> 0.18.4)
   pry-byebug
   rails
