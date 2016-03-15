@@ -6,6 +6,7 @@ module V1
       deny_access! and return unless @service.can_write_to? # any
       item_type = ItemType.new params.permit(:name, allowed_keys: [])
       if item_type.save
+        # write the permission stuff here
         render json: item_type, except: %i(created_at updated_at),
                include: :items # there won't be any
       else render json: { errors: item_type.errors.full_messages },
