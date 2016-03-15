@@ -7,7 +7,7 @@ describe V1::ItemTypesController do
     let(:allowed_keys) { %w(color length) }
     let(:other_item_type) { create :item_type }
     context 'write access to another item_type' do
-      before(:each) { authenticate_with_access_to :write, other_item_type }
+      before(:each) { @service = authenticate_with_access_to :write, other_item_type }
       context 'item type created successfully' do
         it 'has an OK status' do
           submit
@@ -21,6 +21,11 @@ describe V1::ItemTypesController do
             'name' => 'Buses',
             'allowed_keys' => allowed_keys,
             'items' => [])
+        end
+        it 'creates Permission for creator' do
+          submit
+          json = JSON.parse response.body
+          expect(Permission.where(item_type_id: json['id'], service: @service).count).not_to eq 0
         end
       end
       context 'error creating item type' do
