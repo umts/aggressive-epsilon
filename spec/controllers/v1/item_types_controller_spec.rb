@@ -20,6 +20,7 @@ describe V1::ItemTypesController do
             'id' => other_item_type.id + 1,
             'name' => 'Buses',
             'allowed_keys' => allowed_keys,
+            'creator_id' => service.id,
             'items' => [])
         end
         it 'creates Permission for creator' do
@@ -105,6 +106,7 @@ describe V1::ItemTypesController do
         [{ 'id' => item_type.id,
            'name' => item_type.name,
            'allowed_keys' => item_type.allowed_keys.map(&:to_s),
+           'creator_id' => nil,
            'items' => [{ 'name' => item_1.name },
                        { 'name' => item_2.name }] }])
     end
@@ -125,6 +127,7 @@ describe V1::ItemTypesController do
             'id' => item_type.id,
             'name' => item_type.name,
             'allowed_keys' => item_type.allowed_keys.map(&:to_s),
+            'creator_id' => nil,
             'items' => [{ 'id' => item_1.id,
                           'name' => item_1.name },
                         { 'id' => item_2.id,

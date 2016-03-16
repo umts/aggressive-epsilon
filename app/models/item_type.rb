@@ -1,4 +1,5 @@
 class ItemType < ActiveRecord::Base
+  belongs_to :creator, class_name: Service
   has_many :items, dependent: :destroy
   has_many :reservations, through: :items
   has_many :permissions, dependent: :destroy
@@ -10,9 +11,15 @@ class ItemType < ActiveRecord::Base
   validates :name, uniqueness: true
 
   default_scope -> { order :name }
+  
+  after_create :add_permission
 
   # Randomly picks an item from the available items.
   def find_available(start_datetime, end_datetime)
     items.available_between(start_datetime, end_datetime).sample
+  end
+
+  def add_permission
+    Permission.create(write: true, item_type_id: self.id, service_id: self.creator_id) if self.creator_id
   end
 end
