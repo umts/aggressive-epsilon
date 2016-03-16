@@ -11,7 +11,7 @@ class ItemType < ActiveRecord::Base
   validates :name, uniqueness: true
 
   default_scope -> { order :name }
-  
+
   after_create :add_permission
 
   # Randomly picks an item from the available items.
@@ -20,6 +20,7 @@ class ItemType < ActiveRecord::Base
   end
 
   def add_permission
-    Permission.create(write: true, item_type_id: self.id, service_id: self.creator_id) if self.creator_id
+    Permission.create(write: true, item_type_id: id,
+                      service_id: creator_id) if creator_id
   end
 end

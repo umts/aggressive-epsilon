@@ -4,7 +4,8 @@ module V1
 
     def create
       deny_access! and return unless @service.can_write_to? # any
-      item_type = ItemType.new params.permit(:name, allowed_keys: []).merge creator_id: @service.id
+      item_type = ItemType.new params.permit(:name, allowed_keys: [])
+                  .merge creator_id: @service.id
       if item_type.save
         render json: item_type, except: %i(created_at updated_at),
                include: :items # there won't be any

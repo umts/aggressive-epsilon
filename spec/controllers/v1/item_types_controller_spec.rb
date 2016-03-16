@@ -26,7 +26,7 @@ describe V1::ItemTypesController do
         it 'creates Permission for creator' do
           submit
           json = JSON.parse response.body
-          new_item_type = ItemType.find(json.fetch 'id')
+          new_item_type = ItemType.find json.fetch 'id'
           expect(service).to be_able_to_write_to new_item_type
         end
       end
