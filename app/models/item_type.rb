@@ -21,6 +21,6 @@ class ItemType < ActiveRecord::Base
 
   def add_permission
     Permission.create(write: true, item_type_id: id,
-                      service_id: creator_id) if creator_id
+                      service_id: creator_id)
   end
 end
