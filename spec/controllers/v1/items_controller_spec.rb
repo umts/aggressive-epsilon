@@ -145,7 +145,7 @@ describe V1::ItemsController do
 
   describe 'PUT #update' do
     let(:changes) { { reservable: false } }
-    let(:submit) { put :update, id: item.id, item: changes }
+    let(:submit) { put :update, id: item.uuid, item: changes }
     context 'item found' do
       let(:item_type) { create :item_type, allowed_keys: [:color] }
       let(:item) { create :item, item_type: item_type }
@@ -224,7 +224,7 @@ describe V1::ItemsController do
       end
     end
     context 'item not found' do
-      let(:item) { double id: 0 }
+      let(:item) { double uuid: 0 }
       before(:each) { authenticate! }
       it 'has a not found status' do
         submit
