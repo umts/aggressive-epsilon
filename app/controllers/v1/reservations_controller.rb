@@ -66,7 +66,7 @@ module V1
     end
 
     def find_reservation
-      @reservation = Reservation.find_by id: params.require(:id)
+      @reservation = Reservation.find_by uuid: params.require(:id)
       unless @reservation.present?
         render nothing: true, status: :not_found and return
       end
