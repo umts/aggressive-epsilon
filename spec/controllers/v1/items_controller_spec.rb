@@ -109,7 +109,7 @@ describe V1::ItemsController do
   end
 
   describe 'GET #show' do
-    let(:submit) { get :show, uuid: item.uuid }
+    let(:submit) { get :show, id: item.uuid }
     context 'item found' do
       let(:item) { create :item }
       context 'read access to item type' do
@@ -121,7 +121,7 @@ describe V1::ItemsController do
             'uuid' => item.uuid,
             'name' => item.name,
             'reservable' => item.reservable,
-            'item_type_id' => item.item_type.uuid,
+            'item_type_uuid' => item.item_type.uuid,
             'data' => item.data)
         end
       end
