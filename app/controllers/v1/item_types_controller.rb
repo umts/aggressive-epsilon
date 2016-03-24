@@ -7,7 +7,7 @@ module V1
       item_type = ItemType.new params.permit(:name, allowed_keys: [])
                   .merge creator_id: @service.id
       if item_type.save
-        render json: item_type, except: %i(created_at updated_at id),
+        render json: item_type, except: %i(created_at updated_at creator_id),
                include: :items # there won't be any
       else render json: { errors: item_type.errors.full_messages },
                   status: :unprocessable_entity

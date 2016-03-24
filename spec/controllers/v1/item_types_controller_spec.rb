@@ -9,11 +9,12 @@ describe V1::ItemTypesController do
     context 'write access to another item_type' do
       let!(:service) { authenticate_with_access_to :write, other_item_type }
       context 'item type created successfully' do
-        let(:created_item_type) { create :item_type }
+        let(:created_item_type) { create :item_type, creator_id: service.id }
         before :each do
           expect(ItemType)
             .to receive(:new)
-            .with(name: name, allowed_keys: allowed_keys)
+            .with(name: name, allowed_keys: allowed_keys,
+                  creator_id: service.id)
             .and_return created_item_type
         end
         it 'has an OK status' do
@@ -27,8 +28,7 @@ describe V1::ItemTypesController do
             'uuid' => created_item_type.uuid,
             'name' => created_item_type.name,
             'allowed_keys' => created_item_type.allowed_keys.map(&:to_s),
-            'id' => other_item_type.id + 1,
-            'creator_id' => service.id,
+            'id' => created_item_type.id,
             'items' => [])
         end
         it 'creates Permission for creator' do
@@ -135,8 +135,8 @@ describe V1::ItemTypesController do
             'uuid' => item_type.uuid,
             'name' => item_type.name,
             'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-            'items' => [{ 'uuid' => item_1.uuid,
             'creator_id' => item_type.creator_id,
+            'items' => [{ 'uuid' => item_1.uuid,
                           'name' => item_1.name },
                         { 'uuid' => item_2.uuid,
                           'name' => item_2.name }])
