@@ -3,8 +3,8 @@ class Item < ActiveRecord::Base
   has_many :reservations
 
   serialize :data, Hash
-  
-  before_validation -> {self.uuid = SecureRandom.uuid}, on: :create
+
+  before_validation -> { self.uuid = SecureRandom.uuid }, on: :create
 
   validates :item_type,
             :name,
@@ -36,7 +36,7 @@ class Item < ActiveRecord::Base
   def to_json(*_)
     external_attributes.to_json
   end
-  
+
   def external_attributes
     {
       uuid: uuid,
@@ -44,9 +44,9 @@ class Item < ActiveRecord::Base
       reservable: reservable?,
       item_type_uuid: item_type.uuid,
       data: data
-      }
+    }
   end
-  
+
   private
 
   def data_allowed_keys

@@ -2,7 +2,7 @@ class Reservation < ActiveRecord::Base
   belongs_to :item
   belongs_to :creator, class_name: Service
   delegate :item_type, to: :item
-  before_validation -> {self.uuid = SecureRandom.uuid}, on: :create
+  before_validation -> { self.uuid = SecureRandom.uuid }, on: :create
   validates :item,
             :start_datetime,
             :end_datetime,

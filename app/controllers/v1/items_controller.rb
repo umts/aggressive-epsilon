@@ -1,14 +1,12 @@
 module V1
   class ItemsController < ApplicationController
     before_action :find_item, only: %i(destroy show update)
-    
-    
 
     def create
       item_type = ItemType.find_by uuid: params.require(:item_type_uuid)
       deny_access! and return unless @service.can_write_to? item_type
       item = Item.new params.permit(:name, :reservable, data: {})
-                            .merge(item_type_id: item_type.id)
+             .merge(item_type_id: item_type.id)
       if item.save
         render json: item, except: %i(created_at updated_at)
       else render json: { errors: item.errors.full_messages },
