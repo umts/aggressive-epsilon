@@ -7,7 +7,7 @@ describe V1::ItemTypesController do
     let(:allowed_keys) { %w(color length) }
     let(:other_item_type) { create :item_type }
     context 'write access to another item_type' do
-      before(:each) { authenticate_with_access_to :write, other_item_type }
+      let!(:service) { authenticate_with_access_to :write, other_item_type }
       context 'item type created successfully' do
         let(:created_item_type) { create :item_type }
         before :each do
@@ -27,7 +27,15 @@ describe V1::ItemTypesController do
             'uuid' => created_item_type.uuid,
             'name' => created_item_type.name,
             'allowed_keys' => created_item_type.allowed_keys.map(&:to_s),
+            'id' => other_item_type.id + 1,
+            'creator_id' => service.id,
             'items' => [])
+        end
+        it 'creates Permission for creator' do
+          submit
+          json = JSON.parse response.body
+          new_item_type = ItemType.find json.fetch 'id'
+          expect(service).to be_able_to_write_to new_item_type
         end
       end
       context 'error creating item type' do
@@ -106,6 +114,7 @@ describe V1::ItemTypesController do
         [{ 'uuid' => item_type.uuid,
            'name' => item_type.name,
            'allowed_keys' => item_type.allowed_keys.map(&:to_s),
+           'creator_id' => item_type.creator_id,
            'items' => [{ 'name' => item_1.name },
                        { 'name' => item_2.name }] }])
     end
@@ -127,6 +136,7 @@ describe V1::ItemTypesController do
             'name' => item_type.name,
             'allowed_keys' => item_type.allowed_keys.map(&:to_s),
             'items' => [{ 'uuid' => item_1.uuid,
+            'creator_id' => item_type.creator_id,
                           'name' => item_1.name },
                         { 'uuid' => item_2.uuid,
                           'name' => item_2.name }])
