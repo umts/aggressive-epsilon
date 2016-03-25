@@ -7,7 +7,7 @@ module V1
       item_type = ItemType.new params.permit(:name, allowed_keys: [])
                   .merge creator_id: @service.id
       if item_type.save
-        render json: item_type, except: %i(created_at updated_at),
+        render json: item_type, except: %i(created_at updated_at creator_id),
                include: :items # there won't be any
       else render json: { errors: item_type.errors.full_messages },
                   status: :unprocessable_entity
@@ -22,14 +22,14 @@ module V1
 
     def index
       render json: @service.readable_item_types,
-             except: %i(created_at updated_at),
+             except: %i(created_at updated_at id),
              include: { items: { only: :name } }
     end
 
     def show
       deny_access! and return unless @service.can_read? @item_type
-      render json: @item_type, except: %i(created_at updated_at),
-             include: { items: { only: [:id, :name] } }
+      render json: @item_type, except: %i(created_at updated_at id),
+             include: { items: { only: [:uuid, :name] } }
     end
 
     def update
@@ -45,7 +45,7 @@ module V1
     private
 
     def find_item_type
-      @item_type = ItemType.find_by id: params.require(:id)
+      @item_type = ItemType.find_by uuid: params.require(:id)
       render nothing: true, status: :not_found and return if @item_type.blank?
     end
   end

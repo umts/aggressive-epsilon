@@ -27,7 +27,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-    [{"id": 100, "name": "Apples",
+    [{"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
       "allowed_keys": ["flavor"],
       "items": [{"name": "Macintosh"},
                 {"name": "Granny Smith"}]}]
@@ -49,13 +49,13 @@ have write access to the type of item which is reserved.
       "end_time": "2016-02-17T09:45:00-05:00"}
    ```
 
-   If a reservation with those parameters is available, the attributes of the newly created reservation is returned.
-   This ID will be necessary for referencing the reservation later.
+   If a reservation with those parameters is available, the attributes of the newly created reservation are returned.
+   This universally unique identifier will be necessary for referencing the reservation later.
 
    A **success response** will look like:
 
    ```json
-   {"id": 100,
+   {"id": "11ae0da2-b605-4d9b-8efb-443e59124479",
     "start_time": "2016-02-16T15:30:00-05:00",
     "end_time": "2016-02-17T09:45:00-05:00",
     "item_type": "Apples",
@@ -66,7 +66,7 @@ have write access to the type of item which is reserved.
 
    ---
 
-+ `PUT /reservations/:id`
++ `PUT /reservations/:uuid`
 
    This endpoint allows you to update the start or end times of a reservation.
    If you need a reservation for a different item type, the preferred method is to delete the current reservation
@@ -91,13 +91,13 @@ have write access to the type of item which is reserved.
    ```
    ---
 
-+ `GET /reservations/:id`
++ `GET /reservations/:uuid`
  
   This endpoint allows you to doublecheck the attributes of any reservation which you have created.
 
   A **response** will look like:
   ```json
-  {"id": 100,
+  {"id": "11ae0da2-b605-4d9b-8efb-443e59124479",
    "start_time": "2016-02-16T15:30:00-05:00",
    "end_time": "2016-02-17T09:45:00-05:00",
    "item_type": "Apples",
@@ -106,14 +106,14 @@ have write access to the type of item which is reserved.
 
   ---
 
-+ `DELETE /reservations/:id`
++ `DELETE /reservations/:uuid`
 
   This endpoint allows you to delete any reservation which you have created.
   If the reservation has been successfully deleted, a blank response body is returned with a status of 200.
 
   ---
 
-+ `POST /reservations/:id/update_item`
++ `POST /reservations/:uuid/update_item`
 
    This endpoint allows you to update any of the metadata belonging to the item reserved in a particular reservation.
    At present, this is a destructive update - the existing metadata will be replaced with the given metadata.
@@ -124,7 +124,7 @@ have write access to the type of item which is reserved.
    For instance, your **request** might look like:
 
    ```json
-   POST /reservations/100/update_item
+   POST /reservations/11ae0da2-b605-4d9b-8efb-443e59124479/update_item
    {"data": {"color": "orange"}}
    ```
 
@@ -166,15 +166,15 @@ have write access to the type of item which is reserved.
 
 ## Administration / management endpoints
 
-+ `GET /item_types/:id`
++ `GET /item_types/:uuid`
   
   This endpoint lists the properties of an item type and of its items.
   You must have read access to the item type.
-  Unlike `/item_types/`, this endpoint lists the ID of each item.
+  Unlike `/item_types/`, this endpoint lists the UUID of each item.
 
   A **response** will look like:
   ```json
-    {"id": 100, "name": "Apples",
+    {"id": 11ae0da2-b605-4d9b-8efb-443e59124479, "name": "Apples",
      "allowed_keys": ["flavor"],
      "items": [{"id": 400, "name": "Macintosh"},
                {"id": 401, "name": "Granny Smith"}]}
@@ -182,14 +182,14 @@ have write access to the type of item which is reserved.
   
   ---
   
-+ `PUT /item_types/:id`
++ `PUT /item_types/:uuid`
 
   This endpoint allows you to change the name or allowed metadata keys of an item type to which you have write access.
   Item type changes should be in an `item_type` parameter.
   
   Your **request** might look like:
   ```json
-  PUT /item_types/100
+  PUT /item_types/11ae0da2-b605-4d9b-8efb-443e59124479
   {"item_type": {"name": "Red/Green Fruit"}}
   ```
   
@@ -204,7 +204,7 @@ have write access to the type of item which is reserved.
    
    ---
    
-+ `DELETE /item_types/:id`
++ `DELETE /item_types/:uuid`
 
   This endpoint allows you to delete an item type and its items, if you have write access to it.
   If the item type has been successfully deleted, a blank response body is returned with a status of 200.
@@ -223,12 +223,12 @@ have write access to the type of item which is reserved.
   {"name": "Leather couches", "allowed_keys": ["texture", "length"]}
   ```
   
-  If successful, the newly created item type will be returned to you, including its ID.
+  If successful, the newly created item type will be returned to you, including its UUID.
   
   A **success response** will look like:
   
   ```json
-  {"id": 101, "name": "Leather couches", "allowed_keys": ["texture", "length"],
+  {"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
    "items": []}
   ```
   
@@ -247,20 +247,20 @@ have write access to the type of item which is reserved.
   This endpoint allows you to create a new item of a given type. You must specify the type, and should specify the name.
   You can also set its metadata, providing that your metadata keys are in its type's allowed keys.
   You must have write access to the item's type.
-  The attributes of the newly created item, including its ID, will be returned to you if everything went well.
+  The attributes of the newly created item, including its UUID, will be returned to you if everything went well.
   If there is an error in creating your item, the endpoint will return a list of errors with a status of 422 (unprocessable entity).
 
   For example, your **request** might look like this:
 
   ```json
   POST /items
-  {"name": "Awesome new couch", "item_type_id": 101}
+  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}
   ```
 
   A **success response** will look like:
 
   ```json
-  {"id": 300, "name": "Awesome new couch", "item_type_id": 101, "data": {}}
+  {"id": 11ae0da2-b605-4d9b-8efb-443e59124478, "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
   ```
 
   A **failure response** will look like:
@@ -279,31 +279,31 @@ have write access to the type of item which is reserved.
 
   ```json
   GET /items
-  {"item_type_id": 101}
+  {"item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}
   ```
 
   A **response** will look like:
 
   ```json
-  {[{"id": 300, "name": "Awesome new couch", "item_type_id": 101, "data": {}},
-    {"id": 301, "name": "Cool leather futon", "item_type_id": 101, "data": {"texture": "leather"}}]}
+  {[{"id": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": 11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
+    {"id": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
   ```
 
   ---
 
-+ `GET /items/:id`
++ `GET /items/:uuid`
 
   This endpoint allows you to view the attributes of an item, provided you have read access to its type.
 
   A **response** will look like:
 
   ```json
-  {"id": 300, "name": "Awesome new couch", "item_type_id": 101, "data": {}}
+  {"id": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
   ```
   
   ---
 
-+ `PUT /items/:id`
++ `PUT /items/:uuid`
   
   This endpoint allows you to update the attributes of an item. You must have write access to its type.
   To move an item from one type to another, you must have write access to both types.
@@ -314,7 +314,7 @@ have write access to the type of item which is reserved.
   For example, your **request** might look like:
 
   ```json
-  PUT /items/301
+  PUT /items/11ae0da2-b605-4d9b-8efb-443e59124479
   {"name": "Cool pleather futon", data: {"awesomeness": "factor 10"}}
   ```
 
@@ -324,7 +324,7 @@ have write access to the type of item which is reserved.
   {"errors": ["Disallowed key: awesomeness"]}
   ```
 
-+ `DELETE /items/:id`
++ `DELETE /items/:uuid`
 
   This endpoint allows you to delete an item. You must have write access to its type.
   A blank response body with a status of 200 will be returned.

@@ -5,7 +5,7 @@ describe V1::ItemsController do
     let(:item_type) { create :item_type }
     let(:submit) do
       post :create, name: name,
-                    item_type_id: item_type.id,
+                    item_type_uuid: item_type.uuid,
                     reservable: true
     end
     let(:name) { 'Gillig' }
@@ -20,10 +20,10 @@ describe V1::ItemsController do
           submit
           json = JSON.parse response.body
           expect(json).to eql(
-            'id' => Item.last.id,
+            'uuid' => Item.last.uuid,
             'name' => 'Gillig',
             'reservable' => true,
-            'item_type_id' => item_type.id,
+            'item_type_uuid' => item_type.uuid,
             'data' => {})
         end
       end
@@ -51,7 +51,7 @@ describe V1::ItemsController do
   end
 
   describe 'DELETE #destroy' do
-    let(:submit) { delete :destroy, id: item.id }
+    let(:submit) { delete :destroy, id: item.uuid }
     context 'item found' do
       let(:item) { create :item }
       context 'write access to item type' do
@@ -74,7 +74,7 @@ describe V1::ItemsController do
       end
     end
     context 'item not found' do
-      let(:item) { double id: 0 }
+      let(:item) { double uuid: 0 }
       before(:each) { authenticate! }
       it 'has a not found status' do
         submit
@@ -85,17 +85,17 @@ describe V1::ItemsController do
 
   describe 'GET #index' do
     let(:item) { create :item }
-    let(:submit) { get :index, item_type_id: item.item_type_id }
+    let(:submit) { get :index, item_type_uuid: item.item_type.uuid }
     context 'read access to item type' do
       before(:each) { authenticate_with_access_to :read, item.item_type }
       it 'renders all items' do
         submit
         json = JSON.parse response.body
         expect(json).to eql [{
-          'id' => item.id,
+          'uuid' => item.uuid,
           'name' => item.name,
           'reservable' => item.reservable,
-          'item_type_id' => item.item_type_id,
+          'item_type_uuid' => item.item_type.uuid,
           'data' => item.data }]
       end
     end
@@ -109,7 +109,7 @@ describe V1::ItemsController do
   end
 
   describe 'GET #show' do
-    let(:submit) { get :show, id: item.id }
+    let(:submit) { get :show, id: item.uuid }
     context 'item found' do
       let(:item) { create :item }
       context 'read access to item type' do
@@ -118,10 +118,10 @@ describe V1::ItemsController do
           submit
           json = JSON.parse response.body
           expect(json).to eql(
-            'id' => item.id,
+            'uuid' => item.uuid,
             'name' => item.name,
             'reservable' => item.reservable,
-            'item_type_id' => item.item_type_id,
+            'item_type_uuid' => item.item_type.uuid,
             'data' => item.data)
         end
       end
@@ -134,7 +134,7 @@ describe V1::ItemsController do
       end
     end
     context 'item not found' do
-      let(:item) { double id: 0 }
+      let(:item) { double uuid: 0 }
       before(:each) { authenticate! }
       it 'has a not found status' do
         submit
@@ -145,7 +145,7 @@ describe V1::ItemsController do
 
   describe 'PUT #update' do
     let(:changes) { { reservable: false } }
-    let(:submit) { put :update, id: item.id, item: changes }
+    let(:submit) { put :update, id: item.uuid, item: changes }
     context 'item found' do
       let(:item_type) { create :item_type, allowed_keys: [:color] }
       let(:item) { create :item, item_type: item_type }
@@ -224,7 +224,7 @@ describe V1::ItemsController do
       end
     end
     context 'item not found' do
-      let(:item) { double id: 0 }
+      let(:item) { double uuid: 0 }
       before(:each) { authenticate! }
       it 'has a not found status' do
         submit

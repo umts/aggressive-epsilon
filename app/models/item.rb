@@ -4,11 +4,14 @@ class Item < ActiveRecord::Base
 
   serialize :data, Hash
 
+  before_validation -> { self.uuid = SecureRandom.uuid }, on: :create
+
   validates :item_type,
             :name,
+            :uuid,
             presence: true
 
-  validates :name, uniqueness: true
+  validates :name, :uuid, uniqueness: true
   validates :reservable, inclusion: { in: [true, false] }
   validate :data_allowed_keys
 
@@ -28,6 +31,20 @@ class Item < ActiveRecord::Base
                        start_datetime: from,
                        end_datetime: to,
                        creator: creator
+  end
+
+  def to_json(*_)
+    external_attributes.to_json
+  end
+
+  def external_attributes
+    {
+      uuid: uuid,
+      name: name,
+      reservable: reservable?,
+      item_type_uuid: item_type.uuid,
+      data: data
+    }
   end
 
   private
