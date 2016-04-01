@@ -3,9 +3,10 @@ module V1
     before_action :find_item, only: %i(destroy show update)
 
     def create
-      item_type = ItemType.find_by id: params.require(:item_type_id)
+      item_type = ItemType.find_by uuid: params.require(:item_type_uuid)
       deny_access! and return unless @service.can_write_to? item_type
-      item = Item.new params.permit(:name, :item_type_id, :reservable, data: {})
+      item = Item.new params.permit(:name, :reservable, data: {})
+             .merge(item_type_id: item_type.id)
       if item.save
         render json: item, except: %i(created_at updated_at)
       else render json: { errors: item.errors.full_messages },
@@ -20,10 +21,9 @@ module V1
     end
 
     def index
-      item_type = ItemType.find_by id: params.require(:item_type_id)
+      item_type = ItemType.find_by uuid: params.require(:item_type_uuid)
       deny_access! and return unless @service.can_read? item_type
-      render json: item_type.items.order(:name),
-             except: %i(created_at updated_at)
+      render json: item_type.items.order(:name).map(&:external_attributes)
     end
 
     def show
@@ -59,7 +59,7 @@ module V1
     end
 
     def find_item
-      @item = Item.find_by id: params.require(:id)
+      @item = Item.find_by uuid: params.require(:id)
       render nothing: true, status: :not_found unless @item.present?
     end
   end

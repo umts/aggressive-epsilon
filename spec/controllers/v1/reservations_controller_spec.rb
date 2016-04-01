@@ -58,7 +58,7 @@ describe V1::ReservationsController do
   describe 'DELETE #destroy' do
     context 'reservation found' do
       let(:reservation) { create :reservation, creator: service }
-      let(:submit) { delete :destroy, id: reservation.id }
+      let(:submit) { delete :destroy, id: reservation.uuid }
       context 'as creator of reservation' do
         let(:service) { authenticate! }
         it 'has on OK status' do
@@ -130,7 +130,7 @@ describe V1::ReservationsController do
   describe 'GET #show' do
     context 'reservation found' do
       let(:reservation) { create :reservation, creator: service }
-      let(:submit) { get :show, id: reservation.id }
+      let(:submit) { get :show, id: reservation.uuid }
       context 'as creator of reservation' do
         let(:service) { authenticate! }
         it 'has an OK status' do
@@ -174,7 +174,7 @@ describe V1::ReservationsController do
       { start_time: new_start_time.iso8601,
         end_time: new_end_time.iso8601 }
     end
-    let(:submit) { put :update, id: reservation.id, reservation: changes }
+    let(:submit) { put :update, id: reservation.uuid, reservation: changes }
     context 'as creator of reservation' do
       let(:service) { authenticate! }
       context 'change applied successfully' do
@@ -232,7 +232,7 @@ describe V1::ReservationsController do
     let(:item) { create :item, item_type: item_type }
     let(:reservation) { create :reservation, item: item, creator: service }
     let(:changes) { { color: 'orange' } }
-    let(:submit) { post :update_item, id: reservation.id, data: changes }
+    let(:submit) { post :update_item, id: reservation.uuid, data: changes }
     context 'as creator of reservation' do
       let(:service) { authenticate! }
       context 'change applied successfully' do

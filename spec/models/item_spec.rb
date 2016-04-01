@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe Item do
+  describe 'creation' do
+    let(:item) { create :item }
+    it 'generates a uuid' do
+      expect(item.uuid).not_to be nil
+    end
+  end
+
   describe 'available_between' do
     let(:call) { Item.available_between default_start_time, default_end_time }
     let!(:item) { create :item }

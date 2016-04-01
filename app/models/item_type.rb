@@ -6,9 +6,10 @@ class ItemType < ActiveRecord::Base
 
   serialize :allowed_keys, Array
   before_validation -> { self.allowed_keys = allowed_keys.map(&:to_sym) }
+  before_validation -> { self.uuid = SecureRandom.uuid }, on: :create
 
-  validates :name, presence: true
-  validates :name, uniqueness: true
+  validates :name, :creator, :uuid, presence: true
+  validates :name, :uuid, uniqueness: true
 
   default_scope -> { order :name }
 
@@ -21,6 +22,6 @@ class ItemType < ActiveRecord::Base
 
   def add_permission
     Permission.create(write: true, item_type_id: id,
-                      service_id: creator_id) if creator_id
+                      service_id: creator_id)
   end
 end

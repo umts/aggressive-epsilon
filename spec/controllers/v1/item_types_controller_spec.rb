@@ -9,6 +9,14 @@ describe V1::ItemTypesController do
     context 'write access to another item_type' do
       let!(:service) { authenticate_with_access_to :write, other_item_type }
       context 'item type created successfully' do
+        let(:created_item_type) { create :item_type, creator_id: service.id }
+        before :each do
+          expect(ItemType)
+            .to receive(:new)
+            .with(name: name, allowed_keys: allowed_keys,
+                  creator_id: service.id)
+            .and_return created_item_type
+        end
         it 'has an OK status' do
           submit
           expect(response).to have_http_status :ok
@@ -17,10 +25,10 @@ describe V1::ItemTypesController do
           submit
           json = JSON.parse response.body
           expect(json).to eql(
-            'id' => other_item_type.id + 1,
-            'name' => 'Buses',
-            'allowed_keys' => allowed_keys,
-            'creator_id' => service.id,
+            'uuid' => created_item_type.uuid,
+            'name' => created_item_type.name,
+            'allowed_keys' => created_item_type.allowed_keys.map(&:to_s),
+            'id' => created_item_type.id,
             'items' => [])
         end
         it 'creates Permission for creator' do
@@ -54,7 +62,7 @@ describe V1::ItemTypesController do
   end
 
   describe 'DELETE #destroy' do
-    let(:submit) { delete :destroy, id: item_type.id }
+    let(:submit) { delete :destroy, id: item_type.uuid }
     context 'item type found' do
       let(:item_type) { create :item_type }
       context 'write access' do
@@ -82,7 +90,7 @@ describe V1::ItemTypesController do
       end
     end
     context 'item type not found' do
-      let(:item_type) { double id: 0 }
+      let(:item_type) { double uuid: 0 }
       before(:each) { authenticate! }
       it 'has a not found status' do
         submit
@@ -103,17 +111,17 @@ describe V1::ItemTypesController do
       expect(response.body).not_to include inaccessible_item_type.name
       json = JSON.parse response.body
       expect(json).to eql(
-        [{ 'id' => item_type.id,
+        [{ 'uuid' => item_type.uuid,
            'name' => item_type.name,
            'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-           'creator_id' => nil,
+           'creator_id' => item_type.creator_id,
            'items' => [{ 'name' => item_1.name },
                        { 'name' => item_2.name }] }])
     end
   end
 
   describe 'GET #show' do
-    let(:submit) { get :show, id: item_type.id }
+    let(:submit) { get :show, id: item_type.uuid }
     context 'item type found' do
       let(:item_type) { create :item_type }
       let!(:item_1) { create :item, item_type: item_type }
@@ -124,13 +132,13 @@ describe V1::ItemTypesController do
           submit
           json = JSON.parse response.body
           expect(json).to eql(
-            'id' => item_type.id,
+            'uuid' => item_type.uuid,
             'name' => item_type.name,
             'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-            'creator_id' => nil,
-            'items' => [{ 'id' => item_1.id,
+            'creator_id' => item_type.creator_id,
+            'items' => [{ 'uuid' => item_1.uuid,
                           'name' => item_1.name },
-                        { 'id' => item_2.id,
+                        { 'uuid' => item_2.uuid,
                           'name' => item_2.name }])
         end
       end
@@ -144,7 +152,7 @@ describe V1::ItemTypesController do
     end
     context 'item type not found' do
       before(:each) { authenticate! }
-      let(:item_type) { double id: 0 }
+      let(:item_type) { double uuid: 0 }
       it 'has a not found status' do
         submit
         expect(response).to have_http_status :not_found
@@ -154,7 +162,7 @@ describe V1::ItemTypesController do
 
   describe 'PUT #update' do
     let(:changes) { { name: 'A new name' } }
-    let(:submit) { put :update, id: item_type.id, item_type: changes }
+    let(:submit) { put :update, id: item_type.uuid, item_type: changes }
     context 'item type found' do
       let(:item_type) { create :item_type }
       context 'write access' do
@@ -201,7 +209,7 @@ describe V1::ItemTypesController do
       end
     end
     context 'item type not found' do
-      let(:item_type) { double id: 0 }
+      let(:item_type) { double uuid: 0 }
       before(:each) { authenticate! }
       it 'has a not found status' do
         submit

@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20160316175333) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "allowed_keys", limit: 255
+    t.string   "uuid",         limit: 255
     t.integer  "creator_id",   limit: 4
   end
 
@@ -28,23 +29,25 @@ ActiveRecord::Schema.define(version: 20160316175333) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.boolean  "reservable"
+    t.string   "uuid",         limit: 255
   end
 
   create_table "permissions", force: :cascade do |t|
     t.boolean  "write",                  default: false
     t.integer  "item_type_id", limit: 4
+    t.integer  "service_id",   limit: 4
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.integer  "service_id",   limit: 4
   end
 
   create_table "reservations", force: :cascade do |t|
     t.datetime "start_datetime"
     t.datetime "end_datetime"
     t.integer  "item_id",        limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "creator_id",     limit: 4
+    t.string   "uuid",           limit: 255
   end
 
   create_table "services", force: :cascade do |t|
