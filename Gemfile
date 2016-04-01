@@ -3,9 +3,9 @@ source 'https://rubygems.org'
 gem 'factory_girl_rails'
 gem 'rails'
 gem 'pg', '~> 0.18.4'
+gem 'rails_12factor'
 
 group :production do
-  gem 'rails_12factor'
   gem 'exception_notification'
 end
 
