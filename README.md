@@ -27,7 +27,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-    [{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
+    [{"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
       "allowed_keys": ["flavor"],
       "items": [{"name": "Macintosh"},
                 {"name": "Granny Smith"}]}]
@@ -55,7 +55,7 @@ have write access to the type of item which is reserved.
    A **success response** will look like:
 
    ```json
-   {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479",
+   {"id": "11ae0da2-b605-4d9b-8efb-443e59124479",
     "start_time": "2016-02-16T15:30:00-05:00",
     "end_time": "2016-02-17T09:45:00-05:00",
     "item_type": "Apples",

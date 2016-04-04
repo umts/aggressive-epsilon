@@ -8,7 +8,7 @@ module V1
       item = Item.new params.permit(:name, :reservable, data: {})
              .merge(item_type_id: item_type.id)
       if item.save
-        render json: item, except: %i(created_at updated_at)
+        render json: item, except: %i(created_at updated_at id)
       else render json: { errors: item.errors.full_messages },
                   status: :unprocessable_entity
       end

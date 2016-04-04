@@ -28,13 +28,12 @@ describe V1::ItemTypesController do
             'uuid' => created_item_type.uuid,
             'name' => created_item_type.name,
             'allowed_keys' => created_item_type.allowed_keys.map(&:to_s),
-            'id' => created_item_type.id,
             'items' => [])
         end
         it 'creates Permission for creator' do
           submit
           json = JSON.parse response.body
-          new_item_type = ItemType.find json.fetch 'id'
+          new_item_type = ItemType.find_by uuid: json.fetch('uuid')
           expect(service).to be_able_to_write_to new_item_type
         end
       end
