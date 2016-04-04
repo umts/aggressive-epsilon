@@ -174,10 +174,10 @@ have write access to the type of item which is reserved.
 
   A **response** will look like:
   ```json
-    {"id": 11ae0da2-b605-4d9b-8efb-443e59124479, "name": "Apples",
+    {"uuid": 11ae0da2-b605-4d9b-8efb-443e59124479, "name": "Apples",
      "allowed_keys": ["flavor"],
-     "items": [{"id": 400, "name": "Macintosh"},
-               {"id": 401, "name": "Granny Smith"}]}
+     "items": [{"uuid": 400, "name": "Macintosh"},
+               {"uuid": 401, "name": "Granny Smith"}]}
   ```
   
   ---
@@ -229,7 +229,7 @@ have write access to the type of item which is reserved.
   A **success response** will look like:
   
   ```json
-  {"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
    "items": []}
   ```
   
@@ -287,7 +287,7 @@ have write access to the type of item which is reserved.
 
   ```json
   {[{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": 11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
-    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
+    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
   ```
 
   ---
@@ -299,7 +299,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
   ```
   
   ---
