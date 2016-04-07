@@ -27,7 +27,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-    [{"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
+    [{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
       "allowed_keys": ["flavor"],
       "items": [{"name": "Macintosh"},
                 {"name": "Granny Smith"}]}]
@@ -55,7 +55,7 @@ have write access to the type of item which is reserved.
    A **success response** will look like:
 
    ```json
-   {"id": "11ae0da2-b605-4d9b-8efb-443e59124479",
+   {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479",
     "start_time": "2016-02-16T15:30:00-05:00",
     "end_time": "2016-02-17T09:45:00-05:00",
     "item_type": "Apples",
@@ -215,7 +215,6 @@ have write access to the type of item which is reserved.
 
   This endpoint allows you to create an item type given a particular name.
   In order to create a new item type, you must have write access to at least one other item type.
-  Creating a new item type will grant write permission to the service that created it.
   You may optionally specify what metadata keys you want other endpoints to be able to configure about items of this type, which should be an array.
   
   For example, your **request** might look like:
