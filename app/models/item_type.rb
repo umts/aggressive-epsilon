@@ -14,7 +14,7 @@ class ItemType < ActiveRecord::Base
   default_scope -> { order :name }
 
   after_create :add_permission
-  
+
   # Randomly picks an item from the available items.
   def find_available(start_datetime, end_datetime)
     items.available_between(start_datetime, end_datetime).sample
