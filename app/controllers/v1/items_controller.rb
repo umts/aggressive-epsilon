@@ -43,7 +43,7 @@ module V1
         return
       end
       if @item.update changes
-        render json: @item, except: %i(created_at updated_at)
+        render json: @item, except: %i(created_at updated_at id)
       else render json: { errors: @item.errors.full_messages },
                   status: :unprocessable_entity
       end
