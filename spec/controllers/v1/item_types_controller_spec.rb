@@ -113,7 +113,6 @@ describe V1::ItemTypesController do
         [{ 'uuid' => item_type.uuid,
            'name' => item_type.name,
            'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-           'creator_id' => item_type.creator_id,
            'items' => [{ 'name' => item_1.name },
                        { 'name' => item_2.name }] }])
     end
@@ -134,7 +133,6 @@ describe V1::ItemTypesController do
             'uuid' => item_type.uuid,
             'name' => item_type.name,
             'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-            'creator_id' => item_type.creator_id,
             'items' => [{ 'uuid' => item_1.uuid,
                           'name' => item_1.name },
                         { 'uuid' => item_2.uuid,
@@ -181,7 +179,7 @@ describe V1::ItemTypesController do
           it 'responds with the new attributes' do
             submit
             expect(response.body).to eql(
-              item_type.reload.to_json(except: %i(created_at updated_at))
+              item_type.reload.to_json(except: %i(created_at updated_at creator_id id))
             )
           end
         end
