@@ -254,7 +254,7 @@ have write access to the type of item which is reserved.
 
   ```json
   POST /items
-  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}
+  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "reservable": true}
   ```
 
   A **success response** will look like:

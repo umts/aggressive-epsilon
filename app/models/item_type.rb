@@ -15,13 +15,6 @@ class ItemType < ActiveRecord::Base
 
   after_create :add_permission
   
-  def to_json(*_)
-    { id: uuid,
-      name: name
-      allowed_keys: allowed_keys
-      items: items }.to_json
-  end
-
   # Randomly picks an item from the available items.
   def find_available(start_datetime, end_datetime)
     items.available_between(start_datetime, end_datetime).sample

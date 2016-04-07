@@ -39,10 +39,10 @@ class Item < ActiveRecord::Base
 
   def external_attributes
     {
-      id: uuid,
+      uuid: uuid,
       name: name,
       reservable: reservable?,
-      item_type_id: item_type.uuid,
+      item_type_uuid: item_type.uuid,
       data: data
     }
   end
