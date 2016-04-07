@@ -179,7 +179,8 @@ describe V1::ItemTypesController do
           it 'responds with the new attributes' do
             submit
             expect(response.body).to eql(
-              item_type.reload.to_json(except: %i(created_at updated_at creator_id id))
+              item_type.reload.to_json(except:
+                                       %i(created_at updated_at creator_id id))
             )
           end
         end
