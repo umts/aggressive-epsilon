@@ -29,8 +29,8 @@ have write access to the type of item which is reserved.
   ```json
     [{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
       "allowed_keys": ["flavor"],
-      "items": [{"name": "Macintosh"},
-                {"name": "Granny Smith"}]}]
+      "items": [{"name": "Macintosh", "uuid": "c3337a1d-694c-40cb-a16e-b77c33e8239d"},
+                {"name": "Granny Smith", "uuid": "02790780-5e26-466b-9a41-26bd9c4b66a3"}]}]
   ```
 
   ---
