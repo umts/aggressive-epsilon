@@ -29,8 +29,8 @@ have write access to the type of item which is reserved.
   ```json
     [{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
       "allowed_keys": ["flavor"],
-      "items": [{"name": "Macintosh"},
-                {"name": "Granny Smith"}]}]
+      "items": [{"name": "Macintosh", "uuid": "c3337a1d-694c-40cb-a16e-b77c33e8239d"},
+                {"name": "Granny Smith", "uuid": "02790780-5e26-466b-9a41-26bd9c4b66a3"}]}]
   ```
 
   ---
@@ -174,10 +174,10 @@ have write access to the type of item which is reserved.
 
   A **response** will look like:
   ```json
-    {"id": 11ae0da2-b605-4d9b-8efb-443e59124479, "name": "Apples",
+    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
      "allowed_keys": ["flavor"],
-     "items": [{"id": 400, "name": "Macintosh"},
-               {"id": 401, "name": "Granny Smith"}]}
+     "items": [{"uuid": "facbabab-9cf9-4825-9a61-b2f11772d1c5", "name": "Macintosh"},
+               {"uuid": "19eba890-b2ad-4014-86be-a79e0afb053a", "name": "Granny Smith"}]}
   ```
   
   ---
@@ -215,7 +215,6 @@ have write access to the type of item which is reserved.
 
   This endpoint allows you to create an item type given a particular name.
   In order to create a new item type, you must have write access to at least one other item type.
-  Creating a new item type will grant write permission to the service that created it.
   You may optionally specify what metadata keys you want other endpoints to be able to configure about items of this type, which should be an array.
   
   For example, your **request** might look like:
@@ -229,7 +228,7 @@ have write access to the type of item which is reserved.
   A **success response** will look like:
   
   ```json
-  {"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
    "items": []}
   ```
   
@@ -255,7 +254,7 @@ have write access to the type of item which is reserved.
 
   ```json
   POST /items
-  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}
+  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "reservable": true}
   ```
 
   A **success response** will look like:
@@ -286,8 +285,8 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-  {[{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": 11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
-    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
+  {[{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
+    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
   ```
 
   ---
@@ -299,7 +298,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
   ```
   
   ---
