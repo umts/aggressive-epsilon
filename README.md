@@ -27,10 +27,10 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-    [{"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
+    [{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
       "allowed_keys": ["flavor"],
-      "items": [{"name": "Macintosh"},
-                {"name": "Granny Smith"}]}]
+      "items": [{"name": "Macintosh", "uuid": "c3337a1d-694c-40cb-a16e-b77c33e8239d"},
+                {"name": "Granny Smith", "uuid": "02790780-5e26-466b-9a41-26bd9c4b66a3"}]}]
   ```
 
   ---
@@ -55,7 +55,7 @@ have write access to the type of item which is reserved.
    A **success response** will look like:
 
    ```json
-   {"id": "11ae0da2-b605-4d9b-8efb-443e59124479",
+   {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479",
     "start_time": "2016-02-16T15:30:00-05:00",
     "end_time": "2016-02-17T09:45:00-05:00",
     "item_type": "Apples",
@@ -97,7 +97,7 @@ have write access to the type of item which is reserved.
 
   A **response** will look like:
   ```json
-  {"id": "11ae0da2-b605-4d9b-8efb-443e59124479",
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479",
    "start_time": "2016-02-16T15:30:00-05:00",
    "end_time": "2016-02-17T09:45:00-05:00",
    "item_type": "Apples",
@@ -174,10 +174,10 @@ have write access to the type of item which is reserved.
 
   A **response** will look like:
   ```json
-    {"id": 11ae0da2-b605-4d9b-8efb-443e59124479, "name": "Apples",
+    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Apples",
      "allowed_keys": ["flavor"],
-     "items": [{"id": 400, "name": "Macintosh"},
-               {"id": 401, "name": "Granny Smith"}]}
+     "items": [{"uuid": "facbabab-9cf9-4825-9a61-b2f11772d1c5", "name": "Macintosh"},
+               {"uuid": "19eba890-b2ad-4014-86be-a79e0afb053a", "name": "Granny Smith"}]}
   ```
   
   ---
@@ -228,7 +228,7 @@ have write access to the type of item which is reserved.
   A **success response** will look like:
   
   ```json
-  {"id": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "name": "Leather couches", "allowed_keys": ["texture", "length"],
    "items": []}
   ```
   
@@ -254,13 +254,13 @@ have write access to the type of item which is reserved.
 
   ```json
   POST /items
-  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}
+  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "reservable": true}
   ```
 
   A **success response** will look like:
 
   ```json
-  {"id": 11ae0da2-b605-4d9b-8efb-443e59124478, "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
+  {"uuid": 11ae0da2-b605-4d9b-8efb-443e59124478, "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
   ```
 
   A **failure response** will look like:
@@ -285,8 +285,8 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-  {[{"id": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": 11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
-    {"id": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
+  {[{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
+    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
   ```
 
   ---
@@ -298,7 +298,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-  {"id": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_id": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
   ```
   
   ---

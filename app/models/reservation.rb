@@ -18,7 +18,7 @@ class Reservation < ActiveRecord::Base
   }
 
   def to_json(*_)
-    { id: uuid,
+    { uuid: uuid,
       start_time: start_datetime.iso8601,
       end_time: end_datetime.iso8601,
       item_type: item_type.name,
