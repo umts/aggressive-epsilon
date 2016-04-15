@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'factory_girl_rails'
 gem 'mysql'
 gem 'rails'
+gem 'seed_dump'
 
 group :production do
   gem 'exception_notification'
