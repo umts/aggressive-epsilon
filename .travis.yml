@@ -6,7 +6,6 @@ before_script:
   - cp config/database.yml.example config/database.yml
 script:
   - bundle exec rake db:reset
-  - bundle exec rake db:seed
   - bundle exec rspec
 notifications:
   email:
