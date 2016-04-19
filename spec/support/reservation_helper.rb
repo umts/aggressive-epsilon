@@ -1,5 +1,3 @@
-require 'rspec'
-
 module ReservationHelper
   def default_start_time
     Date.yesterday.to_datetime
