@@ -1,3 +1,7 @@
+require 'rspec'
+require 'spec_helper.rb'
+require 'rails_helper.rb'
+
 @service = Service.find_by url: 'localhost'
 unless @service
   @service = FactoryGirl.create :service, name: 'dev stuff', url: 'localhost'
