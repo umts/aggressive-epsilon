@@ -42,4 +42,3 @@ end
 def deauthenticate!
   request.headers['Authorization'] = nil
 end
-

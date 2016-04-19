@@ -7,7 +7,7 @@ module ReservationHelper
   def default_end_time
     default_start_time + 2.days
   end
-  
+
   # https://github.com/thoughtbot/factory_girl/issues/229#issuecomment-2696357
   # Can't define factory traits based dynamically around default start and end
   # times, so we define a helper method instead of that.
