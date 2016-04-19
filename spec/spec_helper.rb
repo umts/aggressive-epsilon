@@ -1,7 +1,6 @@
 require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
-require 'rspec'
 
 CodeClimate::TestReporter.start if ENV['CI']
 SimpleCov.start 'rails'
