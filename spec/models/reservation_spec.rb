@@ -1,5 +1,4 @@
 require 'rails_helper'
-include ReservationHelper
 
 describe Reservation do
   describe 'during' do

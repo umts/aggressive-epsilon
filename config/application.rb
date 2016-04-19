@@ -8,7 +8,8 @@ module AggressiveEpsilon
     config.encoding = 'utf-8'
     config.time_zone = 'Eastern Time (US & Canada)'
     config.autoload_paths << Rails.root.join('lib')
-    config.autoload_paths += Dir["#{Rails.root}/spec/**/"]
+    config.autoload_paths << Rails.root.join('spec')
+    config.autoload_paths << Rails.root.join('spec/support')
     config.filter_parameters += %i(password secret spire github)
   end
 end

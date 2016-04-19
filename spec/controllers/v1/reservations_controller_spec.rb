@@ -1,5 +1,4 @@
 require 'rails_helper'
-include ReservationHelper
 
 describe V1::ReservationsController do
   let!(:creator) { authenticate! }

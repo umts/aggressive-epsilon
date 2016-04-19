@@ -1,10 +1,3 @@
-require 'factory_girl_rails'
-require 'spec_helper'
-require 'rails_helper'
-require 'rspec'
-require 'rubygems'
-include ReservationHelper
-
 @service = Service.find_by url: 'localhost'
 unless @service
   @service = FactoryGirl.create :service, name: 'dev stuff', url: 'localhost'
