@@ -164,9 +164,6 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 0.3)
     ruby-progressbar (1.7.5)
-    seed_dump (3.2.4)
-      activerecord (>= 4)
-      activesupport (>= 4)
     simplecov (0.11.2)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -213,7 +210,6 @@ DEPENDENCIES
   rails
   rspec-rails
   rubocop
-  seed_dump
   simplecov
   timecop
   umts-custom-cops
