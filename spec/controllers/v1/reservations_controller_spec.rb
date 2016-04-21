@@ -11,6 +11,12 @@ describe V1::ReservationsController do
            start_time: default_start_time.iso8601,
            end_time: default_end_time.iso8601
     end
+    let :submit_invalid do
+      post :create,
+           item_type: 'something that will never ever be created',
+           start_time: default_start_time.iso8601,
+           end_time: default_end_time.iso8601
+    end
     context 'with available item' do
       let(:reservation) { create :reservation, item: item }
       before :each do
@@ -51,6 +57,12 @@ describe V1::ReservationsController do
       it 'has an empty response body' do
         submit
         expect(response.body).to be_empty
+      end
+    end
+    context 'when passed an unknown item_type' do
+      it 'has a not_found status' do
+        submit_invalid
+        expect(response).to have_http_status :not_found
       end
     end
   end
