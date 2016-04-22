@@ -22,6 +22,27 @@ RSpec.configure do |config|
   end
 end
 
+def authenticate!(service: create(:service))
+  request.headers['Authorization'] = "Token token=#{service.api_key}"
+  service
+end
+
+def authenticate_with_access_to(access_type, item_type)
+  service = create :service
+  unless %i(read write).include? access_type
+    raise 'Valid access types are read and write'
+  end
+  attrs = { service: service, item_type: item_type }
+  attrs[:write] = true if access_type == :write
+  create :permission, attrs
+  authenticate! service: service
+  service
+end
+
+def deauthenticate!
+  request.headers['Authorization'] = nil
+end
+
 def default_start_time
   Date.yesterday.to_datetime
 end
@@ -46,25 +67,4 @@ def reservation_with_times(type)
   create :reservation,
          start_datetime: (default_start_time + modifiers.first.days),
          end_datetime: (default_end_time + modifiers.last.days)
-end
-
-def authenticate!(service: create(:service))
-  request.headers['Authorization'] = "Token token=#{service.api_key}"
-  service
-end
-
-def authenticate_with_access_to(access_type, item_type)
-  service = create :service
-  unless %i(read write).include? access_type
-    raise 'Valid access types are read and write'
-  end
-  attrs = { service: service, item_type: item_type }
-  attrs[:write] = true if access_type == :write
-  create :permission, attrs
-  authenticate! service: service
-  service
-end
-
-def deauthenticate!
-  request.headers['Authorization'] = nil
 end
