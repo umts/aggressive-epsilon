@@ -11,7 +11,7 @@ describe V1::ReservationsController do
            start_time: default_start_time.iso8601,
            end_time: default_end_time.iso8601
     end
-    let :submit_invalid do
+    let :submit_invalid_item_type do
       post :create,
            item_type: 'something that will never ever be created',
            start_time: default_start_time.iso8601,
@@ -61,7 +61,7 @@ describe V1::ReservationsController do
     end
     context 'when passed an unknown item_type' do
       it 'has a not_found status' do
-        submit_invalid
+        submit_invalid_item_type
         expect(response).to have_http_status :not_found
       end
     end
