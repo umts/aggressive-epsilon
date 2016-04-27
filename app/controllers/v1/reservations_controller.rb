@@ -5,7 +5,6 @@ module V1
 
     def create
       item_type = ItemType.find_by name: params.require(:item_type)
-      render nothing: true, status: :not_found and return if item_type.nil?
       start_time = DateTime.iso8601 params.require(:start_time)
       end_time = DateTime.iso8601 params.require(:end_time)
       item = item_type.find_available start_time, end_time
