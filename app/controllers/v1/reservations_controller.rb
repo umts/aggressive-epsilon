@@ -13,9 +13,9 @@ module V1
         reservation = item.reserve! from: start_time,
                                     to: end_time,
                                     creator: @service
-        render json: reservation
-      else render nothing: true, status: :unprocessable_entity
+        render json: reservation and return if reservation.valid?
       end
+      render nothing: true, status: :unprocessable_entity
     end
 
     def destroy
