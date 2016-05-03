@@ -3,8 +3,6 @@ require 'spec_helper'
 require 'factory_girl_rails'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
-require 'support/reservation_helper'
-include ReservationHelper
 
 ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
