@@ -1,5 +1,6 @@
 require 'factory_girl_rails'
 
+exit if Rails.env.test?
 service = Service.find_by url: 'localhost'
 unless service
   service = FactoryGirl.create :service, name: 'dev stuff', url: 'localhost'
