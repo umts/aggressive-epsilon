@@ -1,6 +1,4 @@
-require 'rspec'
-require 'spec_helper'
-require 'rails_helper'
+require 'factory_girl_rails'
 
 service = Service.find_by url: 'localhost'
 unless service
