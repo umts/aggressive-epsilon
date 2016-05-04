@@ -25,13 +25,13 @@ describe V1::ReservationsController do
           .with(default_start_time, default_end_time)
           .and_return item
         expect_any_instance_of(Item)
-          .to receive(:reserve!)
+          .to receive(:reserve)
           .with(from: default_start_time,
                 to: default_end_time,
                 creator: creator)
           .and_return reservation
       end
-      it 'calls #reserve! on the item' do
+      it 'calls #reserve on the item' do
         submit
       end
       it 'has an OK status' do

@@ -27,11 +27,11 @@ describe Item do
     end
   end
 
-  describe 'reserve!' do
+  describe 'reserve' do
     let(:item) { create :item }
     let(:creator) { create :service }
     let :call do
-      item.reserve! from: default_start_time,
+      item.reserve from: default_start_time,
                     to: default_end_time,
                     creator: creator
     end
