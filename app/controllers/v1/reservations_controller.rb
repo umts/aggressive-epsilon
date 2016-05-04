@@ -5,6 +5,7 @@ module V1
 
     def create
       item_type = ItemType.find_by name: params.require(:item_type)
+      render nothing: true, status: :not_found and return if item_type.nil?
       start_time = DateTime.iso8601 params.require(:start_time)
       end_time = DateTime.iso8601 params.require(:end_time)
       item = item_type.find_available start_time, end_time
@@ -12,9 +13,9 @@ module V1
         reservation = item.reserve! from: start_time,
                                     to: end_time,
                                     creator: @service
-        render json: reservation
-      else render nothing: true, status: :unprocessable_entity
+        render json: reservation and return if reservation.valid?
       end
+      render nothing: true, status: :unprocessable_entity
     end
 
     def destroy
