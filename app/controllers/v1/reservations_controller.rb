@@ -10,9 +10,9 @@ module V1
       end_time = DateTime.iso8601 params.require(:end_time)
       item = item_type.find_available start_time, end_time
       if item.present?
-        reservation = item.reserve! from: start_time,
-                                    to: end_time,
-                                    creator: @service
+        reservation = item.reserve from: start_time,
+                                   to: end_time,
+                                   creator: @service
         render json: reservation and return if reservation.valid?
       end
       render nothing: true, status: :unprocessable_entity
