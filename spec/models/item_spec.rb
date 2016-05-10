@@ -32,8 +32,8 @@ describe Item do
     let(:creator) { create :service }
     let :call do
       item.reserve from: default_start_time,
-                    to: default_end_time,
-                    creator: creator
+                   to: default_end_time,
+                   creator: creator
     end
     it 'creates a reservation for the item' do
       expect { call }.to change { Reservation.count }.by 1

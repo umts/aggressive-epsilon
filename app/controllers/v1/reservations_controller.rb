@@ -11,8 +11,8 @@ module V1
       item = item_type.find_available start_time, end_time
       if item.present?
         reservation = item.reserve from: start_time,
-                                    to: end_time,
-                                    creator: @service
+                                   to: end_time,
+                                   creator: @service
         render json: reservation and return if reservation.valid?
       end
       render nothing: true, status: :unprocessable_entity
