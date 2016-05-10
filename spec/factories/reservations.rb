@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :reservation do
-    start_datetime default_start_time
-    end_datetime default_end_time
+    start_datetime Date.yesterday.to_datetime
+    end_datetime Date.yesterday.to_datetime + 2.days
     item
     creator factory: :service
   end
