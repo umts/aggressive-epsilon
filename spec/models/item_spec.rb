@@ -27,13 +27,13 @@ describe Item do
     end
   end
 
-  describe 'reserve!' do
+  describe 'reserve' do
     let(:item) { create :item }
     let(:creator) { create :service }
     let :call do
-      item.reserve! from: default_start_time,
-                    to: default_end_time,
-                    creator: creator
+      item.reserve from: default_start_time,
+                   to: default_end_time,
+                   creator: creator
     end
     it 'creates a reservation for the item' do
       expect { call }.to change { Reservation.count }.by 1
