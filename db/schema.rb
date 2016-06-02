@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20160316175333) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "allowed_keys", limit: 255
-    t.integer  "creator_id",   limit: 4
     t.string   "uuid",         limit: 255
+    t.integer  "creator_id",   limit: 4
   end
 
   create_table "items", force: :cascade do |t|
