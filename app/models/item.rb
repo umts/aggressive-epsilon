@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   belongs_to :item_type
   has_many :reservations
+  has_many :damages
 
   serialize :data, Hash
 
@@ -31,6 +32,14 @@ class Item < ActiveRecord::Base
                        start_datetime: from,
                        end_datetime: to,
                        creator: creator
+  end
+
+  def report_damage(rental_reservation:, repair_reservation:, damage_type:, creator:)
+    Damage.create damage_issued_reservation_uuid: rental_reservation,
+                  damage_fixed_reservation_uuid: repair_reservation,
+                  damage_type: damage_type,
+                  item_id: id,
+                  creator: creator
   end
 
   def to_json(*_)

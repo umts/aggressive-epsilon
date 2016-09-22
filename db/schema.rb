@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316175333) do
+ActiveRecord::Schema.define(version: 20160824171959) do
+
+  create_table "damage_types", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "uuid",       limit: 255
+    t.integer  "creator_id", limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "damages", force: :cascade do |t|
+    t.string   "uuid",                           limit: 255
+    t.string   "damage_issued_reservation_uuid", limit: 255
+    t.string   "damage_fixed_reservation_uuid",  limit: 255
+    t.integer  "damage_type_id",                 limit: 4
+    t.integer  "creator_id",                     limit: 4
+    t.integer  "item_id",                        limit: 4
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
 
   create_table "item_types", force: :cascade do |t|
     t.string   "name",         limit: 255
