@@ -41,4 +41,22 @@ describe Item do
       expect(reservation.item).to eql item
     end
   end
+
+  describe 'report_damage' do
+    let(:item) { create :item }
+    let(:rental_reservation) { create :reservation, item: item }
+    let(:repair_reservation) { create :reservation, item: item }
+    let(:damage_type) { create :damage_type }
+    let(:creator) { create :service }
+    let(:call) do
+      item.report_damage rental_reservation: rental_reservation,
+                         repair_reservation: repair_reservation,
+                         damage_type: damage_type,
+                         creator: creator
+    end
+    it 'report a damage for the rental reservation' do
+      expect { call }.to change{ Damage.count }.by 1
+      expect(Damage.last.item).to eql item
+    end
+  end
 end

@@ -13,14 +13,14 @@ module V1
     def create
       damage_type = DamageType.find_by name: params.require(:damage_type)
       render nothing: true, status: :not_found and return if damage_type.nil?
-      damage_issued_reservation_uuid = params.require(:damage_issued_reservation_uuid)
-      damage_fixed_reservation_uuid = params.require(:damage_fixed_reservation_uuid)
-      issued_item = (Reservation.find_by uuid: damage_issued_reservation_uuid).item
-      fixed_item = (Reservation.find_by uuid: damage_fixed_reservation_uuid).item
-      if  !damage_issued_reservation_uuid.nil? && !damage_fixed_reservation_uuid.nil?
+      damage_issued_reservation = Reservation.find_by uuid: params.require(:damage_issued_reservation_uuid)
+      damage_fixed_reservation = Reservation.find_by uuid: params.require(:damage_fixed_reservation_uuid)
+      if  !damage_issued_reservation.nil? && !damage_fixed_reservation.nil?
+        issued_item = damage_issued_reservation.item
+        fixed_item = damage_fixed_reservation.item
         if issued_item.uuid == fixed_item.uuid
-            damage = issued_item.report_damage rental_reservation: damage_issued_reservation_uuid,
-                                               repair_reservation: damage_fixed_reservation_uuid,
+            damage = issued_item.report_damage rental_reservation: damage_issued_reservation.uuid,
+                                               repair_reservation: damage_fixed_reservation.uuid,
                                                damage_type: damage_type,
                                                creator: @service
             render json: damage and return if damage.valid?

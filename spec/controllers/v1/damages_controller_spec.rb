@@ -9,6 +9,8 @@ describe V1::DamagesController do
   let(:repair_reservation) { create :damage_reservation, item: item }
 
   describe 'POST #create' do
+    let(:item2) { create :item, item_type: item_type }
+    let(:rental_reservation2) { create :reservation, item: item2 }
     let(:submit) do
       post :create, damage_type: damage_type.name,
                     damage_issued_reservation_uuid: rental_reservation.uuid,
@@ -18,6 +20,24 @@ describe V1::DamagesController do
     let(:submit_with_invalid_damage_type) do
       post :create, damage_type: 'some invalid damage type',
                     damage_issued_reservation_uuid: rental_reservation.uuid,
+                    damage_fixed_reservation_uuid: repair_reservation.uuid
+    end
+
+    let(:submit_with_invalid_rental_reservation) do
+      post :create, damage_type: damage_type.name,
+                    damage_issued_reservation_uuid: 'some invalid rental reservation',
+                    damage_fixed_reservation_uuid: repair_reservation.uuid
+    end
+
+    let(:submit_with_invalid_repair_reservation) do
+      post :create, damage_type: damage_type.name,
+                    damage_issued_reservation_uuid: rental_reservation.uuid,
+                    damage_fixed_reservation_uuid: 'some invalid repair reservation'
+    end
+
+    let(:submit_with_reservations_items_different) do
+      post :create, damage_type: damage_type.name,
+                    damage_issued_reservation_uuid: rental_reservation2.uuid,
                     damage_fixed_reservation_uuid: repair_reservation.uuid
     end
 
@@ -46,9 +66,24 @@ describe V1::DamagesController do
     end
 
     context 'with invalid data' do
-      it 'has a not_found status' do
+      it 'has a not_found status with invalid damage type' do
         submit_with_invalid_damage_type
         expect(response).to have_http_status :not_found
+      end
+
+      it 'has an unprocessable_entity with invalid rental reservation' do
+        submit_with_invalid_rental_reservation
+        expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it 'has an unprocessable_entity with invalid repair reservation' do
+        submit_with_invalid_repair_reservation
+        expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it 'has an unprocessable_entity with reservations with different items' do
+        submit_with_reservations_items_different
+        expect(response).to have_http_status :unprocessable_entity
       end
     end
   end
