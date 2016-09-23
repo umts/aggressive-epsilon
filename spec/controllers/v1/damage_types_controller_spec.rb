@@ -11,7 +11,7 @@ describe V1::DamageTypesController do
       before :each do
         expect(DamageType)
           .to receive(:new)
-          .with( name: name, creator_id: creator.id )
+          .with(name: name, creator_id: creator.id)
           .and_return damage_type
       end
       it 'has an ok status' do
@@ -77,11 +77,11 @@ describe V1::DamageTypesController do
     let!(:damage2) { create :damage, damage_type: damage_type }
     it 'render all damgage type' do
       submit
-      expect(JSON.parse(response.body)).to eql([{
-        'uuid' => damage_type.uuid,
-        'name' => damage_type.name,
-        'damages' => [{ 'uuid' => damage1.uuid },
-                      { 'uuid' => damage2.uuid }] }])
+      expect(JSON.parse(response.body)).to eql(
+        [{ 'uuid' => damage_type.uuid,
+           'name' => damage_type.name,
+           'damages' => [{ 'uuid' => damage1.uuid },
+                         { 'uuid' => damage2.uuid }] }])
     end
   end
 
@@ -99,7 +99,7 @@ describe V1::DamageTypesController do
         expect(JSON.parse(response.body)).to eql(
           'uuid' => damage_type.uuid,
           'name' => damage_type.name,
-          'damages' => [{ 'uuid' => damage.uuid }])
+          'damages' => [{ 'uuid' => damage.uuid }] )
       end
     end
     context 'damage_type not found' do
@@ -113,7 +113,7 @@ describe V1::DamageTypesController do
 
   describe 'POST #update' do
     let(:submit) { post :update, id: damage_type.uuid, damage_type: changes }
-    let(:changes) { { name: "New Damage Type Name" } }
+    let(:changes) { { name: 'New Damage Type Name' } }
     context 'damage type found' do
       let(:damage_type) { create :damage_type }
       context 'changes apply successfully' do
@@ -145,7 +145,7 @@ describe V1::DamageTypesController do
         end
         it 'responds with an object containing the item type errors' do
           submit
-          expect(JSON.parse response.body).to eql 'errors' => error_messages
+          expect(JSON.parse(response.body)).to eql 'errors' => error_messages
         end
       end
     end

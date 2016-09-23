@@ -55,7 +55,7 @@ describe Item do
                          creator: creator
     end
     it 'report a damage for the rental reservation' do
-      expect { call }.to change{ Damage.count }.by 1
+      expect { call }.to change { Damage.count }.by 1
       expect(Damage.last.item).to eql item
     end
   end

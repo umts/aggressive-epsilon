@@ -5,7 +5,7 @@ describe V1::DamagesController do
   let(:damage_type) { create :damage_type }
   let(:item_type) { create :item_type }
   let(:item) { create :item, item_type: item_type }
-  let(:rental_reservation) { create :reservation, item: item}
+  let(:rental_reservation) { create :reservation, item: item }
   let(:repair_reservation) { create :damage_reservation, item: item }
 
   describe 'POST #create' do
@@ -13,32 +13,32 @@ describe V1::DamagesController do
     let(:rental_reservation2) { create :reservation, item: item2 }
     let(:submit) do
       post :create, damage_type: damage_type.name,
-                    damage_issued_reservation_uuid: rental_reservation.uuid,
-                    damage_fixed_reservation_uuid: repair_reservation.uuid
+                    rental_uuid: rental_reservation.uuid,
+                    repair_uuid: repair_reservation.uuid
     end
 
     let(:submit_with_invalid_damage_type) do
       post :create, damage_type: 'some invalid damage type',
-                    damage_issued_reservation_uuid: rental_reservation.uuid,
-                    damage_fixed_reservation_uuid: repair_reservation.uuid
+                    rental_uuid: rental_reservation.uuid,
+                    repair_uuid: repair_reservation.uuid
     end
 
     let(:submit_with_invalid_rental_reservation) do
       post :create, damage_type: damage_type.name,
-                    damage_issued_reservation_uuid: 'some invalid rental reservation',
-                    damage_fixed_reservation_uuid: repair_reservation.uuid
+                    rental_uuid: 'some invalid rental reservation',
+                    repair_uuid: repair_reservation.uuid
     end
 
     let(:submit_with_invalid_repair_reservation) do
       post :create, damage_type: damage_type.name,
-                    damage_issued_reservation_uuid: rental_reservation.uuid,
-                    damage_fixed_reservation_uuid: 'some invalid repair reservation'
+                    rental_uuid: rental_reservation.uuid,
+                    repair_uuid: 'some invalid repair reservation'
     end
 
     let(:submit_with_reservations_items_different) do
       post :create, damage_type: damage_type.name,
-                    damage_issued_reservation_uuid: rental_reservation2.uuid,
-                    damage_fixed_reservation_uuid: repair_reservation.uuid
+                    rental_uuid: rental_reservation2.uuid,
+                    repair_uuid: repair_reservation.uuid
     end
 
     context 'with valid data' do
@@ -46,12 +46,12 @@ describe V1::DamagesController do
 
       before :each do
         expect_any_instance_of(Item)
-        .to receive(:report_damage)
-        .with(rental_reservation: rental_reservation.uuid,
-              repair_reservation: repair_reservation.uuid,
-              damage_type: damage_type,
-              creator: creator)
-        .and_return damage
+          .to receive(:report_damage)
+          .with(rental_reservation: rental_reservation.uuid,
+                repair_reservation: repair_reservation.uuid,
+                damage_type: damage_type,
+                creator: creator)
+          .and_return damage
       end
 
       it 'has an OK status' do
@@ -115,16 +115,15 @@ describe V1::DamagesController do
 
   describe 'GET #index' do
     let(:submit) { get :index, item: item.name }
-    let(:submit_invalid_item) { get :index, item: 'some invalid item'}
+    let(:submit_invalid_item) { get :index, item: 'some invalid item' }
     let!(:damage) { create :damage, item: item }
     context 'item found' do
       it 'response contain the created item\'s damages' do
         submit
-        expect(JSON.parse response.body).to include
-        { "item_id" => damage.item.id,
-          "damage_issued_reservation_uuid" => damage.damage_issued_reservation_uuid,
-          "damage_fixed_reservation_uuid" => damage.damage_issued_reservation_uuid
-        }
+        expect(JSON.parse(response.body)).to include
+        { 'item_id' => damage.item.id,
+          'damage_issued_reservation_uuid' => damage.damage_issued_reservation_uuid,
+          'damage_fixed_reservation_uuid' => damage.damage_issued_reservation_uuid }
       end
     end
 
@@ -144,7 +143,7 @@ describe V1::DamagesController do
   describe 'GET #show' do
     let!(:damage) { create :damage, item: item }
     let(:submit) { get :show, id: damage.uuid }
-    let(:submit_invalid_damage) { get :show, id: 'some invalid damage'}
+    let(:submit_invalid_damage) { get :show, id: 'some invalid damage' }
 
     context 'damage found' do
       it 'has ok status response' do

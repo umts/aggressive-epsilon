@@ -1,6 +1,6 @@
 module V1
   class DamageTypesController < ApplicationController
-    before_action :get_damage_type, only: %i(destroy show update)
+    before_action :find_damage_type, only: %i(destroy show update)
 
     def index
       render json: DamageType.all,
@@ -10,9 +10,10 @@ module V1
 
     def create
       damage_type = DamageType.new params.permit(:name)
-                  .merge creator_id: @service.id
+                    .merge creator_id: @service.id
       if damage_type.save
-        render json: damage_type, except: %i(created_at updated_at creator_id id),
+        render json: damage_type,
+               except: %i(created_at updated_at creator_id id),
                include: :damages
       else render json: { errors: damage_type.errors.full_messages },
                   status: :unprocessable_entity
@@ -22,7 +23,8 @@ module V1
     def update
       changes = params.require(:damage_type).permit(:name)
       if @damage_type.update changes
-        render json: @damage_type, except: %i(created_at updated_at id creator_id)
+        render json: @damage_type,
+               except: %i(created_at updated_at id creator_id)
       else render json: { errors: @damage_type.errors.full_messages },
                   status: :unprocessable_entity
       end
@@ -41,11 +43,9 @@ module V1
 
     private
 
-    def get_damage_type
+    def find_damage_type
       @damage_type = DamageType.find_by uuid: params.require(:id)
-      unless @damage_type.present?
-        render nothing: true, status: :not_found and return
-      end
+      render nothing: true, status: :not_found and return if @damage_type.blank?
     end
   end
 end

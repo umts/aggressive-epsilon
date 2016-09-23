@@ -6,7 +6,8 @@ class Damage < ActiveRecord::Base
   before_validation -> { self.uuid = SecureRandom.uuid }, on: :create
 
   validates :uuid, uniqueness: true
-  validates :damage_issued_reservation_uuid, uniqueness: {scope: :damage_fixed_reservation_uuid}
+  validates :damage_issued_reservation_uuid,
+            uniqueness: { scope: :damage_fixed_reservation_uuid }
   validates :uuid,
             :damage_issued_reservation_uuid,
             :damage_fixed_reservation_uuid,
@@ -18,7 +19,6 @@ class Damage < ActiveRecord::Base
       item: item.name,
       damage_type: damage_type.name,
       damage_issued_reservation_uuid: damage_issued_reservation_uuid,
-      damage_fixed_reservation_uuid: damage_fixed_reservation_uuid
-    }.to_json
+      damage_fixed_reservation_uuid: damage_fixed_reservation_uuid }.to_json
   end
 end
