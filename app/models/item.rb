@@ -34,7 +34,10 @@ class Item < ActiveRecord::Base
                        creator: creator
   end
 
-  def report_damage(rental_reservation:, repair_reservation:, damage_type:, creator:)
+  def report_damage(rental_reservation:,
+                    repair_reservation:,
+                    damage_type:,
+                    creator:)
     Damage.create damage_issued_reservation_uuid: rental_reservation,
                   damage_fixed_reservation_uuid: repair_reservation,
                   damage_type: damage_type,

@@ -99,7 +99,7 @@ describe V1::DamageTypesController do
         expect(JSON.parse(response.body)).to eql(
           'uuid' => damage_type.uuid,
           'name' => damage_type.name,
-          'damages' => [{ 'uuid' => damage.uuid }] )
+          'damages' => [{ 'uuid' => damage.uuid }])
       end
     end
     context 'damage_type not found' do

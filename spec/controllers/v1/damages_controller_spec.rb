@@ -122,8 +122,10 @@ describe V1::DamagesController do
         submit
         expect(JSON.parse(response.body)).to include
         { 'item_id' => damage.item.id,
-          'damage_issued_reservation_uuid' => damage.damage_issued_reservation_uuid,
-          'damage_fixed_reservation_uuid' => damage.damage_issued_reservation_uuid }
+          'damage_issued_reservation_uuid' =>
+            damage.damage_issued_reservation_uuid,
+          'damage_fixed_reservation_uuid' =>
+            damage.damage_issued_reservation_uuid }
       end
     end
 
