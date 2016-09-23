@@ -10,9 +10,9 @@ describe V1::DamageTypesController do
       let(:damage_type) { create :damage_type, creator_id: creator.id }
       before :each do
         expect(DamageType)
-        .to receive(:new)
-        .with( name: name, creator_id: creator.id)
-        .and_return damage_type
+          .to receive(:new)
+          .with( name: name, creator_id: creator.id )
+          .and_return damage_type
       end
       it 'has an ok status' do
         submit
@@ -20,11 +20,10 @@ describe V1::DamageTypesController do
       end
       it 'return the damage type' do
         submit
-        expect(JSON.parse response.body).to eql(
+        expect(JSON.parse(response.body)).to eql(
           'uuid' => damage_type.uuid,
           'name' => damage_type.name,
-          'damages' => []
-        )
+          'damages' => [])
       end
     end
 
@@ -38,7 +37,7 @@ describe V1::DamageTypesController do
 
       it 'returns the errors of the item type' do
         submit
-        expect(JSON.parse response.body).to eql 'errors' => error_messages
+        expect(JSON.parse(response.body)).to eql 'errors' => error_messages
       end
     end
   end
@@ -78,12 +77,11 @@ describe V1::DamageTypesController do
     let!(:damage2) { create :damage, damage_type: damage_type }
     it 'render all damgage type' do
       submit
-      expect(JSON.parse response.body).to eql(
-        [{ 'uuid' => damage_type.uuid,
-           'name' => damage_type.name,
-           'damages' => [{ 'uuid' => damage1.uuid },
-                         { 'uuid' => damage2.uuid }]
-          }])
+      expect(JSON.parse(response.body)).to eql([{
+        'uuid' => damage_type.uuid,
+        'name' => damage_type.name,
+        'damages' => [{ 'uuid' => damage1.uuid },
+                      { 'uuid' => damage2.uuid }] }])
     end
   end
 
@@ -98,11 +96,10 @@ describe V1::DamageTypesController do
       end
       it 'get the proper damage_type' do
         submit
-        expect(JSON.parse response.body).to eql(
+        expect(JSON.parse(response.body)).to eql(
           'uuid' => damage_type.uuid,
           'name' => damage_type.name,
-          'damages' => [{ 'uuid' => damage.uuid }]
-          )
+          'damages' => [{ 'uuid' => damage.uuid }])
       end
     end
     context 'damage_type not found' do
@@ -116,7 +113,7 @@ describe V1::DamageTypesController do
 
   describe 'POST #update' do
     let(:submit) { post :update, id: damage_type.uuid, damage_type: changes }
-    let(:changes) { {name: "New Damage Type Name"} }
+    let(:changes) { { name: "New Damage Type Name" } }
     context 'damage type found' do
       let(:damage_type) { create :damage_type }
       context 'changes apply successfully' do
@@ -126,9 +123,9 @@ describe V1::DamageTypesController do
         end
         it 'calls #update on the item type with the changes' do
           expect_any_instance_of(DamageType)
-          .to receive(:update)
-          .with(changes.stringify_keys)
-          .and_call_original
+            .to receive(:update)
+            .with(changes.stringify_keys)
+            .and_call_original
           submit
         end
         it 'responds with the new attributes' do
@@ -140,7 +137,7 @@ describe V1::DamageTypesController do
         end
       end
       context 'changes not apply' do
-        let(:changes) { {name: nil} }
+        let(:changes) { { name: nil } }
         let(:error_messages) { ["Name can't be blank"] }
         it 'has an unprocessable entity status' do
           submit

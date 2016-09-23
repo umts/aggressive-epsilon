@@ -13,8 +13,10 @@ module V1
     def create
       damage_type = DamageType.find_by name: params.require(:damage_type)
       render nothing: true, status: :not_found and return if damage_type.nil?
-      damage_issued_reservation = Reservation.find_by uuid: params.require(:damage_issued_reservation_uuid)
-      damage_fixed_reservation = Reservation.find_by uuid: params.require(:damage_fixed_reservation_uuid)
+      params_issued_id = params.require(:damage_issued_reservation_uuid)
+      params_fixed_id = params.require(:damage_fixed_reservation_uuid)
+      damage_issued_reservation = Reservation.find_by uuid: params_issued_id
+      damage_fixed_reservation = Reservation.find_by uuid: params_fixed_id
       if  !damage_issued_reservation.nil? && !damage_fixed_reservation.nil?
         issued_item = damage_issued_reservation.item
         fixed_item = damage_fixed_reservation.item
