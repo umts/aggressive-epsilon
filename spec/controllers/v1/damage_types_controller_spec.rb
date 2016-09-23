@@ -20,10 +20,9 @@ describe V1::DamageTypesController do
       end
       it 'return the damage type' do
         submit
-        expect(JSON.parse(response.body)).to eql(
-          'uuid' => damage_type.uuid,
-          'name' => damage_type.name,
-          'damages' => [])
+        expect(JSON.parse(response.body)).to eql('uuid' => damage_type.uuid,
+                                                 'name' => damage_type.name,
+                                                 'damages' => [])
       end
     end
 
@@ -77,11 +76,11 @@ describe V1::DamageTypesController do
     let!(:damage2) { create :damage, damage_type: damage_type }
     it 'render all damgage type' do
       submit
-      expect(JSON.parse(response.body)).to eql(
-        [{ 'uuid' => damage_type.uuid,
-           'name' => damage_type.name,
-           'damages' => [{ 'uuid' => damage1.uuid },
-                         { 'uuid' => damage2.uuid }] }])
+      json = JSON.parse(response.body)
+      expect(json).to eql([{ 'uuid' => damage_type.uuid,
+                             'name' => damage_type.name,
+                             'damages' => [{ 'uuid' => damage1.uuid },
+                                           { 'uuid' => damage2.uuid }] }])
     end
   end
 
@@ -96,10 +95,10 @@ describe V1::DamageTypesController do
       end
       it 'get the proper damage_type' do
         submit
-        expect(JSON.parse(response.body)).to eql(
-          'uuid' => damage_type.uuid,
-          'name' => damage_type.name,
-          'damages' => [{ 'uuid' => damage.uuid }])
+        json = JSON.parse(response.body)
+        expect(json).to eql('uuid' => damage_type.uuid,
+                            'name' => damage_type.name,
+                            'damages' => [{ 'uuid' => damage.uuid }])
       end
     end
     context 'damage_type not found' do
