@@ -92,15 +92,15 @@ describe V1::DamagesController do
     let(:submit_destory) { delete :destroy, id: damage.uuid }
 
     context 'damage found' do
-      let(:damage) { create :damage, item: item }
+      let!(:damage) { create :damage, item: item }
       it 'return ok status' do
         submit_destory
         expect(response).to have_http_status :ok
       end
 
       it 'delete the damage successfully' do
-        submit_destory
-        expect(Damage.count).to be 0
+        #submit_destory
+        expect{ submit_destory }.to change { Damage.count }.by(-1)
       end
     end
 

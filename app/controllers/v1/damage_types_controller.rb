@@ -21,8 +21,7 @@ module V1
     end
 
     def update
-      changes = params.require(:damage_type).permit(:name)
-      if @damage_type.update changes
+      if @damage_type.update(params.require(:damage_type).permit(:name))
         render json: @damage_type,
                except: %i(created_at updated_at id creator_id)
       else render json: { errors: @damage_type.errors.full_messages },

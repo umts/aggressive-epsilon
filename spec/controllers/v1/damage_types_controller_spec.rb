@@ -28,7 +28,7 @@ describe V1::DamageTypesController do
 
     context 'error when creating damage type' do
       let(:name) { ' ' }
-      let(:error_messages) { ["Name can't be blank"] }
+      error_messages = ["Name can't be blank"]
       it 'has an unprocessable status' do
         submit
         expect(response).to have_http_status :unprocessable_entity
@@ -44,20 +44,19 @@ describe V1::DamageTypesController do
   describe 'POST #destroy' do
     let(:submit) { delete :destroy, id: damage_type.uuid }
     context 'damage type found' do
-      let(:damage_type) { create :damage_type }
+      let!(:damage_type) { create :damage_type }
       it 'has an ok status' do
         submit
         expect(response).to have_http_status :ok
       end
       it 'delete any damages that belongs to the damage type' do
         create :damage, damage_type: damage_type
-        expect(Damage.count).to be 1
-        submit
-        expect(Damage.count).to be 0
+        expect{ submit }.to change { Damage.count }.by(-1)
       end
       it 'delete the damage type' do
-        submit
-        expect(DamageType.count).to be 0
+        #submit
+        #expect(DamageType.count).to be 0
+        expect{ submit }.to change { DamageType.count }.by(-1)
       end
     end
     context 'damage type does not found' do
@@ -137,7 +136,7 @@ describe V1::DamageTypesController do
       end
       context 'changes not apply' do
         let(:changes) { { name: nil } }
-        let(:error_messages) { ["Name can't be blank"] }
+        error_messages = ["Name can't be blank"]
         it 'has an unprocessable entity status' do
           submit
           expect(response).to have_http_status :unprocessable_entity

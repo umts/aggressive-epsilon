@@ -5,9 +5,7 @@ module V1
 
     def index
       item = Item.find_by name: params.require(:item)
-      if item.nil?
-        render nothing: true, status: :not_found and return if item.nil?
-      end
+      render nothing: true, status: :not_found and return if item.nil?
       render json: item.damages
     end
 
@@ -42,12 +40,14 @@ module V1
 
     def find_damage_type
       @damage_type = DamageType.find_by name: params.require(:damage_type)
-      render nothing: true, status: :not_found and return if @damage_type.nil?
+      if @damage_type.nil?
+        render nothing: true, status: :not_found and return
+      end
     end
 
     def find_damage
       @damage = Damage.find_by uuid: params.require(:id)
-      unless @damage.present?
+      if !@damage.present?
         render nothing: true, status: :not_found and return
       end
     end
