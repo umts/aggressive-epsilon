@@ -23,7 +23,7 @@ module V1
     def update
       if @damage_type.update(params.require(:damage_type).permit(:name))
         render json: @damage_type,
-               except: %i(created_at updated_at id creator_id)
+               except: %i(created_at updated_at id creator_id) and return
       else render json: { errors: @damage_type.errors.full_messages },
                   status: :unprocessable_entity
       end

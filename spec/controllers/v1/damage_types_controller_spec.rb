@@ -51,12 +51,10 @@ describe V1::DamageTypesController do
       end
       it 'delete any damages that belongs to the damage type' do
         create :damage, damage_type: damage_type
-        expect{ submit }.to change { Damage.count }.by(-1)
+        expect { submit }.to change { Damage.count }.by(-1)
       end
       it 'delete the damage type' do
-        #submit
-        #expect(DamageType.count).to be 0
-        expect{ submit }.to change { DamageType.count }.by(-1)
+        expect { submit }.to change { DamageType.count }.by(-1)
       end
     end
     context 'damage type does not found' do

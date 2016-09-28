@@ -99,8 +99,7 @@ describe V1::DamagesController do
       end
 
       it 'delete the damage successfully' do
-        #submit_destory
-        expect{ submit_destory }.to change { Damage.count }.by(-1)
+        expect { submit_destory }.to change { Damage.count }.by(-1)
       end
     end
 
