@@ -40,18 +40,12 @@ module V1
 
     def look_up_damage_type
       @damage_type = DamageType.find_by name: params.require(:damage_type)
-      unless @damage_type.present?
-        render nothing: true, status: :not_found
-        return
-      end
+      render nothing: true, status: :not_found and return if @damage_type.blank?
     end
 
     def look_up_damage
       @damage = Damage.find_by uuid: params.require(:id)
-      unless @damage.present?
-        render nothing: true, status: :not_found
-        return
-      end
+      render nothing: true, status: :not_found and return if @damage.nil?
     end
   end
 end
