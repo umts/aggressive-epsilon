@@ -45,7 +45,10 @@ module V1
 
     def find_damage
       @damage = Damage.find_by uuid: params.require(:id)
-      render nothing: true, status: :not_found and return if @damage.nil?
+      unless @damage.present?
+        render nothing: true, status: :not_found
+        return
+      end
     end
   end
 end

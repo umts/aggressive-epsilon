@@ -17,7 +17,7 @@ module V1
                include: :damages and return
       else
         render json: { errors: damage_type.errors.full_messages },
-                  status: :unprocessable_entity
+               status: :unprocessable_entity
       end
     end
 
@@ -45,7 +45,10 @@ module V1
 
     def find_damage_type
       @damage_type = DamageType.find_by uuid: params.require(:id)
-      render nothing: true, status: :not_found and return if @damage_type.blank?
+      unless @damage_type.present?
+        render nothing: true, status: :not_found
+        return
+      end
     end
   end
 end
