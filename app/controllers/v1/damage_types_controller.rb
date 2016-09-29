@@ -14,8 +14,9 @@ module V1
       if damage_type.save
         render json: damage_type,
                except: %i(created_at updated_at creator_id id),
-               include: :damages
-      else render json: { errors: damage_type.errors.full_messages },
+               include: :damages and return
+      else
+        render json: { errors: damage_type.errors.full_messages },
                   status: :unprocessable_entity
       end
     end
