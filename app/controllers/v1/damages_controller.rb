@@ -20,7 +20,7 @@ module V1
         damage =
           rental_item.report_damage(rental_reservation: rental_reservation.uuid,
                                     repair_reservation: repair_reservation.uuid,
-                                    damage_type: @dt,
+                                    damage_type: @damage_type,
                                     creator: @service)
         render json: damage and return if damage.valid?
       end
@@ -39,9 +39,9 @@ module V1
     private
 
     def look_up_damage_type
-      @dt = DamageType.find_by name: params.require(:damage_type)
+      @damage_type = DamageType.find_by name: params.require(:damage_type)
       render nothing: true,
-             status: :not_found and return unless @dt.present?
+             status: :not_found and return unless @damage_type.present?
     end
 
     def look_up_damage
