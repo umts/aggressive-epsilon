@@ -1,7 +1,7 @@
 module V1
   class DamagesController < ApplicationController
-    before_action :find_damage, only: %i(destroy show)
-    before_action :find_damage_type, only: %i(create)
+    before_action :look_up_damage, only: %i(destroy show)
+    before_action :look_up_damage_type, only: %i(create)
 
     def index
       item = Item.find_by name: params.require(:item)
@@ -38,16 +38,15 @@ module V1
 
     private
 
-    def find_damage_type
+    def look_up_damage_type
       @damage_type = DamageType.find_by name: params.require(:damage_type)
       render nothing: true,
              status: :not_found and return unless @damage_type.present?
     end
 
-    def find_damage
+    def look_up_damage
       @damage = Damage.find_by uuid: params.require(:id)
-      render nothing: true,
-             status: :not_found and return unless @damage.present?
+      render nothing: true, status: :not_found and return if @damage.nil?
     end
   end
 end
