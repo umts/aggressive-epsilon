@@ -180,13 +180,11 @@ describe V1::ItemTypesController do
             submit
             item_type.reload
             json = JSON.parse response.body
-            expect(json).to eql({
-              "uuid" => item_type.uuid,
-              "name" => item_type.name,
-              "allowed_keys" => item_type.allowed_keys.map(&:to_s),
-              "items" => []
-            })
-            
+            allowed_keys = item_type.allowed_keys.map(&:to_s)
+            expect(json).to eql('uuid' => item_type.uuid,
+                                'name' => item_type.name,
+                                'allowed_keys' => allowed_keys,
+                                'items' => [])
           end
         end
         context 'change not applied successfully' do

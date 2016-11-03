@@ -170,13 +170,11 @@ describe V1::ItemsController do
             submit
             item.reload
             json = JSON.parse response.body
-            expect(json).to eql({
-              "uuid" => item.uuid,
-              "name" => item.name,
-              "reservable" => item.reservable,
-              "data" => item.data,
-              "item_type" => { "uuid" => item_type.uuid }
-            })
+            expect(json).to eql('uuid' => item.uuid,
+                                'name' => item.name,
+                                'reservable' => item.reservable,
+                                'data' => item.data,
+                                'item_type' => { 'uuid' => item_type.uuid })
           end
         end
         context 'change not applied successfully' do
