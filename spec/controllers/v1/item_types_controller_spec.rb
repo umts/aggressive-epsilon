@@ -113,8 +113,8 @@ describe V1::ItemTypesController do
         [{ 'uuid' => item_type.uuid,
            'name' => item_type.name,
            'allowed_keys' => item_type.allowed_keys.map(&:to_s),
-           'items' => [{ 'name' => item_1.name },
-                       { 'name' => item_2.name }] }])
+           'items' => [{ 'name' => item_1.name, 'uuid' => item_1.uuid },
+                       { 'name' => item_2.name, 'uuid' => item_2.uuid }] }])
     end
   end
 
@@ -178,10 +178,15 @@ describe V1::ItemTypesController do
           end
           it 'responds with the new attributes' do
             submit
-            expect(response.body).to eql(
-              item_type.reload.to_json(except:
-                                       %i(created_at updated_at creator_id id))
-            )
+            item_type.reload
+            json = JSON.parse response.body
+            expect(json).to eql({
+              "uuid" => item_type.uuid,
+              "name" => item_type.name,
+              "allowed_keys" => item_type.allowed_keys.map(&:to_s),
+              "items" => []
+            })
+            
           end
         end
         context 'change not applied successfully' do

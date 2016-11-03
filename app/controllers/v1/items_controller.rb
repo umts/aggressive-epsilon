@@ -8,7 +8,7 @@ module V1
       item = Item.new params.permit(:name, :reservable, data: {})
              .merge(item_type_id: item_type.id)
       if item.save
-        render json: item, except: %i(created_at updated_at id)
+        render json: item
       else render json: { errors: item.errors.full_messages },
                   status: :unprocessable_entity
       end
@@ -23,12 +23,12 @@ module V1
     def index
       item_type = ItemType.find_by uuid: params.require(:item_type_uuid)
       deny_access! and return unless @service.can_read? item_type
-      render json: item_type.items.order(:name).map(&:external_attributes)
+      render json: item_type.items
     end
 
     def show
       deny_access! and return unless @service.can_read? @item.item_type
-      render json: @item, except: [:created_at, :updated_at]
+      render json: @item
     end
 
     def update
@@ -43,7 +43,7 @@ module V1
         return
       end
       if @item.update changes
-        render json: @item, except: %i(created_at updated_at id)
+        render json: @item
       else render json: { errors: @item.errors.full_messages },
                   status: :unprocessable_entity
       end

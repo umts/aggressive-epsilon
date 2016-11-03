@@ -23,7 +23,7 @@ describe V1::ItemsController do
             'uuid' => Item.last.uuid,
             'name' => 'Gillig',
             'reservable' => true,
-            'item_type_uuid' => item_type.uuid,
+            'item_type' => { 'uuid' => item_type.uuid },
             'data' => {})
         end
       end
@@ -95,7 +95,7 @@ describe V1::ItemsController do
           'uuid' => item.uuid,
           'name' => item.name,
           'reservable' => item.reservable,
-          'item_type_uuid' => item.item_type.uuid,
+          'item_type' => { 'uuid' => item.item_type.uuid },
           'data' => item.data }]
       end
     end
@@ -121,7 +121,7 @@ describe V1::ItemsController do
             'uuid' => item.uuid,
             'name' => item.name,
             'reservable' => item.reservable,
-            'item_type_uuid' => item.item_type.uuid,
+            'item_type' => { 'uuid' => item.item_type.uuid },
             'data' => item.data)
         end
       end
@@ -168,9 +168,15 @@ describe V1::ItemsController do
           end
           it 'responds with the new attributes' do
             submit
-            expect(response.body).to eql(
-              item.reload.to_json(except: %i(created_at updated_at))
-            )
+            item.reload
+            json = JSON.parse response.body
+            expect(json).to eql({
+              "uuid" => item.uuid,
+              "name" => item.name,
+              "reservable" => item.reservable,
+              "data" => item.data,
+              "item_type" => { "uuid" => item_type.uuid }
+            })
           end
         end
         context 'change not applied successfully' do

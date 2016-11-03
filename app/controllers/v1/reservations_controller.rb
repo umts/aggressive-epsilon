@@ -26,11 +26,11 @@ module V1
     def index
       start_datetime = DateTime.iso8601 params.require(:start_time)
       end_datetime = DateTime.iso8601 params.require(:end_time)
-      reservations = @item_type.reservations
-                               .during start_datetime, end_datetime
+      reservations = @item_type.reservations.during start_datetime, end_datetime
+      # Render just the start and end datetimes
       reservations = reservations.map do |reservation|
-        { start_time: reservation.start_datetime.iso8601,
-          end_time: reservation.end_datetime.iso8601 }
+        { start_datetime: reservation.start_datetime.iso8601(3),
+          end_datetime: reservation.end_datetime.iso8601(3) }
       end
       render json: reservations
     end

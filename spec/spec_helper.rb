@@ -44,7 +44,7 @@ def deauthenticate!
 end
 
 def default_start_time
-  Date.yesterday.to_datetime
+  Date.yesterday.to_datetime.change usec: 0
 end
 
 # By default reservations are 2 days in length
