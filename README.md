@@ -45,8 +45,8 @@ have write access to the type of item which is reserved.
    ```json
    POST /reservations
      {"item_type": "Apples",
-      "start_time": "2016-02-16T15:30:00-05:00",
-      "end_time": "2016-02-17T09:45:00-05:00"}
+      "start_datetime": "2016-02-16T15:30:00-05:00",
+      "end_datetime": "2016-02-17T09:45:00-05:00"}
    ```
 
    If a reservation with those parameters is available, the attributes of the newly created reservation are returned.
@@ -56,8 +56,8 @@ have write access to the type of item which is reserved.
 
    ```json
    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479",
-    "start_time": "2016-02-16T15:30:00-05:00",
-    "end_time": "2016-02-17T09:45:00-05:00",
+    "start_datetime": "2016-02-16T15:30:00-05:00",
+    "end_datetime": "2016-02-17T09:45:00-05:00",
     "item_type": "Apples",
     "item": "Granny Smith"}
    ```
@@ -78,7 +78,7 @@ have write access to the type of item which is reserved.
 
    ```json
    PUT /reservations/100
-   {"reservation": {"start_time": "2016-02-16T18:00:00-05:00"}}
+   {"reservation": {"start_datetime": "2016-02-16T18:00:00-05:00"}}
    ```
 
    If the change has been successfully applied, the new attributes will be returned.
@@ -98,8 +98,8 @@ have write access to the type of item which is reserved.
   A **response** will look like:
   ```json
   {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479",
-   "start_time": "2016-02-16T15:30:00-05:00",
-   "end_time": "2016-02-17T09:45:00-05:00",
+   "start_datetime": "2016-02-16T15:30:00-05:00",
+   "end_datetime": "2016-02-17T09:45:00-05:00",
    "item_type": "Apples",
    "item": "Granny Smith"}
   ```
@@ -143,23 +143,23 @@ have write access to the type of item which is reserved.
    
    This endpoint returns all of the reservations for a particular item type in a given time range.
    You must have read access to the given item type.
-   The `start_time` and `end_time` arguments must be in ISO 8601 format.
+   The `start_datetime` and `end_datetime` arguments must be in ISO 8601 format.
    Each reservation will list the start and end times in ISO 8601 format.
 
    For instance, your **request** might look like:
    
    ```json
    GET /reservations
-   {"start_time": "2016-02-10T12:00:00-05:00",
-    "end_time": "2016-02-17T12:00:00-05:00",
+   {"start_datetime": "2016-02-10T12:00:00-05:00",
+    "end_datetime": "2016-02-17T12:00:00-05:00",
     "item_type": "Apples"}
    ```
 
    A **response** will look like:
 
    ```json
-   [{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
-    {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]
+   [{"start_datetime": "2016-02-11T15:45:00-05:00", "end_datetime": "2016-02-11T21:00:00-05:00"},
+    {"start_datetime": "2016-02-17T10:30:00-05:00", "end_datetime": "2016-02-19T21:00:00-05:00"}]
    ```
    
    ---
@@ -254,13 +254,13 @@ have write access to the type of item which is reserved.
 
   ```json
   POST /items
-  {"name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "reservable": true}
+  {"name": "Awesome new couch", "item_type": {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"} , "reservable": true}
   ```
 
   A **success response** will look like:
 
   ```json
-  {"uuid": 11ae0da2-b605-4d9b-8efb-443e59124478, "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
+  {"uuid": 11ae0da2-b605-4d9b-8efb-443e59124478, "name": "Awesome new couch", "item_type": {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}, "data": {}}
   ```
 
   A **failure response** will look like:
@@ -279,14 +279,14 @@ have write access to the type of item which is reserved.
 
   ```json
   GET /items
-  {"item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}
+  {"item_type" => "uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}}
   ```
 
   A **response** will look like:
 
   ```json
-  {[{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}},
-    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {"texture": "leather"}}]}
+  {[{"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type" {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}, "data": {}},
+    {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Cool leather futon", "item_type" {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}, "data": {"texture": "leather"}}]}
   ```
 
   ---
@@ -298,7 +298,7 @@ have write access to the type of item which is reserved.
   A **response** will look like:
 
   ```json
-  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type_uuid": "11ae0da2-b605-4d9b-8efb-443e59124479", "data": {}}
+  {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124478", "name": "Awesome new couch", "item_type" {"uuid": "11ae0da2-b605-4d9b-8efb-443e59124479"}, "data": {}}
   ```
   
   ---
