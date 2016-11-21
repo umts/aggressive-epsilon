@@ -65,8 +65,8 @@ GEM
     capistrano-rails (1.1.6)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    codeclimate-test-reporter (0.4.8)
-      simplecov (>= 0.7.1, < 1.0.0)
+    codeclimate-test-reporter (1.0.3)
+      simplecov
     coderay (1.1.0)
     concurrent-ruby (1.0.0)
     debug_inspector (0.0.2)
@@ -212,7 +212,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-pending
   capistrano-rails
-  codeclimate-test-reporter
+  codeclimate-test-reporter (~> 1.0)
   exception_notification
   factory_girl_rails
   mocha
