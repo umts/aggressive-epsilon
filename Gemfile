@@ -20,7 +20,7 @@ end
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'codeclimate-test-reporter'
+  gem 'codeclimate-test-reporter', '~> 1.0'
   gem 'mocha'
   gem 'pry-byebug'
   gem 'rspec-rails'
