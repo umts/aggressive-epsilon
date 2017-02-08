@@ -7,7 +7,7 @@ set :user, 'rails'
 set :deploy_to, '/var/www/aggressive-epsilon'
 set :rvm_type, :system
 
-set :linked_files, %w{config/database.yml config/config.yml config/secrets.yml}
+set :linked_files, %w{config/database.yml config/secrets.yml}
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
