@@ -3,7 +3,6 @@ lock '3.3.5'
 
 set :application, 'aggressive-epsilon'
 set :repo_url, 'git@github.com:umts/aggressive-epsilon.git'
-set :user, 'rails'
 set :deploy_to, '/var/www/aggressive-epsilon'
 set :rvm_type, :system
 
@@ -41,10 +40,10 @@ set :linked_files, %w{config/database.yml config/secrets.yml}
 
 namespace :deploy do
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      execute :bundle, :exec, "rake db:migrate RAILS_ENV=production"
-    end
-  end
+  #after :restart, :clear_cache do
+    #on roles(:web), in: :groups, limit: 3, wait: 10 do
+      #execute :bundle, :exec, "rake db:migrate RAILS_ENV=production"
+    #end
+  #end
 
 end
