@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'active_model_serializers'
 gem 'factory_girl_rails'
-gem 'mysql'
+gem 'mysql2'
 gem 'rails'
 
 group :production do
