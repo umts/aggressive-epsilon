@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -13,49 +12,49 @@
 
 ActiveRecord::Schema.define(version: 20160316175333) do
 
-  create_table "item_types", force: :cascade do |t|
-    t.string   "name",         limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "allowed_keys", limit: 255
-    t.integer  "creator_id",   limit: 4
-    t.string   "uuid",         limit: 255
+  create_table "item_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "allowed_keys"
+    t.integer  "creator_id"
+    t.string   "uuid"
   end
 
-  create_table "items", force: :cascade do |t|
-    t.string   "name",         limit: 255
-    t.integer  "item_type_id", limit: 4
-    t.string   "data",         limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.integer  "item_type_id"
+    t.string   "data"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.boolean  "reservable"
-    t.string   "uuid",         limit: 255
+    t.string   "uuid"
   end
 
-  create_table "permissions", force: :cascade do |t|
-    t.boolean  "write",                  default: false
-    t.integer  "item_type_id", limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "service_id",   limit: 4
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.boolean  "write",        default: false
+    t.integer  "item_type_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "service_id"
   end
 
-  create_table "reservations", force: :cascade do |t|
+  create_table "reservations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "start_datetime"
     t.datetime "end_datetime"
-    t.integer  "item_id",        limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "creator_id",     limit: 4
-    t.string   "uuid",           limit: 255
+    t.integer  "item_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "creator_id"
+    t.string   "uuid"
   end
 
-  create_table "services", force: :cascade do |t|
-    t.string   "api_key",    limit: 255
-    t.string   "name",       limit: 255
-    t.string   "url",        limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "services", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "api_key"
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
