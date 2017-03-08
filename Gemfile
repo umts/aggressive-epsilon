@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'active_model_serializers'
 gem 'factory_girl_rails'
-gem 'rails'
+gem 'rails', '~> 4.2'
 gem 'pg', '~> 0.18.4'
 gem 'rails_12factor'
 
