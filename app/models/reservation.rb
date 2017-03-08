@@ -17,14 +17,6 @@ class Reservation < ActiveRecord::Base
           end_datetime, start_datetime
   }
 
-  def to_json(*_)
-    { uuid: uuid,
-      start_time: start_datetime.iso8601,
-      end_time: end_datetime.iso8601,
-      item_type: item_type.name,
-      item: item.name }.to_json
-  end
-
   private
 
   def start_time_before_end_time

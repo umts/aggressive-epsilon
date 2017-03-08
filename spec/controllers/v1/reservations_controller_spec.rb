@@ -40,7 +40,14 @@ describe V1::ReservationsController do
       end
       it 'responds with the created reservation' do
         submit
-        expect(response.body).to eql reservation.to_json
+        json = JSON.parse response.body
+        expect(json).to eql(
+          'uuid' => reservation.uuid,
+          'start_datetime' => reservation.start_datetime.iso8601(3),
+          'end_datetime' => reservation.end_datetime.iso8601(3),
+          'item' => { 'name' => item.name },
+          'item_type' => { 'name' => item_type.name }
+        )
       end
     end
     context 'with no available item' do
@@ -116,9 +123,10 @@ describe V1::ReservationsController do
         it 'includes the ISO 8601 start and end times of the reservation' do
           submit
           json = JSON.parse response.body
-          expect(json).to include
-          { 'start_time' => reservation.start_datetime.iso8601,
-            'end_time' => reservation.end_datetime.iso8601 }
+          expect(json).to eql(
+            [{ 'start_datetime' => reservation.start_datetime.iso8601(3),
+               'end_datetime' => reservation.end_datetime.iso8601(3) }]
+          )
         end
       end
       context 'no read access to item type' do
@@ -151,7 +159,14 @@ describe V1::ReservationsController do
         end
         it 'responds with the found reservation' do
           submit
-          expect(response.body).to eql reservation.to_json
+          json = JSON.parse response.body
+          expect(json).to eql(
+            'uuid' => reservation.uuid,
+            'start_datetime' => reservation.start_datetime.iso8601(3),
+            'end_datetime' => reservation.end_datetime.iso8601(3),
+            'item' => { 'name' => reservation.item.name },
+            'item_type' => { 'name' => reservation.item_type.name }
+          )
         end
       end
       context 'as an unrelated service' do
@@ -206,7 +221,15 @@ describe V1::ReservationsController do
         end
         it 'responds with the new attributes' do
           submit
-          expect(response.body).to eql reservation.to_json
+          json = JSON.parse response.body
+          reservation.reload
+          expect(json).to eql(
+            'uuid' => reservation.uuid,
+            'start_datetime' => reservation.start_datetime.iso8601(3),
+            'end_datetime' => reservation.end_datetime.iso8601(3),
+            'item' => { 'name' => reservation.item.name },
+            'item_type' => { 'name' => reservation.item_type.name }
+          )
         end
       end
       context 'change not applied successfully' do

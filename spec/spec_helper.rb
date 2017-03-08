@@ -1,8 +1,6 @@
-require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
 
-CodeClimate::TestReporter.start if ENV['CI']
 SimpleCov.start 'rails'
 SimpleCov.start do
   add_filter '/config/'
@@ -44,7 +42,7 @@ def deauthenticate!
 end
 
 def default_start_time
-  Date.yesterday.to_datetime
+  Date.yesterday.to_datetime.change usec: 0
 end
 
 # By default reservations are 2 days in length
