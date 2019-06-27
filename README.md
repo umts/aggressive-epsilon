@@ -1,5 +1,9 @@
 # aggressive-epsilon
 
+# Archived
+
+We decided not to move forward with this (unfinished, not-yet-deployed) app since we abandoned microservices and also canceled the (planned, not-yet-started) customer-facing Field Trip app (which might've used some portions/concepts from this app). We reviewed the Golf Cart rental process and recommended tools like Trello to Parking staff (they opted to simply stick with email and a calendar). 
+
 Lightweight Rails JSON API for dealing with item reservations.
 
 [![Build Status](https://travis-ci.org/umts/aggressive-epsilon.svg?branch=master)](https://travis-ci.org/umts/aggressive-epsilon)
